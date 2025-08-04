@@ -1,25 +1,39 @@
-<<<<<<< HEAD
-{ 
-    "wallpaper": "http:\/\/我不是.摸鱼儿.com\/wallpaper\/",
-=======
- { 
-       "wallpaper": "http:\/\/我不是.摸鱼儿.com\/wallpaper\/",
->>>>>>> 828bec04990545ab4a17c4890b9ef65de10f302e
-    "spider": "./spider.jar",
-      "sites": [
-        {
-            "key": "配置中心",
-            "name": "配置｜中心",
-            "type": 3,
-            "api": "csp_Config",
-            "searchable": 0,
-            "changeable": 0,
-            "indexs": 0,
-            "style": {
-                "type": "rect",
-                "ratio": 1.597
-            }
-        },
+{
+  "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
+  "spider": "./spider.jar",
+  "sites": [
+    {
+      "key": "配置中心",
+      "name": "配置｜中心",
+      "type": 3,
+      "api": "csp_Config",
+      "searchable": 0,
+      "changeable": 0,
+      "indexs": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.597
+      }
+    },
+    {
+      "key": "huban",
+      "name": "弹幕┃小窗",
+      "type": 3,
+      "jar": "https://gitee.com/zj521jj/little-tiger-spot/raw/master/jar/HubanTC.jar",
+      "api": "csp_Huban"
+    },
+    {
+      "key": "天天影视",
+      "name": "天天｜APP",
+      "type": 3,
+      "api": "csp_AppRJ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "ext": {
+        "url": "http://tt.ysdqjs.cn"
+      }
+    },
     {
       "key": "腾讯视频",
       "name": "腾讯｜视频",
@@ -29,14 +43,14 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/mbox/TXSP.js"
+      "ext": "https://13362.kstore.space/box/tx.js"
     },
     {
       "key": "优酷视频",
       "name": "优酷｜视频",
       "type": 3,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/mbox/YKSP.js"
+      "ext": "https://13362.kstore.space/box/yk.js"
     },
     {
       "key": "芒果视频",
@@ -47,7 +61,7 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/mbox/MGSP.js"
+      "ext": "https://13362.kstore.space/box/mgtv.js"
     },
     {
       "key": "爱奇艺",
@@ -58,125 +72,107 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/mbox/AQY.js"
+      "ext": "https://13362.kstore.space/box/qiyi.js"
     },
-   
-        {
-            "key": "瓜子影视",
-            "name": "瓜子┃蓝光┃无广",
-            "type": 3,
-            "api": "csp_Gz360",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-       
-          {
-            "key": "玩偶哥哥",
-            "name": "玩偶｜4K弹幕",
-            "type": 3,
-            "api": "csp_PanWebShare",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": "./wogg.json"
-        },
-        {
-            "key": "木偶",
-            "name": "木偶｜4K弹幕",
-            "type": 3,
-            "api": "csp_PanWebShare",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": "./mogg.json"
-        },
-         {
-            "key": "至臻",
-            "name": "至臻｜4K弹幕",
-            "type": 3,
-            "api": "csp_PanWebShare",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "changeable": 1,
-            "ext": "./zz.json"
-        },
-
-          
-        {
-            "key": "曼波动漫",
-            "name": "曼波｜动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "https://app.omofun1.top",
-                "dataKey": "66dc309cbeeca454",
-                "dataIv": "66dc309cbeeca454",
-                "deviceId": "",
-                "version": ""
-            }
-        },
-    
-         {
-            "key": "虎斑",
-            "name": "虎斑｜4K弹幕",
-            "type": 3,
-            "api": "csp_PanWebShare",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "changeable": 1,
-            "ext": "./hb.json"
-        },
     {
-      "key": "官网采集",
-      "name": "官网采集",
-      "type": 1,
-      "api": "https://zy.xmm.hk/api.php/provide/vod",
+      "key": "瓜子影视",
+      "name": "瓜子┃蓝光┃无广",
+      "type": 3,
+      "api": "csp_Gz360",
       "searchable": 1,
       "quickSearch": 1,
-      "changeable": 1,
+      "filterable": 1
+    },
+    {
+      "key": "玩偶哥哥",
+      "name": "玩偶｜4K弹幕",
+      "type": 3,
+      "api": "csp_PanWebShare",
+      "searchable": 1,
+      "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://zy.xmm.hk/api.php/provide/vod"
+      "ext": "./wogg.json"
+    },
+    {
+      "key": "木偶",
+      "name": "木偶｜4K弹幕",
+      "type": 3,
+      "api": "csp_PanWebShare",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "./mogg.json"
+    },
+    {
+      "key": "至臻",
+      "name": "至臻｜4K弹幕",
+      "type": 3,
+      "api": "csp_PanWebShare",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "ext": "./zz.json"
+    },
+    {
+      "key": "曼波动漫",
+      "name": "曼波｜动漫",
+      "type": 3,
+      "quickSearch": 1,
+      "api": "csp_AppGet",
+      "ext": {
+        "url": "https://app.omofun1.top",
+        "dataKey": "66dc309cbeeca454",
+        "dataIv": "66dc309cbeeca454",
+        "deviceId": "",
+        "version": ""
+      }
+    },
+    {
+      "key": "虎斑",
+      "name": "虎斑｜4K弹幕",
+      "type": 3,
+      "api": "csp_PanWebShare",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "ext": "./hb.json"
     }
   ],
-
   "parses": [
     {
       "name": "1号",
       "type": "1",
-      "url": "http://kcjx.zwzs.fun/json.php?url==",
-        "ext": {
+      "url": "https://api.oxli.top/api/?key=39ba1af5e09a0432aef2&url=",
+      "ext": {
         "header": {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
       }
     },
     {
       "name": "2号",
       "type": "1",
-      "url": "https://zy.qiaoji8.com/xiafan.php?url=      git clone https://gitee.com/用户名/仓库名.git",
-        "ext": {
+      "url": "https://zy.qiaoji8.com/xiafan.php?url=",
+      "ext": {
         "header": {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
       }
     },
     {
       "name": "3号",
       "type": "1",
-      "url": "http://120.46.190.255/小白白.php?url=",
-        "ext": {
+      "url": "http://niiuma.qi-simple.top//nn.php?url=",
+      "ext": {
         "header": {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
       }
     }
-    
   ],
-  "flags":[
+  "flags": [
     "youku",
     "优酷",
     "优 酷",
@@ -211,9 +207,3 @@
     "哔 哩"
   ]
 }
-
-
-  
-      
-         
-    
