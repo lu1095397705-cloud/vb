@@ -76,7 +76,7 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "./mgtv.js"
+      "ext": "./mg.js"
     },
     {
       "key": "欧哥",
@@ -113,7 +113,7 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "./box/qiyi.js"
+      "ext": "./qy.js"
     },
     {
       "key": "瓜子影视",
