@@ -144,17 +144,17 @@
     {
       "name": "1号",
       "type": "1",
-      "url": "https://api.oxli.top/api/?key=39ba1af5e09a0432aef2&url=",     
+      "url": "https://api.oxli.top/api/?key=39ba1af5e09a0432aef2&url="  
     },
     {
       "name": "2k",
       "type": "0",
-      "url": "https://jx.973973.xyz/?url=",
+      "url": "https://jx.973973.xyz/?url="
     },
     {
       "name": "牛马4K",
       "type": "1",
-      "url": "http://niiuma.qi-simple.top//nn.php?url=",      
+      "url": "http://niiuma.qi-simple.top//nn.php?url="    
     }
   ],
   "flags": [
