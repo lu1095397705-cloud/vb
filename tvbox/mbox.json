@@ -2,18 +2,7 @@
   "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
   "spider": "./spider.jar",
   "sites": [
-    {
-      "key": "config",
-      "name": "🚀辅助┃配置┃中心",
-      "type": 3,
-      "api": "csp_Config",     
-      "searchable": 0,
-      "quickSearch": 0,
-      "style": {
-        "type": "rect",
-        "ratio": 1.61
-      }
-    },
+    
     {
             "key": "瓜萌",
             "name": "瓜萌｜APP",
@@ -27,6 +16,18 @@
               "dataIv": "f2A7D4B9E8C16531",
               "deviceId": "",
               "version": ""
+            }
+          },
+          {
+            "key": "config",
+            "name": "🚀辅助┃配置┃中心",
+            "type": 3,
+            "api": "csp_Config",
+            "searchable": 1,
+            "quickSearch": 1,
+            "style": {
+              "type": "rect",
+              "ratio": 1.61
             }
           },
     {
@@ -57,14 +58,14 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/box/tx.js"
+      "ext": "./tx.js"
     },
     {
       "key": "优酷视频",
       "name": "优酷｜视频",
       "type": 3,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/box/yk.js"
+      "ext": "./yk.js"
     },
     {
       "key": "芒果视频",
@@ -75,7 +76,33 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/box/mgtv.js"
+      "ext": "./mgtv.js"
+    },
+    {
+      "key": "欧哥",
+      "name": "欧哥｜4K弹幕",
+      "type": 3,
+      "api": "csp_PanWebShare",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "ext": "./og.json"
+    },
+    {
+      "key": "夸父",
+      "name": "夸父｜4K弹幕",
+      "type": 3,
+      "api": "csp_PanWebShareCloudKF",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "style": {
+        "type": "list",
+        "ratio": 1.433
+      },
+      "ext": "./kf.json"
     },
     {
       "key": "爱奇艺",
@@ -86,7 +113,7 @@
       "changeable": 1,
       "filterable": 1,
       "api": "./dy.js",
-      "ext": "https://13362.kstore.space/box/qiyi.js"
+      "ext": "./box/qiyi.js"
     },
     {
       "key": "瓜子影视",
