@@ -144,32 +144,17 @@
     {
       "name": "1号",
       "type": "1",
-      "url": "https://api.oxli.top/api/?key=39ba1af5e09a0432aef2&url=",
-      "ext": {
-        "header": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-        }
-      }
+      "url": "https://api.oxli.top/api/?key=39ba1af5e09a0432aef2&url=",     
     },
     {
       "name": "2号",
       "type": "1",
-      "url": "https://zy.qiaoji8.com/xiafan.php?url=",
-      "ext": {
-        "header": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-        }
-      }
+      "url": "https://ym.wya6.cn/qdjx/parse.php?url=",
     },
     {
-      "name": "3号",
+      "name": "牛马4K",
       "type": "1",
-      "url": "http://niiuma.qi-simple.top//nn.php?url=",
-      "ext": {
-        "header": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-        }
-      }
+      "url": "http://niiuma.qi-simple.top//nn.php?url=",      
     }
   ],
   "flags": [
