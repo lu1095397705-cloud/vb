@@ -2,19 +2,7 @@
   "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
   "spider": "./spider.jar",
   "sites": [
-    {
-      "key": "配置中心",
-      "name": "配置｜中心",
-      "type": 3,
-      "api": "csp_Config",
-      "searchable": 0,
-      "changeable": 0,
-      "indexs": 0,
-      "style": {
-        "type": "rect",
-        "ratio": 1.597
-      }
-    },
+  
     {
       "key": "huban",
       "name": "弹幕┃小窗",
@@ -94,27 +82,6 @@
       "ext": "./wogg.json"
     },
     {
-      "key": "木偶",
-      "name": "木偶｜4K弹幕",
-      "type": 3,
-      "api": "csp_PanWebShare",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "./mogg.json"
-    },
-    {
-      "key": "至臻",
-      "name": "至臻｜4K弹幕",
-      "type": 3,
-      "api": "csp_PanWebShare",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "changeable": 1,
-      "ext": "./zz.json"
-    },
-    {
       "key": "曼波动漫",
       "name": "曼波｜动漫",
       "type": 3,
@@ -128,17 +95,6 @@
         "version": ""
       }
     },
-    {
-      "key": "虎斑",
-      "name": "虎斑｜4K弹幕",
-      "type": 3,
-      "api": "csp_PanWebShare",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "changeable": 1,
-      "ext": "./hb.json"
-    }
   ],
   "parses": [
     {
