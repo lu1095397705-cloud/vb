@@ -2,7 +2,33 @@
   "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
   "spider": "./spider.jar",
   "sites": [
-  
+    {
+      "key": "config",
+      "name": "🚀辅助┃配置┃中心",
+      "type": 3,
+      "api": "csp_Config",     
+      "searchable": 0,
+      "quickSearch": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.61
+      }
+    },
+    {
+            "key": "瓜萌",
+            "name": "瓜萌｜APP",
+            "type": 3,
+            "quickSearch": 1,
+            "api": "csp_AppGet",
+            "ext": {
+              "url": "",
+              "site": "https://www.guahd.com/1.txt",
+              "dataKey": "f2A7D4B9E8C16531",
+              "dataIv": "f2A7D4B9E8C16531",
+              "deviceId": "",
+              "version": ""
+            }
+          },
     {
       "key": "huban",
       "name": "弹幕┃小窗",
@@ -71,16 +97,7 @@
       "quickSearch": 1,
       "filterable": 1
     },
-    {
-      "key": "玩偶哥哥",
-      "name": "玩偶｜4K弹幕",
-      "type": 3,
-      "api": "csp_PanWebShare",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "./wogg.json"
-    },
+   
     {
       "key": "曼波动漫",
       "name": "曼波｜动漫",
