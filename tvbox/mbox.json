@@ -18,18 +18,7 @@
               "version": ""
             }
           },
-          {
-            "key": "config",
-            "name": "🚀辅助┃配置┃中心",
-            "type": 3,
-            "api": "csp_Config",
-            "searchable": 1,
-            "quickSearch": 1,
-            "style": {
-              "type": "rect",
-              "ratio": 1.61
-            }
-          },
+          
     {
       "key": "huban",
       "name": "弹幕┃小窗",
@@ -78,32 +67,8 @@
       "api": "./dy.js",
       "ext": "./mg.js"
     },
-    {
-      "key": "欧哥",
-      "name": "欧哥｜4K弹幕",
-      "type": 3,
-      "api": "csp_PanWebShare",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "changeable": 1,
-      "ext": "./og.json"
-    },
-    {
-      "key": "夸父",
-      "name": "夸父｜4K弹幕",
-      "type": 3,
-      "api": "csp_PanWebShareCloudKF",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "changeable": 1,
-      "style": {
-        "type": "list",
-        "ratio": 1.433
-      },
-      "ext": "./kf.json"
-    },
+    
+    
     {
       "key": "爱奇艺",
       "name": "爱奇艺｜视频",
