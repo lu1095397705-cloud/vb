@@ -226,7 +226,6 @@
       "type": "1",
       "url": "http://8.155.50.80/xiayexk.php?url="
     },
-<<<<<<< HEAD
     {
       "name": "火花",
       "type": "1",
@@ -236,18 +235,6 @@
       "name": "jl",
       "type": "1",
       "url": "https://json-vipjx.952707.xyz/?url="
-=======
-   {
-            "name": "火花",
-            "type": "1",
-            "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url="
-    
-    },        
-    {
-      "name": "4K",
-      "type": "0",
-      "url": "http://jx.ymuz.cn/4kav.php/?url="    
->>>>>>> 6d06a003cac6271d760286937b6781ff72c0ecca
     }
   ],
   "flags": [
