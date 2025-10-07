@@ -38,18 +38,7 @@
       "api": "./dy.js",
       "ext": "./56动漫.js"
     },
-    {
-      "key": "漫国",
-      "name": "漫国丨动漫",
-      "type": 3,
-      "api": "csp_AppSy",
-      "ext": {
-        "site": "https://dm-1255775577.cos.ap-guangzhou.myqcloud.com/dmg/api.txt",
-        "siteKey": "rectangleadsadxa",
-        "listKey": "aassddwwxxllsx1x",
-        "parsesKey": "aassddwwxxllsx1x"
-      }
-    },
+    
     {
       "key": "冬日",
       "name": "冬日丨动漫",
@@ -166,13 +155,7 @@
       "api": "./dy.js",
       "ext": "./奇米动漫.js"
     },
-    {
-      "key": "路漫漫",
-      "name": "路漫漫｜动漫",
-      "type": 3,
-      "api": "./dy.js",
-      "ext": "./路漫漫.js"
-    },
+    
     {
       "key": "动漫岛",
       "name": "动漫岛｜动漫",
