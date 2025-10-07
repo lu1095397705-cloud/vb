@@ -1,6 +1,6 @@
 {
   "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
-  "spider": "./spider.jar",
+  "spider": "./spider.jar",1.2
   "sites": [
     {
       "key": "huban",
