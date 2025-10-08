@@ -124,7 +124,7 @@
       "name": "NT｜动漫",
       "type": 3,
       "api": "./dy.js",
-      "ext": "./NT动漫.js"
+      "ext": "./ntdm.js"
     },
     {
       "key": "Anime1",
