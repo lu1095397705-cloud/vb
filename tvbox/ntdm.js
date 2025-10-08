@@ -25,6 +25,7 @@ var rule = {
     二级: {
         "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",
         "img": ".poster&&src",
+        "content": ".detail_imform_desc_pre&&Text",
         "lists": ".movurl:eq(#id)&&li"
     },
     搜索: '*',
