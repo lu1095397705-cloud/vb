@@ -1,0 +1,35 @@
+[
+    {
+    "name": "[嗅] NT动漫",
+    "version": 1,
+    "webSite": "https://www.ntdm9.com",
+    "order": "C",
+    "api": "https://raw.githubusercontent.com/YYDS678/uzVideo-extensions/main/vod/js/Xiu_ntdm.js",
+    "type": 101
+},
+{
+    "name": "[嗅] 樱花动漫",
+    "version": 1,
+    "webSite": "https://www.vdm5.com",
+    "order": "C",
+    "api": "https://raw.githubusercontent.com/YYDS678/uzVideo-extensions/main/vod/js/Xiu_yhdm.js",
+    "type": 101
+},
+{
+    "name": "[嗅] 风车动漫",
+    "version": 1,
+    "webSite": "https://www.tt776b.com",
+    "order": "C",
+    "api": "https://raw.githubusercontent.com/YYDS678/uzVideo-extensions/main/vod/js/Xiu_fcdm.js",
+    "type": 101
+},
+{
+    "name": "[嗅] E-ACG2",
+    "version": 1,
+    "webSite": "https://eacg1.com",
+    "order": "C",
+    "api": "https://raw.githubusercontent.com/YYDS678/uzVideo-extensions/main/vod/js/Xiu_eacg2.js",
+    "type": 101
+}
+
+]
