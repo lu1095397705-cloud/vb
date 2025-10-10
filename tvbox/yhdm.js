@@ -1,7 +1,7 @@
 var rule={
     title:'樱花动漫',
     host:'https://www.857yhw.com/',
-    homeUrl:'',
+    // homeUrl:'/',
     url:'/type/fyclass-fypage.html',
     searchUrl: '/search/**----------fypage---.html',
     filterable:0,//是否启用分类筛选,
@@ -9,6 +9,7 @@ var rule={
     quickSearch:0,//是否启用快速搜索,   
     headers:{//网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent':'MOBILE_UA',
+        // "Cookie": "searchneed=ok"
     }, 
     class_parse:'myui-header__menu nav-menu&&li;a&&Text;/(\\d+).html',
     class_exaclude:'动漫资讯',
@@ -28,4 +29,3 @@ var rule={
     },
     搜索:'*',
 }
-
