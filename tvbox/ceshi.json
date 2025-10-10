@@ -1,5 +1,6 @@
 {
     "spider": "./spider.jar",
+    "sites": [
     {
         "key": "樱花",
         "name": "樱花",
@@ -7,5 +8,8 @@
         "api": "./dy.js",
         "ext": "./yhdm.js"
     }
+
+]
+    
 
 }
