@@ -1,0 +1,11 @@
+{
+    "spider": "./spider.jar",
+    {
+        "key": "樱花",
+        "name": "樱花",
+        "type": 3,
+        "api": "./dy.js",
+        "ext": "./yhdm.js"
+    }
+
+}
