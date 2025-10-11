@@ -24,7 +24,9 @@ var rule = {
     二级: {
         "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",
         "img": ".poster&&src",
+        "desc": ".detail_imform_kv:eq(0)&&Text;.detail_imform_value:eq(5)&&Text;.detail_imform_value:eq(2)&&Text;.detail_imform_kv:eq(0)&&Text;.detail_imform_kv:eq(3)&&Text",
         "content": ".detail_imform_desc_pre&&Text",
+        "tabs": "#menu0&&li",
         "lists": ".movurl:eq(#id)&&li"
     },
     搜索: '*',
