@@ -11,11 +11,12 @@ var rule={
         'User-Agent': 'MOBILE_UA',
         // "Cookie": "searchneed=ok"
     },
-    class_parse: '.navbar&&div&&ul&&li;a&&title;a&&href;/(\\d+).html',
+    class_parse: '.navbar&&div&&ul&&li;a&&title;a&&href;.*/(.*?).html',
+    cate_exclude: '解析|动态',
     play_parse: true,
     lazy: '',
     limit: 6,
-    推荐: '.module-item-cover;a&&Text;a&&href;img&&data-original',
+    推荐: '.module-items;a&&title;img&&data-original;a&&href',
     一级: '.module-item-cover;a&&Text;a&&href;img&&data-original',
     二级: {
         "title": "h1&&Text",
