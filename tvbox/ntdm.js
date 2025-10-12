@@ -18,7 +18,7 @@ var rule = {
     lazy: "",
     limit: 6,
     推荐: '*',
-    一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;.newname&&Text;a&&href',
+    一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;a&&href',
     二级访问前: '',
     二级: {
         "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",
