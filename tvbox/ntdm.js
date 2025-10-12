@@ -1,9 +1,9 @@
 // http://www.ntdm.tv
 var rule = {
     title: 'NT动漫',
-    host: '',
+    host: 'http://www.ntdm.tv',
     homeUrl: '/type/riben.html',
-    url:'type/fyclass-fypage.html',
+    url:'/type/fyclass-fypage.html',
     filterable: 1, //是否启用分类筛选,
     filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
     searchUrl: '/search/**----------fypage---.html',
