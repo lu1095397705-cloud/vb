@@ -1,10 +1,9 @@
 // http://www.ntdm.tv
 var rule = {
     title: 'NT动漫',
-    host: 'http://www.ntdm8.com',
+    host: '',
     homeUrl: '/type/riben.html',
-    // url:'/show/fyclass--------fypage---.html',
-    url: '/show/fyclassfyfilter.html',
+    //url:'/show/fyclass--------fypage---.html',
     filterable: 1, //是否启用分类筛选,
     filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
     searchUrl: '/search/**----------fypage---.html',
@@ -18,7 +17,7 @@ var rule = {
     detailUrl: '',
     lazy: "",
     limit: 6,
-    推荐: '*',
+    推荐: '*',http://www.ntdm8.com
     一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;.newname&&Text;a&&href',
     二级访问前: '',
     二级: {
