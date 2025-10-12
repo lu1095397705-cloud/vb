@@ -8,6 +8,13 @@
             "api": "./dy.js",
             "ext": "./ntdm.js"
         },
+        {
+            "key": "jcy",
+            "name": "穷次元",
+            "type": 3,
+            "api": "./dy.js",
+            "ext": "./jcy.js"
+        },
     {
         "key": "樱花",
         "name": "樱花",
