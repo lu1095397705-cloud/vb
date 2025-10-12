@@ -2,7 +2,7 @@
 var rule = {
     title: '囧次元',
     host: 'https://jciyuan.com',
-    //homeUrl: '/acgshow/fyclass-----------.html',
+    homeUrl: '/acgshow/21-----------.html',
     url: '/acgshow/fyclass--------fypage---.html',
     filterable: 0, //是否启用分类筛选,
     //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
