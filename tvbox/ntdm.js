@@ -4,7 +4,7 @@ var rule = {
     host: 'http://www.ntdm8.com',
     homeUrl: '/type/riben.html',
     url:'/type/fyclass-fypage.html',
-    filterable: 1, //是否启用分类筛选,
+    filterable: 0, //是否启用分类筛选,
     filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
     searchUrl: '/search/**----------fypage---.html',
     searchable: 2, //是否启用全局搜索,
