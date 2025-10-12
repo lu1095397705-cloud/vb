@@ -18,10 +18,10 @@ var rule = {
     lazy: "",
     limit: 6,
     推荐: '*',
-    一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;a&&href',
+    一级: '.blockcontent1&&div;img&&alt;img&&src;.newname&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
-        "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",
+        "title": ".detail_imform_name&&Text;.detail_imform&&p:eq(0)&&Text",//名称；简介
         "img": ".poster&&src",
         "desc": ".detail_imform_kv:eq(0)&&Text;.detail_imform_value:eq(5)&&Text;.detail_imform_value:eq(2)&&Text;.detail_imform_kv:eq(0)&&Text;.detail_imform_kv:eq(3)&&Text",
         "content": ".detail_imform_desc_pre&&Text",
