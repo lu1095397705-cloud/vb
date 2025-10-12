@@ -26,7 +26,7 @@ var rule = {
         "img": ".module-item-pic&&src",
         "content": "",//简介
         "tabs": "#y-playList&&div",//线路名
-        "lists": "#panel1:eq(#id)&&div&&div&&a"//列表
+        "lists": "#panel1:eq(#id)&&a"//列表
     },
     搜索: '*',
 }
