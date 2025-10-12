@@ -12,7 +12,7 @@ var rule = {
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent': 'MOBILE_UA',
     },
-    class_parse: '.mod&&li;a&&Text;a&&href;.*/(\\w+).html',
+    class_parse: '.nav_button;a&&Text;a&&href;.*/(\\w+).html',
     play_parse: true,
     detailUrl: '',
     lazy: "",
