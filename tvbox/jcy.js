@@ -19,7 +19,7 @@ var rule = {
     lazy: "",
     limit: 6,
     推荐: '*',
-    一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;.newname&&Text;a&&href',//列表；名称；图片，剧集数；链接,
+    一级: '.module-items;a&&tilte;img&&data-original;.module-item-note&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
         "title": ".detail_imform_name&&Text;detail_imform_value:eq(0)&&Text",//名称；状态
