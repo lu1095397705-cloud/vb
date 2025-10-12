@@ -2,7 +2,7 @@ var rule={
     title: '穷次元',
     host: 'https://jciyuan.com',
     // homeUrl:'/',
-    url: '/acgtype/fypage.html',
+    url: '/show/fyclassfyfilter.html',
     searchUrl: '/acgsearch/**-------------.html',
     searchable: 2,
     quickSearch: 0,
