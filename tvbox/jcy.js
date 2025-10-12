@@ -13,6 +13,7 @@ var rule = {
         'User-Agent': 'MOBILE_UA',
     },
     class_parse: '.navbar&&ul&&li;a&&title;a&&href;.*/(\\w+).html',
+    cate_exclude: '追剧周表|热榜|APP',
     play_parse: true,
     detailUrl: '',
     lazy: "",
