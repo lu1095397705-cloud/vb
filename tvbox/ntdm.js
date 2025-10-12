@@ -2,7 +2,7 @@
 var rule = {
     title: 'NT动漫',
     host: 'http://www.ntdm8.com',
-    //homeUrl: '/type/riben.html',
+    homeUrl: '/type/riben.html',
     url:'/type/fyclass-fypage.html',
     filterable: 0, //是否启用分类筛选,
     //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
