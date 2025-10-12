@@ -17,7 +17,7 @@ var rule = {
     detailUrl: '',
     lazy: "",
     limit: 6,
-    推荐: '*',http://www.ntdm8.com
+    推荐: '*',
     一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;.newname&&Text;a&&href',
     二级访问前: '',
     二级: {
