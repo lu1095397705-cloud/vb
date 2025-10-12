@@ -22,7 +22,7 @@ var rule = {
     一级: '.module-items;img&&alt;img&&data-original;.module-item-note&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
-        "title": ".module-info-heading&&Text;.module-info-introduction-content&&p:eq(0)&&Text",//名称；状态
+        "title": ".h1&&Text;.module-info-introduction-content&&p:eq(0)&&Text",//名称；状态
         "img": ".poster&&src",
         "desc": ".detail_imform_kv:eq(0)&&Text;.detail_imform_value:eq(5)&&Text;.detail_imform_value:eq(2)&&Text;.detail_imform_kv:eq(0)&&Text;.detail_imform_kv:eq(3)&&Text",
         "content": ".detail_imform_desc_pre&&Text",//简介
