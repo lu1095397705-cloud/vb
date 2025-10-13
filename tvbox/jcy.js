@@ -12,8 +12,8 @@ var rule = {
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent': 'MOBILE_UA',
     },
-    class_parse: '.navbar&&ul&&li;a&&title;a&&href;.*/(\\w+).html',
-    cate_exclude: '追剧周表|热榜|APP',
+    class_parse: '.navbar&&ul&&li:gt(2):lt(4);a&&title;a&&href;.*/(\\w+).html',
+    //cate_exclude: '追剧周表|热榜|APP',
     play_parse: true,
     detailUrl: '',
     lazy: "",
