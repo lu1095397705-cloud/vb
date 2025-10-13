@@ -8,7 +8,7 @@ var rule = {
     //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
     searchUrl: '/acgsearch/-------------.html?wd=**',
     searchable: 2, //是否启用全局搜索,
-    quickSearch: 1, //是否启用快速搜索,
+    quickSearch: 0, //是否启用快速搜索,
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent': 'MOBILE_UA',
     },
