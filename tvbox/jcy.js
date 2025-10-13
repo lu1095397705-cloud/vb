@@ -25,7 +25,7 @@ var rule = {
         "title": ".h1&&Text;.module-info-item-content&&Text",//名称；状态
         "img": ".module-item-pic&&src",
         "content": "",//简介
-        "tabs": ".data-dropdown-value",//线路名
+        "tabs": "",//线路名
         "lists": "#panel1:eq(#id)&&a"//列表
     },
     搜索: '*',
