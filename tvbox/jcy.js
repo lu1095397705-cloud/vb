@@ -12,13 +12,15 @@ var rule = {
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent': 'MOBILE_UA',
     },
-    class_parse: '.navbar&&ul&&li:gt(0):lt(5);a&&title;a&&href;.*/(\\w+).html',
+    timeout: 3000,
+    class_parse: '.navbar&&ul&&li:gt(0):lt(5);a&&title;a&&href;.*/(.*?).html',
     //cate_exclude: '追剧周表|热榜|APP',
     play_parse: true,
     detailUrl: '',
     lazy: "",
     limit: 6,
     推荐: '*',
+    double: true, // 推荐内容是否双层定位
     一级: '.module-items;img&&alt;img&&data-original;.module-item-note&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
