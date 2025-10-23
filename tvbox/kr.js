@@ -1,0 +1,34 @@
+//https://www.zjkrmv.com/
+var rule = {
+    title: '看片狂人',
+    host: 'https://www.zjkrmv.com',
+    homeUrl: '/vodshow/fyclass--------fypage---.html',
+    url: '/vodshow/fyclass--------fypage---.html',
+    filterable: 0, //是否启用分类筛选,
+    //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
+    searchUrl: '/vodsearch/-------------.html?wd=**',
+    searchable: 2, //是否启用全局搜索,
+    quickSearch: 0, //是否启用快速搜索,
+    headers: { //网站的请求头,完整支持所有的,常带ua和cookies
+        'User-Agent': 'MOBILE_UA',
+    },
+    timeout: 3000,
+    class_parse: '.swiper-wrapper&&li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
+    //cate_exclude: '追剧周表|热榜|APP',
+    play_parse: true,
+    detailUrl: '',
+    lazy: "",
+    limit: 6,
+    推荐: '*',
+    double: true, // 推荐内容是否双层定位
+    一级: '.module-items;img&&alt;img&&data-original;.module-item-note&&Text;a&&href',//列表；名称；图片，剧集数；链接,
+    二级访问前: '',
+    二级: {
+        "title": ".h1&&Text;.module-info-item-content&&Text",//名称；状态
+        "img": ".module-item-pic&&src",
+        "content": "",//简介
+        "tabs": "#y-playList&&div&&span",//线路名
+        "lists": "#panel1:eq(#id)&&a"//列表
+    },
+    搜索: '*',
+}

@@ -10,6 +10,13 @@
       "api": "csp_Huban"
     },
     {
+      "key": "狂人",
+      "name": "狂人",
+      "type": 3,
+      "api": "./dy.js",
+      "ext": "./kr.js"
+    },
+    {
       "key": "去看吧",
       "name": "去看吧｜动漫",
       "type": 3,
@@ -31,6 +38,7 @@
         "version": ""
       }
     },
+    
     {
       "key": "56动漫",
       "name": "56｜动漫",
@@ -218,7 +226,7 @@
     {
       "name": "jl",
       "type": "1",
-      "url": "https://json-vipjx.952707.xyz/?url="
+      "url": ""
     }
   ],
   "flags": [
