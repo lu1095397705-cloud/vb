@@ -13,7 +13,7 @@ var rule = {
         'User-Agent': 'MOBILE_UA',
     },
     timeout: 3000,
-    class_parse: '.swiper-wrapper li:gt(0):lt(4);a&&Text;a&&href;.*/(.*?).html',
+    class_parse: '.swiper-wrapper li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
     cate_exclude: '午夜',
     play_parse: true,
     detailUrl: '',
