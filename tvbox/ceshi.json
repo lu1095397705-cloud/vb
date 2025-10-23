@@ -15,6 +15,13 @@
             "api": "./dy.js",
             "ext": "./jcy.js"
         },
+        {
+            "key": "狂人影视",
+            "name": "狂人",
+            "type": 3,
+            "api": "./dy.js",
+            "ext": "./kr.js"
+        },
     {
         "key": "樱花",
         "name": "樱花",
