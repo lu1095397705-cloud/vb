@@ -24,8 +24,8 @@ var rule = {
     一级: '.public-list-div;.public-list-exp&&title;img&&data-src;.public-list-prb&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
-        "title": ".h1&&Text;.module-info-item-content&&Text",//名称；状态
-        "img": ".module-item-pic&&src",
+        "title": ".h3&&Text;.slide-info-remarks&&Text",//名称；状态
+        "img": ".lazy mask-1&&data-src",
         "content": "",//简介
         "tabs": "#y-playList&&div&&span",//线路名
         "lists": "#panel1:eq(#id)&&a"//列表
