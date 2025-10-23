@@ -14,7 +14,7 @@ var rule = {
     },
     timeout: 3000,
     class_parse: '.swiper-wrapper li:gt(0):lt(4);a&&Text;a&&href;.*/(.*?).html',
-    //cate_exclude: '追剧周表|热榜|APP',
+    cate_exclude: '午夜',
     play_parse: true,
     detailUrl: '',
     lazy: "",
