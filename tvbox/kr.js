@@ -2,7 +2,7 @@
 var rule = {
     title: '看片狂人',
     host: 'https://www.zjkrmv.com',
-    homeUrl: '/vodshow/fyclass--------fypage---.html',
+    homeUrl: '/vodshow/fyclass-----------.html',
     url: '/vodshow/fyclass--------fypage---.html',
     filterable: 0, //是否启用分类筛选,
     //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
@@ -13,7 +13,7 @@ var rule = {
         'User-Agent': 'MOBILE_UA',
     },
     timeout: 3000,
-    class_parse: '.swiper-wrapper&&li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
+    class_parse: '.swiper-wrapper li;a&&Text;a&&href;.*/(.*?).html',
     //cate_exclude: '追剧周表|热榜|APP',
     play_parse: true,
     detailUrl: '',
