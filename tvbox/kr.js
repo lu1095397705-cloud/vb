@@ -28,7 +28,7 @@ var rule = {
         "img": ".lazy mask-1&&data-src",
         "content": "",//简介
         "tabs": ".swiper-wrapper&&a",//线路名
-        "lists": "#panel1:eq(#id)&&a"//列表
+        "lists": ".anthology-list-play size:eq(#id)&&ul"//列表
     },
     搜索: '*',
 }
