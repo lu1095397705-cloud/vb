@@ -12,6 +12,7 @@
             "key": "jcy",
             "name": "穷次元",
             "type": 3,
+            "quickSearch": 1,
             "api": "./dy.js",
             "ext": "./jcy.js"
         },
