@@ -27,7 +27,7 @@ var rule = {
         "title": ".h3&&Text;.slide-info-remarks&&Text",//名称；状态
         "img": ".lazy mask-1&&data-src",
         "content": "",//简介
-        "tabs": ".swiper-wrapper:eq(0)&&a",//线路名
+        "tabs": "一线|二线|三线|四线",//线路名
         "lists": ".anthology-list-play:eq(#id)&&li"//列表
     },
     搜索: '*',
