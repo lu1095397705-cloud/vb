@@ -24,7 +24,7 @@ var rule = {
     一级: '.public-list-div;.public-list-exp&&title;img&&data-src;.public-list-prb&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
-        "title": ".h3&&Text;.slide-info hide&&span&&Text",//名称；状态
+        "title": ".h3&&Text;.slide-info&&span&&Text",//名称；状态
         "img": ".lazy mask-1&&data-src",
         "content": "",//简介
         "tabs": ".swiper-slide",//线路名
