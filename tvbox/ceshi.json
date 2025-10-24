@@ -13,6 +13,7 @@
             "name": "穷次元",
             "type": 3,
             "quickSearch": 1,
+    
             "api": "./dy.js",
             "ext": "./jcy.js"
         },
@@ -20,7 +21,10 @@
             "key": "狂人影视",
             "name": "狂人",
             "type": 3,
+            "searchable": 1,
             "quickSearch": 1,
+            "changeable": 1,
+            "filterable": 1,
             "api": "./dy.js",
             "ext": "./kr.js"
         },
