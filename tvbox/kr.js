@@ -26,7 +26,7 @@ var rule = {
     二级: {
         "title": ".h3&&Text;.slide-info&&span&&Text",//名称；状态
         "img": ".lazy mask-1&&data-src",
-        "content": "",//简介
+        "content": "js:TABS=['懒得写']",//简介
         "tabs": "js:TABS=['小卢快线','天堂','🦌','少','点','了']",//线路名
         "lists": ".anthology-list-play:eq(#id)&&li"//列表
     },
