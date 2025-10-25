@@ -1,6 +1,6 @@
 {
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
-    "spider": "https://13362.kstore.space/ce/spider.jar",
+    "spider": "./jb/spider.jar",
     "sites": [
         {
             "key": "狂人影视",
