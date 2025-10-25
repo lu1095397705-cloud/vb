@@ -155,7 +155,7 @@
             "quickSearch": 1,
             "changeable": 1,
             "filterable": 1,
-            "api": "./jb/dy.js",
+            "api": "https://github.com/chendi0207/my-TVBOX/blob/main/tvboxqq/%E9%A6%99%E9%9B%85%E6%83%85/api/drpy2.min.js",
             "ext": "https://raw.githubusercontent.com/chendi0207/my-TVBOX/refs/heads/main/tvboxqq/%E9%A6%99%E9%9B%85%E6%83%85/js/%E8%85%BE%E4%BA%91%E9%A9%BE%E9%9B%BE.js"
         },
         {
