@@ -14,7 +14,7 @@
             "type": 3,
             "quickSearch": 1,
     
-            "api": "./dy.js",
+            "api": "https://gitee.com/lu228826/box/raw/master/tvboxjb/dy.js",
             "ext": "./jcy.js"
         },
         {
