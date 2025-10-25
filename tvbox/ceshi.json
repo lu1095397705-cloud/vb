@@ -1,5 +1,5 @@
 {
-    "spider": "./spider.jar",
+    
     "sites": [
         {
             "key": "ntdm",
