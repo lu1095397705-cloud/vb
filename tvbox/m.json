@@ -41,7 +41,7 @@
             "name": "NT｜动漫",
             "type": 3,
             "api": "./jb/dy.js",
-            "ext": "https://13362.kstore.space/box/NT%E5%8A%A8%E6%BC%AB.js"
+            "ext": "./js/ntdm.js"
         },
         {
             "key": "腾讯视频",
