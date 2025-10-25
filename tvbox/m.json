@@ -9,30 +9,8 @@
             "api": "./jb/dy.js",
             "ext": "./js/kr.js"
         },
-        {
-            "key": "瓜子影视",
-            "name": "瓜子｜影视",
-            "type": 3,
-            "api": "csp_Gz360",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "米饭",
-            "name": "米饭｜动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "https://get.mymifun.com",
-                "site": "",
-                "dataKey": "GETMIFUNGEIMIFUN",
-                "dataIv": "GETMIFUNGEIMIFUN",
-                "deviceId": "",
-                "version": ""
-            }
-        },
+      
+       
         {
             "key": "huban",
             "name": "弹幕┃小窗",
@@ -44,24 +22,10 @@
             "key": "去看吧",
             "name": "去看吧｜动漫",
             "type": 3,
-            "api": "./dy.js",
+            "api": "./jb/dy.js",
             "ext": "./qkb.js"
         },
-        {
-            "key": "稀饭动漫",
-            "name": "稀饭｜动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "",
-                "site": "https://xfapp-1305390065.cos.ap-guangzhou.myqcloud.com/getapp.txt",
-                "dataKey": "1yZ2Spn9krnzVKoC",
-                "dataIv": "1yZ2Spn9krnzVKoC",
-                "deviceId": "",
-                "version": ""
-            }
-        },
+        
         {
             "key": "56动漫",
             "name": "56｜动漫",
@@ -73,79 +37,17 @@
             "key": "jcy",
             "name": "穷次元",
             "type": 3,
-            "api": "./dy.js",
+            "api": "./jb/dy.js",
             "ext": "./jcy.js"
         },
-        {
-            "key": "漫屋",
-            "name": "漫屋丨动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "https://www.yunwuee.icu",
-                "site": "",
-                "dataKey": "ygcnb9bdcmb8aeiw",
-                "dataIv": "ygcnb9bdcmb8aeiw",
-                "deviceId": "",
-                "version": "",
-                "ua": ""
-            }
-        },
-        {
-            "key": "方舟",
-            "name": "方舟丨动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "https://www.cyfz.vip",
-                "site": "",
-                "dataKey": "e72cdfd629e8895d",
-                "dataIv": "e72cdfd629e8895d",
-                "deviceId": "",
-                "version": "",
-                "ua": ""
-            }
-        },
-        {
-            "key": "元咲",
-            "name": "元咲丨动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "http://cic.aicg.fun",
-                "site": "",
-                "dataKey": "2c4h36abd96se10u",
-                "dataIv": "2c4h36abd96se10u",
-                "deviceId": "",
-                "version": "",
-                "ua": ""
-            }
-        },
-        {
-            "key": "番薯",
-            "name": "番薯丨动漫",
-            "type": 3,
-            "quickSearch": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "https://new.app.bytegooty.com",
-                "site": "",
-                "dataKey": "N4yj7l7xKxHF4*gz",
-                "dataIv": "N4yj7l7xKxHF4*gz",
-                "deviceId": "",
-                "version": "",
-                "ua": ""
-            }
-        },
+        
+      
         {
             "key": "NT动漫",
             "name": "NT｜动漫",
             "type": 3,
-            "api": "./dy.js",
-            "ext": "./NT动漫.js"
+            "api": "./jb/dy.js",
+            "ext": "./ntdm.js"
         },
         {
             "key": "腾讯视频",
@@ -158,7 +60,7 @@
             "key": "优酷视频",
             "name": "优酷｜视频",
             "type": 3,
-            "api": "./dy.js",
+            "api": "./jb/dy.js",
             "ext": "./yk.js"
         },
         {
@@ -169,7 +71,7 @@
             "quickSearch": 1,
             "changeable": 1,
             "filterable": 1,
-            "api": "./dy.js",
+            "api": "./jb/dy.js",
             "ext": "./mg.js"
         },
         {
@@ -180,7 +82,7 @@
             "quickSearch": 1,
             "changeable": 1,
             "filterable": 1,
-            "api": "./dy.js",
+            "api": "./jb/dy.js",
             "ext": "./qy.js"
         }
     ],
