@@ -75,12 +75,8 @@
             "name": "火花",
             "type": "1",
             "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url="
-        },
-        {
-            "name": "jl",
-            "type": "1",
-            "url": "https://json-vipjx.952707.xyz/?url="
         }
+       
     ],
     "flags": [
         "youku",
