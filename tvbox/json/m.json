@@ -1,6 +1,6 @@
 {
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
-    "spider": "./jb/spider.jar",
+    "spider": "https://gitee.com/lu228826/box/raw/master/tvbox/jb/spider.jar",
     "sites": [
         {
             "key": "狂人影视",
