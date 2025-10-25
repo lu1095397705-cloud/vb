@@ -23,7 +23,7 @@
             "name": "去看吧｜动漫",
             "type": 3,
             "api": "./jb/dy.js",
-            "ext": "./qkb.js"
+            "ext": "./js/qkb.js"
         },
         
         
@@ -32,7 +32,7 @@
             "name": "穷次元",
             "type": 3,
             "api": "./jb/dy.js",
-            "ext": "./jcy.js"
+            "ext": "./js/jcy.js"
         },
         
       
