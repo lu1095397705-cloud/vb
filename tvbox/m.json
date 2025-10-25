@@ -31,6 +31,7 @@
             "key": "jcy",
             "name": "穷次元",
             "type": 3,
+            "jar": "https://13362.kstore.space/box/spider.jar",
             "api": "https://13362.kstore.space/box/dy.js",
             "ext": "./jcy.js"
         },
