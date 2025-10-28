@@ -24,11 +24,12 @@ var rule = {
     一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;.newname&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
-        "title": ".h3&&Text;.slide-info&&span&&Text",//名称；状态
-        "img": ".lazy mask-1&&data-src",
-        "content": "js:TABS=['懒得写']",//简介
+        "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",//名称；状态
+        "img": ".poster&&src",
+        "desc": "",
+        "content": ".detail_imform_desc_pre&&Text",//简介
         "tabs": "js:TABS=['小卢快线','天堂','🦌','少','点','了']",//线路名
-        "lists": ".anthology-list-play:eq(#id)&&li"//列表
+        "lists": ".movurl:eq(#id)&&li"//列表
     },
     搜索: '*',
 }
