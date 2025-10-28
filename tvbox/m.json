@@ -35,24 +35,6 @@
             "type": 3,
             "api": "./jb/dy.js",
             "ext": "./js/qkb.js"
-        },
-        
-        
-        {
-            "key": "jcy",
-            "name": "穷次元",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "ext": "./js/jcy.js"
-        },
-        
-      
-        {
-            "key": "NT动漫",
-            "name": "NT｜动漫",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "ext": "./js/ntdm.js"
         }
         
     ],
