@@ -66,6 +66,17 @@
             "api": "./jb/dy.js",
             "ext": "./js/kr.js"
         },
+        {
+            "key": "csp_JianPian",
+            "name": "荐片",
+            "type": 3,
+            "api": "csp_JianPian",
+            "jar":"./jb/xyq.jar",
+            "playerType": 1,
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
       
        
         
