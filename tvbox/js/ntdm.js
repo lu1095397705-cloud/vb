@@ -14,7 +14,7 @@ var rule = {
     },
     timeout: 5000,
     class_parse: '.search-tag&&li;a&&Text;a&&href;.*/(\\w+).html',
-    cate_exclude: '',
+    cate_exclude: "推荐",
     play_parse: true,
     detailUrl: '',
     lazy: "",
