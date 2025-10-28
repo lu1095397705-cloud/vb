@@ -12,7 +12,7 @@ var rule = {
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent': 'MOBILE_UA',
     },
-    timeout: 3000,
+    timeout: 5000,
     class_parse: '.search-tag&&li;a&&Text;a&&href;.*/(\\w+).html',
     cate_exclude: '',
     play_parse: true,
