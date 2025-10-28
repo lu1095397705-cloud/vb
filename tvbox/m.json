@@ -35,6 +35,7 @@
             "jar": "./jb/xyq.jar",
             "ext": "./js/qy.js"
         },
+        {
             "key": "youku",
             "name": "优酷",
             "type": 3,
