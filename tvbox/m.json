@@ -13,10 +13,21 @@
        
         {
             "key": "huban",
-            "name": "弹幕┃小窗",
+            "name": "虎斑┃弹幕┃设置",
             "type": 3,
-            "jar": "https://gitee.com/zj521jj/little-tiger-spot/raw/master/jar/HubanTC.jar",
+            "jar": "./jb/huban.jar",
             "api": "csp_Huban"
+        },
+        {
+            "key": "懒羊羊弹幕",
+            "name": "羊村┃弹幕┃设置",
+            "type": 3,
+            "api": "csp_ConfigCenter",
+            "jar": "./jb/lyy.jar",
+            "searchable": 0,
+            "filterable": 0,
+            "quickSearch": 0,
+            "changeable": 0
         },
         {
             "key": "去看吧",
