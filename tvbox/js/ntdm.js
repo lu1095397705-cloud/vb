@@ -13,7 +13,7 @@ var rule = {
         'User-Agent': 'MOBILE_UA',
     },
     timeout: 3000,
-    class_parse: '.search-tag&&li;a&&Text;a&&href;.*/type/(.*?).html',
+    class_parse: '.search-tag&&li;a&&Text;a&&href;.*/(\\w+).html',
     cate_exclude: '',
     play_parse: true,
     detailUrl: '',
