@@ -47,7 +47,7 @@
             "key": "腾讯视频",
             "name": "腾讯｜视频",
             "type": 3,
-            "api": "./jb/dy.js",
+            "api": "https://13362.kstore.space/box/dy.js",
             "ext": "https://13362.kstore.space/box/tx.js"
         },
         {
