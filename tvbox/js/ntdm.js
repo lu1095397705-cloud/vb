@@ -21,7 +21,7 @@ var rule = {
     limit: 6,
     推荐: '*',
     double: true, // 推荐内容是否双层定位
-    一级: '.blockcontent1;img&&alt;img&&data-src;.newname&&Text;a&&href',//列表；名称；图片，剧集数；链接,
+    一级: '.blockcontent1 div;img&&alt;img&&data-src;.newname&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
         "title": ".h3&&Text;.slide-info&&span&&Text",//名称；状态
