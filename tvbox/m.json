@@ -2,12 +2,53 @@
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
     "sites": [
         {
-            "key": "drpy_js_腾云驾雾",
-            "name": "腾云驾雾[js]",
+            "key": "huban",
+            "name": "虎斑┃弹幕┃设置",
+            "type": 3,
+            "jar": "./jb/huban.jar",
+            "api": "csp_Huban"
+        },
+        {
+            "key": "懒羊羊弹幕",
+            "name": "羊村┃弹幕┃设置",
+            "type": 3,
+            "api": "csp_ConfigCenter",
+            "jar": "./jb/lyy.jar",
+            "searchable": 0,
+            "filterable": 0,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+        {
+            "key": "tx",
+            "name": "腾讯视频",
             "type": 3,
             "api": "./jb/dy.js",
             "jar":"./jb/xyq.jar",
             "ext": "./js/tx.js"
+        },
+        {
+            "key": "qiyi",
+            "name": "爱奇艺",
+            "type": 3,
+            "api": "./jb/dy.js",
+            "jar": "./jb/xyq.jar",
+            "ext": "./js/qy.js"
+        },
+            "key": "youku",
+            "name": "优酷",
+            "type": 3,
+            "api": "./jb/dy.js",
+            "jar": "./jb/xyq.jar",
+            "ext": "./js/yk.js"
+        },
+        {
+            "key": "mgtv",
+            "name": "芒果视频",
+            "type": 3,
+            "api": "./jb/dy.js",
+            "jar": "./jb/xyq.jar",
+            "ext": "./js/mg.js"
         },
         {
             "key": "csp_Gz360",
@@ -26,24 +67,7 @@
         },
       
        
-        {
-            "key": "huban",
-            "name": "虎斑┃弹幕┃设置",
-            "type": 3,
-            "jar": "./jb/huban.jar",
-            "api": "csp_Huban"
-        },
-        {
-            "key": "懒羊羊弹幕",
-            "name": "羊村┃弹幕┃设置",
-            "type": 3,
-            "api": "csp_ConfigCenter",
-            "jar": "./jb/lyy.jar",
-            "searchable": 0,
-            "filterable": 0,
-            "quickSearch": 0,
-            "changeable": 0
-        },
+        
         {
             "key": "去看吧",
             "name": "去看吧｜动漫",
