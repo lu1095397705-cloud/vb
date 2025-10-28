@@ -59,13 +59,7 @@
             "jar":"./jb/fm.jar",
             "playerType": 2
         },
-        {
-            "key": "狂人影视",
-            "name": "狂人",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "ext": "./js/kr.js"
-        },
+        
         {
             "key": "csp_JianPian",
             "name": "荐片",
@@ -77,6 +71,16 @@
             "quickSearch": 1,
             "filterable": 1
         },
+        {
+        "key": "ntdm",
+        "name": "nt动漫",
+        "type": 3,
+        "api": "./jb/dy.js",
+        "jar": "./jb/xyq.jar",
+        "ext": "./js/ntdm.js"
+        },
+    
+        
       
        
         
@@ -85,6 +89,7 @@
             "name": "去看吧｜动漫",
             "type": 3,
             "api": "./jb/dy.js",
+            "jar": "./jb/xyq.jar",
             "ext": "./js/qkb.js"
         }
         
