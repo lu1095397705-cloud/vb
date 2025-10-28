@@ -2,6 +2,14 @@
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
     "sites": [
         {
+            "key": "drpy_js_腾云驾雾",
+            "name": "腾云驾雾[js]",
+            "type": 3,
+            "api": "./jb/dy.js",
+            "jar":"./jb/xyq.jar",
+            "ext": "./js/tx.js"
+        },
+        {
             "key": "csp_Gz360",
             "name": "瓜子┃影视",
             "type": 3,
