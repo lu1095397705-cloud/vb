@@ -2,6 +2,14 @@
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
     "sites": [
         {
+            "key": "csp_Gz360",
+            "name": "瓜子┃影视",
+            "type": 3,
+            "api": "csp_Gz360",
+            "jar":"./jb/fm.jar",
+            "playerType": 2
+        },
+        {
             "key": "狂人影视",
             "name": "狂人",
             "type": 3,
