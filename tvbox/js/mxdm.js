@@ -20,7 +20,7 @@ var rule ={
     limit: 6,
     推荐: '*',
     double: true, // 推荐内容是否双层定位
-    一级: '.blockcontent1&&.blockdif2;img&&alt;img&&src;.newname&&Text;a&&href',//列表；名称；图片，剧集数；链接,
+    一级: '.module-items&&.module-item;.module-item-titlebox&&a&&title;img&&data-src;.module-item-text&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
         "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",//名称；状态
