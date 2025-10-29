@@ -79,6 +79,14 @@
         "jar": "./jb/xyq.jar",
         "ext": "./js/ntdm.js"
         },
+        {
+            "key": "mxdm",
+            "name": "mx动漫",
+            "type": 3,
+            "api": "./jb/dy.js",
+            "jar": "./jb/xyq.jar",
+            "ext": "./js/mxdm.js"
+        },
     
         
       
