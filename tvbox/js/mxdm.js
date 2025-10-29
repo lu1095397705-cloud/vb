@@ -28,7 +28,7 @@ var rule ={
         "desc": "",
         "content": "",//简介
         "tabs": "js:TABS=['小卢快线','小卢二线','🦌','少','点','了']",//线路
-        "lists": "#glist-1&&.scroll-content&&a"//列表
+        "lists": "#glist-1&&.scroll-content:eq(0)&&a"//列表
       
       
     },
