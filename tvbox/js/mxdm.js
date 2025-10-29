@@ -14,7 +14,7 @@ var rule ={
     },
     timeout: 5000,
     class_parse: '.nav-menu-items&&li;a&&title;a&&href;.*/(\\w+).html',
-    cate_exclude: '推荐',
+    cate_exclude: '',
     play_parse: true,
     detailUrl: '',
     lazy: "",
