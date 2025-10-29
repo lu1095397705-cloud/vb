@@ -23,12 +23,12 @@ var rule ={
     一级: '.module-items&&.module-item;.module-item-titlebox&&a&&title;img&&data-src;.module-item-text&&Text;a&&href',//列表；名称；图片，剧集数；链接,
     二级访问前: '',
     二级: {
-        "title": "h1&&Text;.video-info-item:eq(1)&&Text",//名称；类型
-        "img": ".poster&&src",
+        "title": "h1&&Text;.video-info-item:eq(2)&&Text",//名称；类型
+        "img": "",
         "desc": "",
-        "content": ".detail_imform_desc_pre&&Text",//简介
+        "content": "",//简介
         "tabs": "js:TABS=['小卢快线','小卢二线','🦌','少','点','了']",//线路
-        "lists": ".movurl:eq(#id)&&li"//列表
+        "lists": ".glist-1:eq(#id)&&li"//列表
     },
     搜索: '*',
 
