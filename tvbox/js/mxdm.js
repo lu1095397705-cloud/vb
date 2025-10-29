@@ -2,7 +2,7 @@
 var rule ={
     title: 'mx动漫',
     host: 'https://www.mxdm.xyz',
-    homeUrl: '/show/fyclass--------fypage---.html',
+    homeUrl: '/type/riman.html',
     url: '/show/fyclass--------fypage---.html',
     filterable: 0, //是否启用分类筛选,
     //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}', 
