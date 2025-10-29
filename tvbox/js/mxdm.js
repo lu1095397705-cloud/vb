@@ -13,7 +13,7 @@ var rule ={
         'User-Agent': 'MOBILE_UA',
     },
     timeout: 5000,
-    class_parse: '.nav-menu-items li;a&&title;a&&href;.*/(\\w+).html',
+    class_parse: '.nav-menu-items&&li;a&&title;a&&href;.*/(\\w+).html',
     cate_exclude: '推荐',
     play_parse: true,
     detailUrl: '',
