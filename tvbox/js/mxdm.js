@@ -32,6 +32,6 @@ var rule ={
       
       
     },
-    搜索: '.module-items&&.module-search-item;.h3&&title;img&&data-src;.video-info-header&&a&&Text;.module-item-pic&&a&&href',
+    搜索: '.module-items&&.module-search-item;.video-info-header&&a&&title;img&&data-src;.video-info-header&&a&&Text;.module-item-pic&&a&&href',
 
 }
