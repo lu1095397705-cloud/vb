@@ -17,11 +17,7 @@
         "codeID": "ra5Z3wtXKshzSMK2",
         "instance": "gzapp20241001",
         "order": "B",
-<<<<<<< HEAD:uz/uz.json
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/gzapp.txt",
-=======
-        "api": "../gzapp.txt",
->>>>>>> 26ca3a8e4a910e6e761ad804f7eea5dcb750a3d1:uz/u.json
         "type": 100
     },
     {
@@ -29,11 +25,7 @@
         "version": 3,
         "webSite": "http://wogg.xxooo.cf",
         "order": "A01",
-<<<<<<< HEAD:uz/uz.json
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/wogg.js",
-=======
-        "api": "./uz/wogg.js",
->>>>>>> 26ca3a8e4a910e6e761ad804f7eea5dcb750a3d1:uz/u.json
         "type": 101
     }
 
