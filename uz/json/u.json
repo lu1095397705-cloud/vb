@@ -19,6 +19,16 @@
         "type": 400
     },
     {
+        "name": "豆儿弹幕",
+        "version": 9,
+        "remark": "🍃豆儿出品，不属精品！",
+        "env": "豆儿弹幕API##使用兼容弹弹Play协议的API 格式 线路名称1@地址1|线路名称2@地址2",
+        "codeID": "dvfIhtDpoScOYbi61ICYlfBbqCBw9iC4",
+        "order": "A02",
+        "api": "danMu/js/danMu5.txt",
+        "type": 400
+    },
+    {
         "name": "[直] 瓜子¹",
         "version": 3,
         "remark": "瓜子APP",
