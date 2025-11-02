@@ -123,18 +123,9 @@ class SearchParameters {
 
 // 内置的弹幕解析线路
 var danmuLines = [
-    {
-        name: '智能',
-        url: '',
-    },
-    {
-        name: '虾米',
-        url: 'https://dmku.hls.one/?ac=dm&url=',
-    },
-    {
-        name: 'DouFun',
-        url: 'https://danmu.56uxi.com/?ac=dm&url=',
-    },
+    
+    
+    
     {
         name: '弹幕库',
         url: 'https://api.danmu.icu/?ac=dm&url=',
@@ -256,8 +247,8 @@ async function searchDanMu(args) {
 
 // 内置的采集线路
 var caiJi = [
-    'https://zy.xmm.hk/api.php/provide/vod',
-    'https://www.69mu.cn/api.php/provide/vod',
+    'https://zy.jinchancaiji.com/api.php/provide/vod',
+    'https://zy.sh0o.cn/api.php/provide/vod',
 ]
 
 /**
