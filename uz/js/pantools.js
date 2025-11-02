@@ -42,7 +42,7 @@ import {
     formatBackData,
 } from './js/uzUtils.js'
 
-import { cheerio, Crypto, Encrypt, JSONbig } from '../../core/core/uz3lib.js'
+import { cheerio, Crypto, Encrypt, JSONbig } from './js/uz3lib.js'
 // ignore
 
 /**
