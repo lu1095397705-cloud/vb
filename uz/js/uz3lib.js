@@ -1,10 +1,10 @@
 // ignore
-import { createCheerio } from './js/cheerio.js'
-import { createCryptoJS } from './js/CryptoJS.min.js'
-import { loadJSEncrypt } from './js/JSEncrypt.min.js'
-import { JSONbig } from './js/JSONbig.js'
-import { createBuffer } from './js/buffer.js'
-import { node_html_parser } from './js/node-html-parser.js'
+import { createCheerio } from './cheerio.js'
+import { createCryptoJS } from './CryptoJS.min.js'
+import { loadJSEncrypt } from './JSEncrypt.min.js'
+import { JSONbig } from './JSONbig.js'
+import { createBuffer } from './buffer.js'
+import { node_html_parser } from './node-html-parser.js'
 // ignore
 
 // 推荐优先使用 cheerio, parse 后期可能会移除
