@@ -23,7 +23,7 @@ import {
     RepVideoPlayUrl,
     UZArgs,
     UZSubclassVideoListArgs,
-} from '../../core/core/uzVideo.js'
+} from 'https://gitee.com/lu228826/box/raw/master/uz/js/uzVideo.js'
 
 import {
     UZUtils,
@@ -45,9 +45,9 @@ import {
     kLocale,
     kAppVersion,
     formatBackData,
-} from '../../core/core/uzUtils.js'
+} from 'https://gitee.com/lu228826/box/raw/master/uz/js/uzUtils.js'
 
-import { cheerio } from '../../core/core/uz3lib.js'
+import { cheerio } from 'https://gitee.com/lu228826/box/raw/master/uz/js/uz3lib.js'
 // ignore
 
 const appConfig = {
