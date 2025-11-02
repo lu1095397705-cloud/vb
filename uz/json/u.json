@@ -1,4 +1,18 @@
-[
+{
+    "danMu":[
+       {
+        "name": "小卢弹幕",
+        "version": 20,
+        "remark": "小卢专用",
+        "env": "自定义弹幕解析接口##格式 线路名称1@地址1|线路名称2@地址2&&自定义弹幕采集线路##格式 线路名称1@地址1|线路名称2@地址2&&自定义弹幕剧集过滤##过滤视频剧集关键词,用|分隔,填写禁用可关闭过滤功能",
+        "codeID": "FI2sg2J1h6p365ntbfpbnONaGpoDvGsF",
+        "order": "A01",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/danmu/d.js",
+        "type": 400
+    }
+    ],
+
+    "panTools": [
     {
         "name": "网盘工具",
         "version": 38,
@@ -7,27 +21,10 @@
         "order": "A",
         "api": "https://gitee.com/lu228826/box/raw/master/uz/js/pantools.js",
         "type": 300
-    },
-    {
-        "name": "小卢弹幕",
-        "version": 20,
-        "remark": "小卢专用",
-        "env": "自定义弹幕解析接口##格式 线路名称1@地址1|线路名称2@地址2&&自定义弹幕采集线路##格式 线路名称1@地址1|线路名称2@地址2&&自定义弹幕剧集过滤##过滤视频剧集关键词,用|分隔,填写禁用可关闭过滤功能",
-        "codeID": "FI2sg2J1h6p365ntbfpbnONaGpoDvGsF",
-        "order": "A01",
-        "api": "https://raw.githubusercontent.com/YYDS678/uzVideo-extensions/refs/heads/main/danMu/js/danMu5.js",
-        "type": 400
-    },
-    {
-        "name": "豆儿弹幕",
-        "version": 9,
-        "remark": "🍃豆儿出品，不属精品！",
-        "env": "豆儿弹幕API##使用兼容弹弹Play协议的API 格式 线路名称1@地址1|线路名称2@地址2",
-        "codeID": "dvfIhtDpoScOYbi61ICYlfBbqCBw9iC4",
-        "order": "A02",
-        "api": "",
-        "type": 400
-    },
+    }
+    ],
+    
+    "vod":[
     {
         "name": "[直] 瓜子¹",
         "version": 3,
@@ -47,4 +44,5 @@
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/wogg.js",
         "type": 101
     }
-]
+    ]
+}
