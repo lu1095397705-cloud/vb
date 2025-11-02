@@ -1,6 +1,5 @@
 [
-
- {
+    {
         "name": "网盘工具",
         "version": 38,
         "remark": "小卢专用",
@@ -18,7 +17,7 @@
         "order": "A01",
         "api": "danMu/js/danMu4.txt",
         "type": 400
-},
+    },
     {
         "name": "[直] 瓜子¹",
         "version": 3,
@@ -38,9 +37,4 @@
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/wogg.js",
         "type": 101
     }
-
-
-
- 
-
 ]
