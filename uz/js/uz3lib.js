@@ -1,10 +1,10 @@
 // ignore
-import { createCheerio } from './js/cheerio.js'
-import { createCryptoJS } from './js/CryptoJS.min.js'
-import { loadJSEncrypt } from './js/JSEncrypt.min.js'
-import { JSONbig } from './js/JSONbig.js'
-import { createBuffer } from './js/buffer.js'
-import { node_html_parser } from './js/node-html-parser.js'
+import { createCheerio } from 'https://gitee.com/lu228826/box/raw/master/uz/js/cheerio.js'
+import { createCryptoJS } from 'https://gitee.com/lu228826/box/raw/master/uz/js/CryptoJS.min.js'
+import { loadJSEncrypt } from 'https://gitee.com/lu228826/box/raw/master/uz/js/JSEncrypt.min.js'
+import { JSONbig } from 'https://gitee.com/lu228826/box/raw/master/uz/js/JSONbig.js'
+import { createBuffer } from 'https://gitee.com/lu228826/box/raw/master/uz/js/buffer.js'
+import { node_html_parser } from 'https://gitee.com/lu228826/box/raw/master/uz/js/node-html-parser.js'
 // ignore
 
 // 推荐优先使用 cheerio, parse 后期可能会移除
