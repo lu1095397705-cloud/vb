@@ -17,7 +17,7 @@
         "codeID": "ra5Z3wtXKshzSMK2",
         "instance": "gzapp20241001",
         "order": "B",
-        "api": "../jj/gzapp.txt",
+        "api": "../gzapp.txt",
         "type": 100
     },
     {
@@ -25,7 +25,7 @@
         "version": 3,
         "webSite": "http://wogg.xxooo.cf",
         "order": "A01",
-        "api": "./uz/jj/wogg.js",
+        "api": "./uz/wogg.js",
         "type": 101
     }
 
