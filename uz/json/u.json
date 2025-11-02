@@ -1,19 +1,38 @@
-{
-    "danMu":[
-        {
-            "name": "自定义弹幕扩展",
-            "version": 2,
-            "remark": "v1.6.60 及以上版本可用",
-            "env": "弹幕线路##格式 线路名称1@地址1;线路名称2@地址2",
-            "order": "A01",
-            "api": "https://gitee.com/lu228826/box/raw/master/uz/danmu/d.js",
-            "type": 400
-        }
-       
-       
-    ],
+[
 
-    "panTools": [
+        {
+            "name": "弹幕扩展",
+            "version": 10,
+            "remark": "搜不到就算了，不要那么执着",
+            "codeID": "HyplMQ00pLZipW1jy1e9qTsjZbznKjq2",
+            "api": "http://xn--ihqu10cn4c.xn--v4q818bf34b.com/UZ/danMu/js/danMu2.txt",
+            "type": 400
+        },
+        {
+            "name": "豆瓣推荐",
+            "version": 4,
+            "remark": "iOS14 以上版本可用",
+            "codeID": "hZC5h9Id3nP6mwaolSXqNemBLQCMFqhw",
+            "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/douban.txt",
+            "type": 200
+        },
+       {
+        "name": "[盘] 木偶",
+        "version": 5,
+        "webSite": "https://666.666291.xyz",
+        "order": "A02",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/Pan_mogg.js",
+        "type": 101
+    },
+    {
+        "name": "[盘] 至臻",
+        "version": 4,
+        "webSite": "http://www.miqk.cc",
+        "order": "A07",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/Pan_zhizhen.js",
+        "type": 101
+    },
+
     {
         "name": "网盘工具",
         "version": 38,
@@ -22,10 +41,10 @@
         "order": "A",
         "api": "https://gitee.com/lu228826/box/raw/master/uz/js/pantools.js",
         "type": 300
-    }
-    ],
+    },
     
-    "vod":[
+    
+
     {
         "name": "[直] 瓜子¹",
         "version": 3,
@@ -46,4 +65,4 @@
         "type": 101
     }
     ]
-}
+
