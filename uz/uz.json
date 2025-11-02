@@ -14,9 +14,9 @@
         "version": 3,
         "webSite": "http://wogg.xxooo.cf",
         "order": "A01",
-        "api": ".",
+        "api": "./wj/wogg.js",
         "type": 101
-    },
+    }
 
 
 
