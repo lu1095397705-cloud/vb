@@ -9,6 +9,14 @@
         "api": "panTools/js/panTools2.js",
         "type": 300
     },
+    {
+        "name": "[盘] 玩偶",
+        "version": 3,
+        "webSite": "http://wogg.xxooo.cf",
+        "order": "A01",
+        "api": ".",
+        "type": 101
+    },
 
 
 
