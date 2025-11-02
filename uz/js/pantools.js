@@ -18,7 +18,7 @@ import {
     RepVideoPlayUrl,
     UZArgs,
     UZSubclassVideoListArgs,
-} from '../../core/core/uzVideo.js'
+} from './js/uzVideo.js'
 
 import {
     UZUtils,
@@ -40,7 +40,7 @@ import {
     kLocale,
     kAppVersion,
     formatBackData,
-} from '../../core/core/uzUtils.js'
+} from './js/uzUtils.js'
 
 import { cheerio, Crypto, Encrypt, JSONbig } from '../../core/core/uz3lib.js'
 // ignore
