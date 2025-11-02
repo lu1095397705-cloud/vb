@@ -10,6 +10,17 @@
         "type": 300
     },
     {
+        "name": "[直] 瓜子¹",
+        "version": 3,
+        "remark": "瓜子APP",
+        "webSite": "https://api.gudvxty.com",
+        "codeID": "ra5Z3wtXKshzSMK2",
+        "instance": "gzapp20241001",
+        "order": "B",
+        "api": "./jj/gzapp.js",
+        "type": 100
+    },
+    {
         "name": "[盘] 玩偶",
         "version": 3,
         "webSite": "http://wogg.xxooo.cf",
