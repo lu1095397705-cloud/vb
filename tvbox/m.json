@@ -2,12 +2,18 @@
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
     "sites": [
         {
-            "key": "config",
-            "name": "┃配置┃中心",
+            "key": "配置中心",
+            "name": "中心",
             "type": 3,
-            "api": "csp_Config",
-            "jar":"./jb/fm.jar",
-            "playerType": 2
+            "api": "csp_ConfigGuard",
+            "jar":"./jb/ok.jar",
+            "searchable": 0,
+            "changeable": 0,
+            "indexs": 0,
+            "style": {
+                "type": "rect",
+                "ratio": 1.43
+            }
         },
 
         {
@@ -18,14 +24,15 @@
             "api": "csp_Huban"
         },
         {
-            "key": "豆瓣",
-            "name": "豆瓣",
-            "type": 3,
-            "filterable": 1,
-            "api": "csp_Douban",
-            "jar":"./jb/fm.jar",
-            "searchable": 0
-        },
+            {
+                "key": "豆瓣",
+                "name": "豆瓣",
+                "type": 3,
+                "api": "csp_DoubanGuard",
+                "jar":"./jb/ok.jar",
+                "searchable": 0,
+                "changeable": 1
+            },
         {
             "key": "360_spider",
             "name": "360影视",
@@ -69,12 +76,16 @@
             "ext": "./js/mg.js"
         },
         {
-            "key": "csp_Gz360",
-            "name": "瓜子┃影视",
+            "key": "瓜子",
+            "name": "瓜子┃App",
             "type": 3,
-            "api": "csp_Gz360",
-            "jar":"./jb/fm.jar",
-            "playerType": 2
+            "api": "csp_GuaziGuard",
+            "jar":"./jb/ok.jar",
+            "searchable": 1,
+            "quickSearch": 1,
+            "changeable": 1,
+            "filterable": 1,
+            "timeout": 10
         },
         
         {
@@ -113,7 +124,7 @@
         },
                 {
                     "key": "玩偶",
-                    "name": "👽玩偶┃4K",
+                    "name": "玩偶┃4K",
                     "type": 3,
                     "api": "csp_WoggGuard",
                     "jar":"./jb/ok.jar",
@@ -122,6 +133,31 @@
                     "changeable": 1,
                     "timeout": 30
                 },
+                {
+                    "key": "木偶",
+                    "name": "🪵木偶┃4K",
+                    "type": 3,
+                    "api": "csp_MuouGuard",
+                    "jar":"./jb/ok.jar",
+                    "searchable": 1,
+                    "quickSearch": 1,
+                    "changeable": 1,
+                    "filterable": 1,
+                    "timeout": 25
+                },
+                {
+                    "key": "至臻",
+                    "name": "至臻┃4K",
+                    "type": 3,
+                    "api": "csp_ZhiZhenGuard",
+                    "jar":"./jb/ok.jar",
+                    "searchable": 1,
+                    "quickSearch": 1,
+                    "changeable": 1,
+                    "filterable": 1,
+                    "timeout": 25
+                },
+
         {
         "key": "ntdm",
         "name": "nt动漫",
