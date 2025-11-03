@@ -8,7 +8,23 @@
             "jar": "./jb/huban.jar",
             "api": "csp_Huban"
         },
-        
+        {
+            "key": "drpy_js_豆瓣",
+            "name": "豆瓣",
+            "type": 3,
+            "api": ".jb/dy.js",
+            "ext": "./js/dp.js"
+        },
+        {
+            "key": "360_spider",
+            "name": "360影视",
+            "type": 3,
+            "api": "csp_SP360",
+            "jar":"./jb/xyq.jar",
+            "filterable": 1,
+            "quickSearch": 1,
+            "searchable": 1
+        },
         {
             "key": "tx",
             "name": "腾讯视频",
