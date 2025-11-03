@@ -2,6 +2,15 @@
     "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
     "sites": [
         {
+            "key": "config",
+            "name": "┃配置┃中心",
+            "type": 3,
+            "api": "csp_Config",
+            "jar":"./jb/fm.jar",
+            "playerType": 2
+        },
+
+        {
             "key": "huban",
             "name": "虎斑┃弹幕┃设置",
             "type": 3,
@@ -78,6 +87,41 @@
             "filterable": 1
         },
         {
+            "key": "csp_Netfixtv",
+            "name": "至臻┃影视",
+            "type": 3,
+            "api": "csp_Duopan",
+            "jar":"./jb/fm.jar",
+            "filterable": 1,
+            "ext": {
+                "site_urls": [
+                    "http://xiaomi666.fun",
+                    "https://xiaomiai.site",
+                    "https://mihdr.top",
+                    "https://www.mihdr.top",
+                    "http://www.miqk.cc",
+                    "https://www.zhizhenpan.fun"
+                ],
+                "url_key": "Netfixtv2",
+                "threadinfo": {
+                    "chunksize": 512,
+                    "threads": 16
+                }
+            }
+        },
+        {
+            "key": "csp_Panda_玩偶哥哥",
+            "name": "玩偶┃影视",
+            "api": "csp_Wogg",
+            "jar":"./jb/fm.jar",
+            "type": 3,
+            "searchable": 1,
+            "playerType": 2,
+            "timeout": 30,
+            "changeable": 0,
+            "ext": "https://www.wogg.one/"
+        },
+        {
         "key": "ntdm",
         "name": "nt动漫",
         "type": 3,
@@ -94,10 +138,6 @@
             "ext": "./js/mxdm.js"
         },
     
-        
-      
-       
-        
         {
             "key": "去看吧",
             "name": "去看吧｜动漫",
