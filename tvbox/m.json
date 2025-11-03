@@ -18,11 +18,12 @@
             "api": "csp_Huban"
         },
         {
-            "key": "drpy_js_豆瓣",
+            "key": "豆瓣",
             "name": "豆瓣",
             "type": 3,
-            "api": "./jb/dy.js",
-            "ext": "./js/dp.js"
+            "api": "csp_Douban",
+            "jar":"./jb/fm.jar",
+            "searchable": 0
         },
         {
             "key": "360_spider",
