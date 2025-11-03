@@ -21,6 +21,7 @@
             "key": "豆瓣",
             "name": "豆瓣",
             "type": 3,
+            "filterable": 1,
             "api": "csp_Douban",
             "jar":"./jb/fm.jar",
             "searchable": 0
