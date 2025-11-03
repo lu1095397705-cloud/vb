@@ -111,18 +111,17 @@
                 }
             }
         },
-        {
-            "key": "csp_Panda_玩偶哥哥",
-            "name": "玩偶┃影视",
-            "api": "csp_Wogg",
-            "jar":"./jb/fm.jar",
-            "type": 3,
-            "searchable": 1,
-            "playerType": 2,
-            "timeout": 30,
-            "changeable": 0,
-            "ext": "https://www.wogg.one/"
-        },
+                {
+                    "key": "玩偶",
+                    "name": "👽玩偶┃4K",
+                    "type": 3,
+                    "api": "csp_WoggGuard",
+                    "jar":"./jb/ok.jar",
+                    "searchable": 1,
+                    "filterable": 1,
+                    "changeable": 1,
+                    "timeout": 30
+                },
         {
         "key": "ntdm",
         "name": "nt动漫",
