@@ -145,18 +145,18 @@
                     "filterable": 1,
                     "timeout": 25
                 },
-                {
-                    "key": "至臻",
-                    "name": "至臻┃4K",
-                    "type": 3,
-                    "api": "csp_ZhiZhenGuard",
-                    "jar":"./jb/ok.jar",
-                    "searchable": 1,
-                    "quickSearch": 1,
-                    "changeable": 1,
-                    "filterable": 1,
-                    "timeout": 25
-                },
+               {
+                "key": "至臻",
+                "name": "💌至臻┃4K",
+                "type": 3,
+                "api": "csp_ZhiZhenGuard",
+               "jar":"./jb/ok.jar", 
+                "searchable": 1,
+                "quickSearch": 1,
+                "changeable": 1,
+                "filterable": 1,
+                "timeout": 25
+            },
 
         {
         "key": "ntdm",
