@@ -23,7 +23,7 @@
             "jar": "./jb/huban.jar",
             "api": "csp_Huban"
         },
-        {
+        
             {
                 "key": "豆瓣",
                 "name": "豆瓣",
