@@ -6,8 +6,6 @@
 //@order: A01
 //@deprecated:1
 // ignore
-
-// ignore
 // 不支持导入，这里只是本地开发用于代码提示
 // 如需添加通用依赖，请联系 https://t.me/uzVideoAppbot
 import {
@@ -131,8 +129,8 @@ var danmuLines = [
         url: 'https://api.danmu.icu/?ac=dm&url=',
     },
     {
-        name: '678弹幕',
-        url: 'https://se.678.ooo/?ac=dm&url='
+        name: '晨曦',
+        url: 'https://dm.itcxo.cn/?ac=dm&url='
     }
 ]
 
