@@ -1,14 +1,6 @@
 [
 
         {
-            "name": "弹幕扩展",
-            "version": 10,
-            "remark": "搜不到就算了，不要那么执着",
-            "codeID": "HyplMQ00pLZipW1jy1e9qTsjZbznKjq2",
-            "api": "http://xn--ihqu10cn4c.xn--v4q818bf34b.com/UZ/danMu/js/danMu2.txt",
-            "type": 400
-        },
-        {
             "name": "豆瓣推荐",
             "version": 4,
             "remark": "iOS14 以上版本可用",
