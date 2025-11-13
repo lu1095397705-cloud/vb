@@ -128,8 +128,8 @@ var danmuLines = [
         url: '',
     },
     {
-        name: '虾米',
-        url: 'https://dmku.hls.one/?ac=dm&url=',
+        name: 'fc',
+        url: 'https://fc.lyz05.cn/?url=',
     },
     {
         name: '弹幕库',
