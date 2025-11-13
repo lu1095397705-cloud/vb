@@ -150,7 +150,7 @@
                 "name": "💌至臻┃4K",
                 "type": 3,
                 "api": "csp_ZhiZhenGuard",
-               "jar":"./jb/ok.jar", 
+                "jar":"./jb/ok.jar", 
                 "searchable": 1,
                 "quickSearch": 1,
                 "changeable": 1,
@@ -162,7 +162,7 @@
             "key": "jc",
             "name": "金蝉",
             "type": 1,
-            "player":"https://json.jinchanjiexi.net:1994/api/?key=mNy1OrsHtwlSEZ944e&url=",
+            "homeurl":"https://json.jinchanjiexi.net:1994/api/?key=mNy1OrsHtwlSEZ944e&url=",
             "api": "https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
             "ext":"https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
             "timeout": 30
