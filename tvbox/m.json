@@ -163,8 +163,8 @@
             "name": "金蝉",
             "type": 0,
             "playerurl": "https://json.jinchanjiexi.net:1994/api/?key=mNy1OrsHtwlSEZ944e&url=",
-            "url": "https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
-            "ext":"",
+            "apl": "https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
+            "ext":"https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
             "timeout": 30
         },
 
