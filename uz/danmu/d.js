@@ -1,13 +1,4 @@
-// ignore
-//@name:可选线路弹幕扩展
-//@version:2
-//@remark:v1.6.60 及以上版本可用
-//@env:弹幕线路##格式 线路名称1@地址1;线路名称2@地址2
-//@order: A01
-//@deprecated:1
-// ignore
-// 不支持导入，这里只是本地开发用于代码提示
-// 如需添加通用依赖，请联系 https://t.me/uzVideoAppbot
+
 import {
     FilterLabel,
     FilterTitle,
@@ -130,7 +121,7 @@ var danmuLines = [
     },
     {
         name: '晨曦',
-        url: 'https://dm.itcxo.cn/?ac=dm&url='
+        url: 'https://dm.itcxo.cn/?ac=dm&url=',
     }
 ]
 
