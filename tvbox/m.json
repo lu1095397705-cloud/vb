@@ -157,12 +157,14 @@
                 "filterable": 1,
                 "timeout": 25
             },
+            
         {
             "key": "jc",
             "name": "金蝉",
-            "type": 3,
+            "type": 0,
             "playerurl": "https://json.jinchanjiexi.net:1994/api/?key=mNy1OrsHtwlSEZ944e&url=",
             "api": "https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
+            "ext":"https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
             "timeout": 30
         },
 
