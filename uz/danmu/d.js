@@ -1,4 +1,15 @@
+// ignore
+//@name:可选线路弹幕扩展
+//@version:2
+//@remark:v1.6.60 及以上版本可用
+//@env:弹幕线路##格式 线路名称1@地址1;线路名称2@地址2
+//@order: A01
+//@deprecated:1
+// ignore
 
+// ignore
+// 不支持导入，这里只是本地开发用于代码提示
+// 如需添加通用依赖，请联系 https://t.me/uzVideoAppbot
 import {
     FilterLabel,
     FilterTitle,
@@ -112,17 +123,19 @@ class SearchParameters {
 
 // 内置的弹幕解析线路
 var danmuLines = [
-    
-    
-    
     {
-        name: '弹幕库',
-        url: 'https://api.danmu.icu/?ac=dm&url=',
+        name: '智能',
+        url: '',
     },
     {
-        name: '晨曦',
-        url: 'https://dm.itcxo.cn/?ac=dm&url=',
+        name: '虾米',
+        url: 'https://dmku.hls.one/?ac=dm&url=',
+    },
+    {
+        name: '弹幕库',
+        url: 'https://api.danmu.icu/?ac=dm&url='
     }
+    
 ]
 
 /**
@@ -207,7 +220,7 @@ async function searchDanMu(args) {
                         return danmuList
                     }
                 }
-            } catch (error) {}
+            } catch (error) { }
             return null
         })
 
@@ -216,7 +229,7 @@ async function searchDanMu(args) {
             ...promises.map(async (promise) => {
                 const result = await promise
                 if (result && result.length > 0) return result
-                return new Promise(() => {}) // 如果结果为空，永远不会resolve
+                return new Promise(() => { }) // 如果结果为空，永远不会resolve
             }),
             Promise.all(promises).then(
                 (results) => results.find((r) => r && r.length > 0) || []
@@ -236,8 +249,8 @@ async function searchDanMu(args) {
 
 // 内置的采集线路
 var caiJi = [
-    'https://zy.jinchancaiji.com/api.php/provide/vod',
-    'https://zy.sh0o.cn/api.php/provide/vod',
+    'https://zy.xmm.hk/api.php/provide/vod',
+    'https://www.69mu.cn/api.php/provide/vod',
 ]
 
 /**
@@ -346,7 +359,7 @@ async function getVideoUrl(args) {
         ...promises.map(async (promise) => {
             const result = await promise
             if (result) return result
-            return new Promise(() => {}) // 如果结果为空，永远不会resolve
+            return new Promise(() => { }) // 如果结果为空，永远不会resolve
         }),
         new Promise((resolve) => setTimeout(() => resolve(''), 20000)), // 20秒超时
     ])
