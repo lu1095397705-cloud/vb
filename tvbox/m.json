@@ -161,7 +161,7 @@
         {
             "key": "jc",
             "name": "金蝉",
-            "type": 0,
+            "type": 1,
             "playerurl": "https://json.jinchanjiexi.net:1994/api/?key=mNy1OrsHtwlSEZ944e&url=",
             "api": "https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
             "ext":"https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
