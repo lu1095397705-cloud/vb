@@ -43,7 +43,16 @@
         "api": "https://gitee.com/lu228826/box/raw/master/uz/js/pantools.js",
         "type": 300
     },
-    
+    {
+        "name": "[盘] TG搜²",
+        "version": 9,
+        "remark": "TG搜网盘资源，需在环境变量配置TG搜API地址。",
+        "env": "TG搜API地址##https://tgsou.252035.xyz",
+        "webSite": "123资源@zyfb123&天翼日更@tianyirigeng&天翼臻影@tyysypzypd&百度@bdwpzhpd&移动@ydypzyfx&夸克百度@Aliyun_4K_Movies&夸克UC@ucquark&夸克电影@Q_dianying&夸克剧集@Q_dianshiju&夸克动漫@Q_dongman",
+        "order": "A18",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/tg.js",
+        "type": 101
+    },
     
 
     {
@@ -63,6 +72,16 @@
         "webSite": "http://wogg.xxooo.cf",
         "order": "A01",
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/wogg.js",
+        "type": 101
+    },
+    {
+        "name": "[解] 金蝉",
+        "version": 4,
+        "remark": "通用官采解析2，需配合网盘解析工具使用。在环境变量配置 采集解析地址。",
+        "env": "采集解析地址##内置两个，失效不要反馈。格式：名称1@地址1;名称2@地址2",
+        "webSite": "https://zy.jinchancaiji.com/api.php/provide/vod",
+        "order": "D2",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/js/jx.js",
         "type": 101
     }
     ]
