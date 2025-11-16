@@ -44,7 +44,7 @@
         "type": 300
     },
     {
-        "name": "[盘] TG搜²",
+        "name": "TG搜²",
         "version": 9,
         "remark": "TG搜网盘资源，需在环境变量配置TG搜API地址。",
         "env": "TG搜API地址##https://tgsou.252035.xyz",
