@@ -161,7 +161,7 @@ async function getVideoDetail(args) {
         let allUrls = await getEnv(appConfig.uzTag, '采集解析地址')
         if (allUrls.length < 1) {
             allUrls =
-                '小白@http://120.46.190.255/小白白.php?url=;夏夜4k@http://8.155.50.80/xiayexk.php?url=;火花@https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url='
+                '空城@http://kcjx.zwzs.fun/json.php?url=;夏夜4k@http://8.155.50.80/xiayexk.php?url=;火花@https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url='
             await setEnv(appConfig.uzTag, '采集解析地址', allUrls)
         }
         const jxLinks = allUrls.split(';')
