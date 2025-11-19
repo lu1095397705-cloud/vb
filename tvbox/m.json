@@ -23,7 +23,14 @@
             "jar": "./jb/huban.jar",
             "api": "csp_Huban"
         },
-        
+        {
+        "key": "ceshi",
+        "name": "ce",
+        "type": 3,
+        "api": "./js/ts.py",
+        "ext": "./js/ts.py",
+        "timeout": 25
+        },
             {
                 "key": "豆瓣",
                 "name": "豆瓣",
