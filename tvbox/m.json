@@ -16,6 +16,10 @@
             }
         },
 
+
+
+
+
         {
             "key": "huban",
             "name": "虎斑┃弹幕┃设置",
@@ -27,11 +31,11 @@
             "key": "py_cctv_1",
             "name": "🅱️央视-少儿",
             "type": 3,
-            "api": "py_cctv",
+            "api": "py",
             "searchable": 0,
             "quickSearch": 0,
             "filterable": 1,
-            "ext": "./py/py_cctv_1.py"
+            "ext": "./js/ts.py"
         },
             {
                 "key": "豆瓣",
