@@ -1,428 +1,229 @@
-// 至臻影视源 - 适配TVBox的JavaScript版本
-(function() {
-    const sourceName = "至臻影视";
-    const baseUrl = "https://www.miqk.cc";
-    const timeout = 15000;
+var rule = {
+    title: '至臻影视',
+    host: 'https://www.miqk.cc',
+    homeUrl: '/',
+    url: '/index.php/vod/type/id/fyclass/page/fypage.html',
+    searchUrl: '/index.php/vod/search/page/fypage/wd/**.html',
+    detailUrl: '/vod/detail/id/fyid.html',
+    headers: {
+        'User-Agent': 'MOBILE_UA'
+    },
+    timeout: 5000,
+    class_name: '臻彩严选&至臻电影&至臻剧集&至臻动漫&至臻综艺&短剧吃到饱&老剧计划',
+    class_url: '26&1&2&3&4&5&24',
+
+    // 首页推荐
+    homeUrl: '/',
+    homeVod: function() {
+        var html = request(this.host);
+        var list = [];
+
+        try {
+            // 解析首页推荐视频
+            var items = parseDom(html, 'a[href*="/vod/detail/"]');
+            for (var i = 0; i < Math.min(items.length, 20); i++) {
+                var item = items[i];
+                var href = item.attr('href');
+                var title = item.attr('title') || item.text();
+                var img = item.find('img').attr('src') || '';
+
+                if (href && title) {
+                    list.push({
+                        vod_id: href,
+                        vod_name: title,
+                        vod_pic: this.joinUrl(img),
+                        vod_remarks: ''
+                    });
+                }
+            }
+        } catch (e) {
+            console.log('解析首页推荐失败: ' + e);
+        }
+
+        return list;
+    },
+
+    // 分类页面
+    cateUrl: function(fyclass, fypage) {
+        return this.host + '/index.php/vod/type/id/' + fyclass + '/page/' + fypage + '.html';
+    },
+
+    // 分类数据解析
+    category: function(fyclass, fypage, filter, extend) {
+        var url = this.cateUrl(fyclass, fypage);
+        var html = request(url);
+        var list = [];
+
+        try {
+            var items = parseDom(html, 'a[href*="/vod/detail/"]');
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var href = item.attr('href');
+                var title = item.attr('title') || item.text();
+                var img = item.find('img').attr('src') || '';
+
+                if (href && title) {
+                    list.push({
+                        vod_id: href,
+                        vod_name: title,
+                        vod_pic: this.joinUrl(img),
+                        vod_remarks: this.getRemarks(item)
+                    });
+                }
+            }
+        } catch (e) {
+            console.log('解析分类失败: ' + e);
+        }
+
+        return {
+            list: list,
+            page: fypage,
+            pagecount: 999,
+            limit: list.length,
+            total: list.length * 20
+        };
+    },
+
+    // 详情页面
+    detail: function(vod_id) {
+        var url = vod_id.startsWith('http') ? vod_id : this.host + vod_id;
+        var html = request(url);
+        var detail = {};
+
+        try {
+            // 解析标题
+            var title = parseDom(html, 'title').text();
+            detail.vod_name = title.replace(' - 至臻影视', '');
+
+            // 解析封面
+            var img = parseDom(html, 'img').attr('src');
+            detail.vod_pic = this.joinUrl(img);
+
+            // 解析简介
+            var content = parseDom(html, '.content, .intro, .description').text();
+            detail.vod_content = content || '暂无简介';
+
+            // 解析播放地址
+            var playList = this.parsePlayLinks(html);
+            detail.vod_play_from = playList.map(function(item) { return item.name; }).join('$$$');
+            detail.vod_play_url = playList.map(function(item) {
+                return item.urls.map(function(url, idx) {
+                    return '第' + (idx + 1) + '集$' + url;
+                }).join('#');
+            }).join('$$$');
+
+        } catch (e) {
+            console.log('解析详情失败: ' + e);
+        }
+
+        return {
+            list: [detail]
+        };
+    },
+
+    // 搜索
+    search: function(wd, quick, pg) {
+        var url = this.host + '/index.php/vod/search/page/' + pg + '/wd/' + encodeURIComponent(wd) + '.html';
+        var html = request(url);
+        var list = [];
+
+        try {
+            var items = parseDom(html, 'a[href*="/vod/detail/"]');
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var href = item.attr('href');
+                var title = item.attr('title') || item.text();
+
+                if (href && title) {
+                    list.push({
+                        vod_id: href,
+                        vod_name: title,
+                        vod_pic: '',
+                        vod_remarks: ''
+                    });
+                }
+            }
+        } catch (e) {
+            console.log('搜索失败: ' + e);
+        }
+
+        return {
+            list: list,
+            page: pg,
+            pagecount: 999,
+            limit: list.length,
+            total: list.length * 20
+        };
+    },
+
+    // 播放
+    play: function(flag, id, flags) {
+        return {
+            parse: 0,
+            url: id,
+            header: JSON.stringify(this.headers)
+        };
+    },
 
     // 工具函数
-    function completeUrl(url) {
+    joinUrl: function(url) {
         if (!url) return '';
         if (url.startsWith('http')) return url;
         if (url.startsWith('//')) return 'https:' + url;
-        if (url.startsWith('/')) return baseUrl + url;
-        return baseUrl + '/' + url;
-    }
+        if (url.startsWith('/')) return this.host + url;
+        return this.host + '/' + url;
+    },
 
-    function encodeUrl(str) {
-        return encodeURIComponent(str).replace(/%20/g, '+');
-    }
+    getRemarks: function(item) {
+        var remarks = item.find('.remarks, .tag, .score').text();
+        return remarks || '影视';
+    },
 
-    function log(message) {
-        console.log(`[${sourceName}] ${message}`);
-    }
+    parsePlayLinks: function(html) {
+        var playList = [];
+        var urls = [];
 
-    // 请求函数
-    function request(url, options = {}) {
-        const headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Referer': baseUrl,
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8'
-        };
+        // 匹配m3u8链接
+        var m3u8Matches = html.match(/https?:\/\/[^\s<>"']+\.m3u8[^\s<>"']*/g) || [];
+        // 匹配mp4链接
+        var mp4Matches = html.match(/https?:\/\/[^\s<>"']+\.mp4[^\s<>"']*/g) || [];
+        // 匹配网盘链接
+        var panMatches = html.match(/https?:\/\/pan\.baidu\.com\/s\/[^\s<>"']*/g) || [];
 
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.timeout = timeout;
-            xhr.open('GET', url, true);
+        urls = urls.concat(m3u8Matches, mp4Matches, panMatches);
 
-            // 设置请求头
-            for (let key in headers) {
-                xhr.setRequestHeader(key, headers[key]);
-            }
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        resolve(xhr.responseText);
-                    } else {
-                        reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
-                    }
-                }
-            };
-
-            xhr.ontimeout = function() {
-                reject(new Error('请求超时'));
-            };
-
-            xhr.onerror = function() {
-                reject(new Error('网络错误'));
-            };
-
-            xhr.send();
-        });
-    }
-
-    // 解析HTML的工具函数
-    function parseHtml(html) {
-        const parser = new DOMParser();
-        return parser.parseFromString(html, 'text/html');
-    }
-
-    function extractText(element, selector) {
-        if (!element) return '';
-        const elem = element.querySelector(selector);
-        return elem ? elem.textContent.trim() : '';
-    }
-
-    function extractAttr(element, selector, attr) {
-        if (!element) return '';
-        const elem = element.querySelector(selector);
-        return elem ? elem.getAttribute(attr) || '' : '';
-    }
-
-    // TVBox标准接口函数
-    function home() {
-        log('加载首页');
-
-        const classes = [
-            {"type_id": "26", "type_name": "臻彩严选"},
-            {"type_id": "1", "type_name": "至臻电影"},
-            {"type_id": "2", "type_name": "至臻剧集"},
-            {"type_id": "3", "type_name": "至臻动漫"},
-            {"type_id": "4", "type_name": "至臻综艺"},
-            {"type_id": "5", "type_name": "短剧吃到饱"},
-            {"type_id": "24", "type_name": "老剧计划"}
-        ];
-
-        return JSON.stringify({
-            class: classes,
-            list: []
-        });
-    }
-
-    function homeVod() {
-        log('加载首页推荐视频');
-
-        return new Promise((resolve) => {
-            request(baseUrl)
-                .then(html => {
-                    const doc = parseHtml(html);
-                    const videos = parseHomeVideos(doc);
-
-                    resolve(JSON.stringify({
-                        list: videos
-                    }));
-                })
-                .catch(error => {
-                    log(`首页推荐获取失败: ${error}`);
-                    resolve(JSON.stringify({list: []}));
-                });
-        });
-    }
-
-    function parseHomeVideos(doc) {
-        const videos = [];
-
-        // 尝试多种选择器
-        const selectors = [
-            '.module-items .module-item',
-            '.vod-list .vod-item',
-            '.video-list .video-item',
-            '.list-wrap .list-item',
-            'a[href*="/vod/detail/"]'
-        ];
-
-        let elements = [];
-        for (let selector of selectors) {
-            elements = doc.querySelectorAll(selector);
-            if (elements.length > 5) break;
+        if (urls.length > 0) {
+            playList.push({
+                name: '播放线路',
+                urls: urls
+            });
         }
 
-        elements.forEach((element, index) => {
-            if (index >= 20) return; // 限制数量
-
-            try {
-                const video = parseVideoElement(element);
-                if (video) videos.push(video);
-            } catch (e) {
-                log(`解析视频项失败: ${e}`);
-            }
-        });
-
-        log(`解析到 ${videos.length} 个首页视频`);
-        return videos;
+        return playList;
     }
+};
 
-    function parseVideoElement(element) {
-        let link, title, cover, remark;
+// TVBox标准接口导出
+function home() {
+    return JSON.stringify(rule.homeVod());
+}
 
-        // 获取链接
-        if (element.tagName === 'A') {
-            link = element;
-        } else {
-            link = element.querySelector('a[href*="/vod/detail/"]');
-        }
+function homeVod() {
+    return JSON.stringify({list: rule.homeVod()});
+}
 
-        if (!link || !link.href) return null;
+function category(tid, pg, filter, extend) {
+    return JSON.stringify(rule.category(tid, pg, filter, extend));
+}
 
-        const href = link.getAttribute('href');
-        if (!href || !href.includes('/vod/detail/')) return null;
+function detail(id) {
+    return JSON.stringify(rule.detail(id));
+}
 
-        // 获取标题
-        title = link.getAttribute('title') ||
-               extractText(link, '.vod-name') ||
-               extractText(link, '.title') ||
-               link.textContent.trim();
+function search(wd, quick, pg) {
+    return JSON.stringify(rule.search(wd, quick, pg));
+}
 
-        if (!title || title.length < 2) return null;
-
-        // 获取封面
-        const img = element.querySelector('img');
-        if (img) {
-            cover = img.getAttribute('data-src') || img.getAttribute('src');
-        }
-
-        // 获取备注
-        remark = extractText(element, '.remarks') ||
-                extractText(element, '.tag') ||
-                extractText(element, '.score') ||
-                '影视';
-
-        return {
-            vod_id: href,
-            vod_name: title,
-            vod_pic: completeUrl(cover),
-            vod_remarks: remark
-        };
-    }
-
-    function category(tid, pg, filter, extend) {
-        log(`加载分类: ${tid}, 页码: ${pg}`);
-
-        return new Promise((resolve) => {
-            let url;
-            if (parseInt(pg) === 1) {
-                url = `${baseUrl}/index.php/vod/type/id/${tid}.html`;
-            } else {
-                url = `${baseUrl}/index.php/vod/type/id/${tid}/page/${pg}.html`;
-            }
-
-            request(url)
-                .then(html => {
-                    const doc = parseHtml(html);
-                    const videos = parseCategoryVideos(doc);
-
-                    resolve(JSON.stringify({
-                        page: parseInt(pg),
-                        pagecount: 999,
-                        limit: videos.length,
-                        total: videos.length * 20,
-                        list: videos
-                    }));
-                })
-                .catch(error => {
-                    log(`分类获取失败: ${error}`);
-                    resolve(JSON.stringify({
-                        page: parseInt(pg),
-                        pagecount: 1,
-                        limit: 0,
-                        total: 0,
-                        list: []
-                    }));
-                });
-        });
-    }
-
-    function parseCategoryVideos(doc) {
-        const videos = [];
-        const links = doc.querySelectorAll('a[href*="/vod/detail/"]');
-
-        links.forEach(link => {
-            try {
-                const element = link.closest('.module-item, .vod-item, .video-item, li') || link.parentElement;
-                const video = parseVideoElement(element || link);
-                if (video) videos.push(video);
-            } catch (e) {
-                log(`解析分类视频失败: ${e}`);
-            }
-        });
-
-        // 去重
-        const seen = new Set();
-        const uniqueVideos = videos.filter(video => {
-            if (seen.has(video.vod_id)) return false;
-            seen.add(video.vod_id);
-            return true;
-        });
-
-        log(`解析到 ${uniqueVideos.length} 个分类视频`);
-        return uniqueVideos;
-    }
-
-    function detail(id) {
-        log(`加载详情: ${id}`);
-
-        return new Promise((resolve) => {
-            let url = id.startsWith('http') ? id : completeUrl(id);
-
-            request(url)
-                .then(html => {
-                    const doc = parseHtml(html);
-                    const detail = parseDetail(doc, id);
-
-                    resolve(JSON.stringify({
-                        list: detail ? [detail] : []
-                    }));
-                })
-                .catch(error => {
-                    log(`详情获取失败: ${error}`);
-                    resolve(JSON.stringify({list: []}));
-                });
-        });
-    }
-
-    function parseDetail(doc, id) {
-        try {
-            const detail = {
-                vod_id: id,
-                vod_name: '',
-                vod_pic: '',
-                vod_content: '',
-                vod_play_from: '播放线路',
-                vod_play_url: ''
-            };
-
-            // 标题
-            const title = doc.querySelector('title');
-            if (title) {
-                detail.vod_name = title.textContent.replace(' - 至臻影视', '').trim();
-            }
-
-            // 封面
-            const img = doc.querySelector('img[src*=".jpg"], img[src*=".png"], img[src*=".webp"]');
-            if (img) {
-                detail.vod_pic = completeUrl(img.getAttribute('src'));
-            }
-
-            // 简介
-            const contentSelectors = ['.content', '.intro', '.description', '.summary'];
-            for (let selector of contentSelectors) {
-                const elem = doc.querySelector(selector);
-                if (elem) {
-                    detail.vod_content = elem.textContent.trim();
-                    break;
-                }
-            }
-
-            // 播放链接
-            const playLinks = extractPlayLinks(doc);
-            if (playLinks.length > 0) {
-                const playUrls = playLinks.map((link, index) => `第${index + 1}集$${link}`).join('#');
-                detail.vod_play_url = playUrls;
-            }
-
-            log(`详情解析成功: ${detail.vod_name}`);
-            return detail;
-
-        } catch (error) {
-            log(`详情解析失败: ${error}`);
-            return null;
-        }
-    }
-
-    function extractPlayLinks(doc) {
-        const links = [];
-        const text = doc.body.textContent;
-
-        // 正则表达式匹配各种播放链接
-        const patterns = [
-            /https?:\/\/[^\s<>"']+\.(m3u8|mp4|avi|mkv|flv)/gi,
-            /https?:\/\/pan\.baidu\.com\/s\/[\w-]+/gi,
-            /https?:\/\/www\.aliyundrive\.com\/s\/[\w]+/gi,
-            /https?:\/\/cloud\.189\.cn\/[\w\/]+/gi
-        ];
-
-        patterns.forEach(pattern => {
-            const matches = text.match(pattern);
-            if (matches) {
-                links.push(...matches);
-            }
-        });
-
-        // 去重
-        const uniqueLinks = [...new Set(links)];
-        log(`提取到 ${uniqueLinks.length} 个播放链接`);
-        return uniqueLinks;
-    }
-
-    function search(wd, quick, pg) {
-        log(`搜索: ${wd}, 页码: ${pg}`);
-
-        return new Promise((resolve) => {
-            const encodedWd = encodeUrl(wd);
-            const url = `${baseUrl}/index.php/vod/search/page/${pg}/wd/${encodedWd}.html`;
-
-            request(url)
-                .then(html => {
-                    const doc = parseHtml(html);
-                    const videos = parseCategoryVideos(doc);
-
-                    resolve(JSON.stringify({
-                        page: parseInt(pg),
-                        pagecount: 999,
-                        limit: videos.length,
-                        total: videos.length * 20,
-                        list: videos
-                    }));
-                })
-                .catch(error => {
-                    log(`搜索失败: ${error}`);
-                    resolve(JSON.stringify({
-                        page: parseInt(pg),
-                        pagecount: 1,
-                        limit: 0,
-                        total: 0,
-                        list: []
-                    }));
-                });
-        });
-    }
-
-    function play(flag, id, flags) {
-        log(`播放: ${id}`);
-
-        // 直接返回播放地址，不进行解析
-        return JSON.stringify({
-            parse: 0,
-            url: id,
-            header: JSON.stringify({
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                'Referer': baseUrl
-            })
-        });
-    }
-
-    // 导出函数供TVBox调用
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = {
-            home: home,
-            homeVod: homeVod,
-            category: category,
-            detail: detail,
-            search: search,
-            play: play
-        };
-    } else {
-        // 浏览器环境测试
-        window[sourceName] = {
-            home: home,
-            homeVod: homeVod,
-            category: category,
-            detail: detail,
-            search: search,
-            play: play
-        };
-    }
-
-    log('至臻影视源加载完成');
-})();
+function play(flag, id, flags) {
+    return JSON.stringify(rule.play(flag, id, flags));
+}
