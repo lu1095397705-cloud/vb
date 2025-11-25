@@ -1,77 +1,51 @@
 import requests
 import json
 import re
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urljoin
 from bs4 import BeautifulSoup
 import time
 import logging
 
 # 设置日志
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 
-class ZhiZhenSource:
+class MiqkSource:
     def __init__(self):
-        self.name = "至臻"
-        self.host = "http://www.miqk.cc"
+        self.name = "至臻影视"
+        self.host = "https://www.miqk.cc"
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Referer': self.host,
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
             'Accept-Encoding': 'gzip, deflate',
             'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1'
+            'Referer': self.host
         }
         self.timeout = 15
         self.session = requests.Session()
         self.session.headers.update(self.headers)
 
-    def make_request(self, url, max_retries=3):
-        """带重试的请求函数"""
-        for i in range(max_retries):
-            try:
-                logger.info(f"请求URL: {url}")
-                response = self.session.get(url, timeout=self.timeout)
-                response.encoding = 'utf-8'
-
-                # 检查响应状态
-                if response.status_code != 200:
-                    logger.warning(f"请求失败，状态码: {response.status_code}")
-                    continue
-
-                # 检查响应内容是否有效
-                if not response.text or len(response.text) < 100:
-                    logger.warning("响应内容过短或为空")
-                    continue
-
-                logger.info(f"请求成功，内容长度: {len(response.text)}")
-                return response
-
-            except Exception as e:
-                logger.error(f"第{i + 1}次请求失败: {str(e)}")
-                if i < max_retries - 1:
-                    time.sleep(2)  # 重试前等待
-                continue
-
-        return None
-
     def homeContent(self, filter):
         """首页分类"""
         result = {}
         try:
+            # 根据测试结果，网站有这些分类
             classes = [
+                {"type_id": "26", "type_name": "臻彩严选"},
                 {"type_id": "1", "type_name": "至臻电影"},
                 {"type_id": "2", "type_name": "至臻剧集"},
                 {"type_id": "3", "type_name": "至臻动漫"},
-                {"type_id": "4", "type_name": "至臻综艺"},
-                {"type_id": "5", "type_name": "至臻短剧"},
-                {"type_id": "24", "type_name": "至臻老剧"},
-                {"type_id": "26", "type_name": "至臻严选"}
+                {"type_id": "5", "type_name": "短剧吃到饱"},
+                {"type_id": "24", "type_name": "老剧计划"},
+                {"type_id": "25", "type_name": "纪录片"}
             ]
             result['class'] = classes
-            logger.info(f"加载分类成功: {len(classes)}个分类")
+            logger.info("首页分类加载成功")
         except Exception as e:
             logger.error(f"首页分类获取失败: {e}")
             result['class'] = []
@@ -82,50 +56,135 @@ class ZhiZhenSource:
         """首页推荐视频"""
         result = {'list': []}
         try:
-            # 尝试获取首页推荐内容
-            response = self.make_request(self.host)
-            if response:
-                soup = BeautifulSoup(response.text, 'html.parser')
+            # 获取首页内容
+            response = self.session.get(self.host, timeout=self.timeout)
+            if response.status_code != 200:
+                logger.error(f"首页请求失败: {response.status_code}")
+                return result
 
-                # 多种选择器尝试
-                selectors = [
-                    '.module-item',
-                    '.vod-item',
-                    '.video-item',
-                    '[class*="item"]',
-                    '.list-item'
-                ]
-
-                for selector in selectors:
-                    items = soup.select(selector)
-                    if items:
-                        logger.info(f"使用选择器 '{selector}' 找到 {len(items)} 个项目")
-                        for item in items[:10]:  # 只取前10个
-                            try:
-                                video = self.parse_video_item(item)
-                                if video:
-                                    result['list'].append(video)
-                            except Exception as e:
-                                logger.warning(f"解析视频项失败: {e}")
-                        break
-
-                if not result['list']:
-                    logger.warning("未找到视频内容，尝试调试页面结构")
-                    self.debug_page_structure(soup)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            videos = self.parse_home_videos(soup)
+            result['list'] = videos
+            logger.info(f"首页获取到 {len(videos)} 个推荐视频")
 
         except Exception as e:
             logger.error(f"首页视频获取失败: {e}")
 
-        # 如果没有数据，返回示例数据用于测试
-        if not result['list']:
-            result['list'] = [{
-                'vod_id': '/vod/detail/id/1.html',
-                'vod_name': '测试视频',
-                'vod_pic': 'https://example.com/pic.jpg',
-                'vod_remarks': '测试'
-            }]
-
         return result
+
+    def parse_home_videos(self, soup):
+        """解析首页视频"""
+        videos = []
+        try:
+            # 尝试多种可能的选择器
+            selectors = [
+                '.module-item',
+                '.vod-item',
+                '.video-item',
+                '.item',
+                'li'
+            ]
+
+            for selector in selectors:
+                items = soup.select(selector)
+                if items and len(items) > 5:  # 至少有5个才认为是正确的选择器
+                    logger.info(f"使用选择器 '{selector}' 找到 {len(items)} 个项目")
+                    for item in items[:20]:  # 只处理前20个
+                        video = self.parse_video_item(item)
+                        if video:
+                            videos.append(video)
+                    break
+
+            # 如果没有找到，尝试更通用的方法
+            if not videos:
+                videos = self.fallback_parse(soup)
+
+        except Exception as e:
+            logger.error(f"解析首页视频失败: {e}")
+
+        return videos
+
+    def parse_video_item(self, item):
+        """解析单个视频项"""
+        try:
+            video = {}
+
+            # 查找链接
+            link = item.find('a', href=True)
+            if not link:
+                return None
+
+            href = link.get('href', '')
+            if not href or 'vod/detail' not in href:
+                return None
+
+            video['vod_id'] = href
+
+            # 查找标题
+            title_selectors = [
+                link.get('title'),
+                link.get_text(strip=True),
+                item.find('img', alt=True) and item.find('img').get('alt'),
+                item.find('h3') and item.find('h3').get_text(strip=True),
+                item.find('h4') and item.find('h4').get_text(strip=True)
+            ]
+
+            for title in title_selectors:
+                if title and len(title) > 1:
+                    video['vod_name'] = title
+                    break
+            else:
+                video['vod_name'] = '未知标题'
+
+            # 查找图片
+            img = item.find('img')
+            if img:
+                img_src = img.get('data-src') or img.get('src')
+                if img_src:
+                    video['vod_pic'] = self.complete_url(img_src)
+
+            # 查找备注信息
+            remark_selectors = ['.remarks', '.tag', '.score', '.year']
+            for selector in remark_selectors:
+                elem = item.select_one(selector)
+                if elem:
+                    video['vod_remarks'] = elem.get_text(strip=True)
+                    break
+
+            return video
+
+        except Exception as e:
+            logger.warning(f"解析视频项失败: {e}")
+            return None
+
+    def fallback_parse(self, soup):
+        """备用解析方法"""
+        videos = []
+        try:
+            # 查找所有包含vod/detail的链接
+            detail_links = soup.find_all('a', href=re.compile(r'vod/detail'))
+            logger.info(f"找到 {len(detail_links)} 个详情链接")
+
+            for link in detail_links[:20]:
+                try:
+                    href = link.get('href')
+                    title = link.get('title') or link.get_text(strip=True)
+
+                    if href and title and len(title) > 1:
+                        video = {
+                            'vod_id': href,
+                            'vod_name': title,
+                            'vod_pic': '',
+                            'vod_remarks': '影视'
+                        }
+                        videos.append(video)
+                except:
+                    continue
+
+        except Exception as e:
+            logger.error(f"备用解析失败: {e}")
+
+        return videos
 
     def categoryContent(self, tid, pg, filter, extend):
         """分类内容"""
@@ -133,54 +192,22 @@ class ZhiZhenSource:
         videos = []
 
         try:
-            url = f"{self.host.rstrip('/')}/vod/show/id/{tid}/page/{pg}.html"
-            logger.info(f"分类页面URL: {url}")
+            # 构建分类URL - 使用测试中发现的正确格式
+            if int(pg) == 1:
+                url = f"{self.host}/index.php/vod/type/id/{tid}.html"
+            else:
+                url = f"{self.host}/index.php/vod/type/id/{tid}/page/{pg}.html"
 
-            response = self.make_request(url)
-            if not response:
-                logger.error("无法获取分类页面")
+            logger.info(f"分类URL: {url}")
+
+            response = self.session.get(url, timeout=self.timeout)
+            if response.status_code != 200:
+                logger.error(f"分类页面请求失败: {response.status_code}")
                 result['list'] = []
-                result['page'] = int(pg)
-                result['pagecount'] = 1
-                result['limit'] = 0
-                result['total'] = 0
                 return result
 
             soup = BeautifulSoup(response.text, 'html.parser')
-
-            # 调试：保存页面内容用于分析
-            with open(f"debug_page_{tid}_{pg}.html", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            logger.info(f"页面已保存为 debug_page_{tid}_{pg}.html")
-
-            # 多种视频项选择器尝试
-            video_selectors = [
-                '.module-item',
-                '.vod-item',
-                '.video-item',
-                '.item',
-                '[class*="item"]',
-                'li',
-                '.list-item'
-            ]
-
-            for selector in video_selectors:
-                vod_items = soup.select(selector)
-                if vod_items and len(vod_items) > 2:  # 至少有3个项目才认为是有效的
-                    logger.info(f"使用选择器 '{selector}' 找到 {len(vod_items)} 个视频项")
-
-                    for item in vod_items:
-                        try:
-                            video = self.parse_video_item(item)
-                            if video:
-                                videos.append(video)
-                        except Exception as e:
-                            logger.warning(f"解析视频项失败: {e}")
-                    break
-
-            if not videos:
-                logger.warning("未找到视频内容，分析页面结构...")
-                self.debug_page_structure(soup)
+            videos = self.parse_category_videos(soup)
 
         except Exception as e:
             logger.error(f"分类内容获取失败: {e}")
@@ -189,92 +216,35 @@ class ZhiZhenSource:
         result['page'] = int(pg)
         result['pagecount'] = 999 if videos else 1
         result['limit'] = len(videos)
-        result['total'] = len(videos) * 10
+        result['total'] = len(videos) * 20
 
         logger.info(f"分类 {tid} 第 {pg} 页获取到 {len(videos)} 个视频")
         return result
 
-    def parse_video_item(self, item):
-        """解析单个视频项"""
+    def parse_category_videos(self, soup):
+        """解析分类页面视频"""
+        videos = []
         try:
-            video = {}
+            # 与方法1相同，查找视频项
+            items = soup.find_all('a', href=re.compile(r'vod/detail'))
+            for item in items:
+                video = self.parse_video_item(item.parent) if item.parent else self.parse_video_item(item)
+                if video:
+                    videos.append(video)
 
-            # 尝试多种链接选择器
-            link_selectors = ['a', '.pic a', 'h3 a', '.title a', '[href*="vod"]']
-            for selector in link_selectors:
-                link_tag = item.select_one(selector)
-                if link_tag and link_tag.get('href'):
-                    href = link_tag['href']
-                    if href and not href.startswith('javascript'):
-                        video['vod_id'] = href
-                        break
+            # 去重
+            seen = set()
+            unique_videos = []
+            for v in videos:
+                if v['vod_id'] not in seen:
+                    seen.add(v['vod_id'])
+                    unique_videos.append(v)
 
-            # 尝试多种标题选择器
-            title_selectors = ['img[alt]', '.title', 'h3', 'h4', '[title]']
-            for selector in title_selectors:
-                title_tag = item.select_one(selector)
-                if title_tag:
-                    title = title_tag.get('alt') or title_tag.get('title') or title_tag.get_text().strip()
-                    if title and len(title) > 1:
-                        video['vod_name'] = title
-                        break
-
-            # 尝试多种图片选择器
-            img_selectors = ['img', '.pic img', '.lazyload', '[data-src]', '[src]']
-            for selector in img_selectors:
-                img_tag = item.select_one(selector)
-                if img_tag:
-                    img_src = img_tag.get('data-src') or img_tag.get('src')
-                    if img_src:
-                        video['vod_pic'] = self.complete_url(img_src)
-                        break
-
-            # 尝试多种备注选择器
-            remark_selectors = ['.remark', '.text', '.subtitle', '.tag', '.score']
-            for selector in remark_selectors:
-                remark_tag = item.select_one(selector)
-                if remark_tag:
-                    remark = remark_tag.get_text().strip()
-                    if remark:
-                        video['vod_remarks'] = remark
-                        break
-
-            # 验证必要字段
-            if not video.get('vod_id') or not video.get('vod_name'):
-                return None
-
-            return video
+            return unique_videos
 
         except Exception as e:
-            logger.warning(f"解析视频项失败: {e}")
-            return None
-
-    def debug_page_structure(self, soup):
-        """调试页面结构"""
-        logger.info("=== 页面结构分析 ===")
-
-        # 分析所有链接
-        links = soup.find_all('a', href=True)
-        logger.info(f"页面中共有 {len(links)} 个链接")
-
-        # 分析视频相关链接
-        vod_links = [a for a in links if 'vod' in a['href']]
-        logger.info(f"视频相关链接: {len(vod_links)} 个")
-        for link in vod_links[:5]:  # 显示前5个
-            logger.info(f"链接: {link['href']}, 文本: {link.get_text().strip()[:50]}")
-
-        # 分析图片
-        imgs = soup.find_all('img', src=True)
-        logger.info(f"页面中共有 {len(imgs)} 个图片")
-
-        # 分析类名模式
-        all_classes = set()
-        for tag in soup.find_all(class_=True):
-            all_classes.update(tag.get('class', []))
-
-        logger.info(f"页面中使用的CSS类: {list(all_classes)[:20]}")  # 显示前20个
-
-        logger.info("=== 分析结束 ===")
+            logger.error(f"解析分类视频失败: {e}")
+            return []
 
     def detailContent(self, ids):
         """详情内容"""
@@ -282,67 +252,23 @@ class ZhiZhenSource:
         vod_id = ids[0]
 
         try:
-            # 确保vod_id以/开头
-            if not vod_id.startswith('/'):
-                vod_id = '/' + vod_id.lstrip('/')
+            # 确保vod_id是完整URL
+            if not vod_id.startswith('http'):
+                url = f"{self.host}{vod_id}" if vod_id.startswith('/') else f"{self.host}/{vod_id}"
+            else:
+                url = vod_id
 
-            url = f"{self.host.rstrip('/')}{vod_id}"
-            logger.info(f"详情页面URL: {url}")
+            logger.info(f"详情URL: {url}")
 
-            response = self.make_request(url)
-            if not response:
-                logger.error("无法获取详情页面")
+            response = self.session.get(url, timeout=self.timeout)
+            if response.status_code != 200:
+                logger.error(f"详情页面请求失败: {response.status_code}")
                 result['list'] = []
                 return result
 
             soup = BeautifulSoup(response.text, 'html.parser')
-
-            # 保存详情页面用于调试
-            with open("debug_detail.html", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            logger.info("详情页面已保存为 debug_detail.html")
-
-            vod_detail = {}
-            vod_detail['vod_id'] = vod_id
-
-            # 标题选择器
-            title_selectors = ['.page-title', 'h1', 'title', '.title', 'header h1']
-            for selector in title_selectors:
-                title_tag = soup.select_one(selector)
-                if title_tag:
-                    title = title_tag.get_text().strip()
-                    if title:
-                        vod_detail['vod_name'] = title
-                        break
-
-            # 图片选择器
-            img_selectors = ['.lazyload', 'img[data-src]', '.poster img', '.cover img', 'img']
-            for selector in img_selectors:
-                img_tag = soup.select_one(selector)
-                if img_tag:
-                    img_src = img_tag.get('data-src') or img_tag.get('src')
-                    if img_src:
-                        vod_detail['vod_pic'] = self.complete_url(img_src)
-                        break
-
-            # 内容选择器
-            content_selectors = ['.content', '.description', '.intro', '.summary']
-            for selector in content_selectors:
-                content_tag = soup.select_one(selector)
-                if content_tag:
-                    content = content_tag.get_text().strip()
-                    if content:
-                        vod_detail['vod_content'] = content
-                        break
-
-            # 播放链接提取
-            play_from, play_url = self.extract_play_urls(soup)
-            if play_from and play_url:
-                vod_detail['vod_play_from'] = '$$$'.join(play_from)
-                vod_detail['vod_play_url'] = '$$$'.join(play_url)
-
-            result['list'] = [vod_detail]
-            logger.info(f"详情解析完成: {vod_detail.get('vod_name', '未知')}")
+            vod_detail = self.parse_detail(soup, vod_id)
+            result['list'] = [vod_detail] if vod_detail else []
 
         except Exception as e:
             logger.error(f"详情内容获取失败: {e}")
@@ -350,41 +276,78 @@ class ZhiZhenSource:
 
         return result
 
-    def extract_play_urls(self, soup):
+    def parse_detail(self, soup, vod_id):
+        """解析详情页面"""
+        try:
+            vod_detail = {}
+            vod_detail['vod_id'] = vod_id
+
+            # 标题
+            title = soup.find('title')
+            if title:
+                vod_detail['vod_name'] = title.get_text(strip=True)
+
+            # 封面图片
+            img = soup.find('img', src=re.compile(r'\.(jpg|jpeg|png|webp)'))
+            if img:
+                img_src = img.get('data-src') or img.get('src')
+                if img_src:
+                    vod_detail['vod_pic'] = self.complete_url(img_src)
+
+            # 剧情简介
+            content_selectors = ['.content', '.intro', '.description', '.summary']
+            for selector in content_selectors:
+                elem = soup.select_one(selector)
+                if elem:
+                    vod_detail['vod_content'] = elem.get_text(strip=True)
+                    break
+
+            # 播放链接
+            play_from, play_url = self.extract_play_links(soup)
+            if play_from and play_url:
+                vod_detail['vod_play_from'] = '$$$'.join(play_from)
+                vod_detail['vod_play_url'] = '$$$'.join(play_url)
+
+            return vod_detail
+
+        except Exception as e:
+            logger.error(f"解析详情失败: {e}")
+            return None
+
+    def extract_play_links(self, soup):
         """提取播放链接"""
         play_from = []
         play_url = []
 
         try:
-            # 多种播放链接选择器
-            url_patterns = [
-                r'https?://[^\s<>"\'{}|\\^`]+\.(m3u8|mp4|flv|avi|mkv|mov|wmv|webm)',
-                r'https?://pan\.baidu\.com/s/[^\s<>"\']+',
-                r'https?://www\.aliyundrive\.com/s/[^\s<>"\']+',
-                r'https?://cloud\.189\.cn/[^\s<>"\']+'
+            # 查找所有可能的播放链接
+            links = []
+
+            # 网盘链接
+            pan_patterns = [
+                r'https?://pan\.baidu\.com/s/[\w-]+',
+                r'https?://www\.aliyundrive\.com/s/[\w]+',
+                r'https?://cloud\.189\.cn/.+',
+                r'https?://[^\s<>"\']+\.(m3u8|mp4|avi|mkv)'
             ]
 
-            # 在页面文本中搜索
-            page_text = soup.get_text()
-            all_urls = []
-
-            for pattern in url_patterns:
-                matches = re.findall(pattern, page_text, re.IGNORECASE)
-                all_urls.extend(matches)
+            text = soup.get_text()
+            for pattern in pan_patterns:
+                matches = re.findall(pattern, text, re.IGNORECASE)
+                links.extend(matches)
 
             # 去重
-            all_urls = list(set(all_urls))
+            links = list(set(links))
 
-            if all_urls:
+            if links:
                 play_from.append('播放线路')
                 url_parts = []
 
-                for i, url in enumerate(all_urls, 1):
-                    pan_name = self.get_pan_name(url)
-                    url_parts.append(f"第{i}集${url}")
+                for i, link in enumerate(links, 1):
+                    url_parts.append(f"第{i}集${link}")
 
                 play_url.append('#'.join(url_parts))
-                logger.info(f"找到 {len(all_urls)} 个播放链接")
+                logger.info(f"找到 {len(links)} 个播放链接")
 
         except Exception as e:
             logger.error(f"提取播放链接失败: {e}")
@@ -398,36 +361,17 @@ class ZhiZhenSource:
 
         try:
             encoded_key = quote(key)
-            url = f"{self.host.rstrip('/')}/index.php/vod/search/page/{pg}/wd/{encoded_key}.html"
+            url = f"{self.host}/index.php/vod/search/page/{pg}/wd/{encoded_key}.html"
             logger.info(f"搜索URL: {url}")
 
-            response = self.make_request(url)
-            if not response:
-                logger.error("搜索请求失败")
+            response = self.session.get(url, timeout=self.timeout)
+            if response.status_code != 200:
+                logger.error(f"搜索请求失败: {response.status_code}")
                 result['list'] = []
-                result['page'] = int(pg)
-                result['pagecount'] = 1
-                result['limit'] = 0
-                result['total'] = 0
                 return result
 
             soup = BeautifulSoup(response.text, 'html.parser')
-
-            # 多种搜索结果选择器
-            selectors = ['.module-search-item', '.search-item', '.result-item', '.item']
-
-            for selector in selectors:
-                items = soup.select(selector)
-                if items:
-                    logger.info(f"搜索找到 {len(items)} 个结果")
-                    for item in items:
-                        video = self.parse_video_item(item)
-                        if video:
-                            videos.append(video)
-                    break
-
-            if not videos:
-                logger.warning("搜索未找到结果")
+            videos = self.parse_category_videos(soup)  # 搜索页面结构与分类页面类似
 
         except Exception as e:
             logger.error(f"搜索失败: {e}")
@@ -436,7 +380,7 @@ class ZhiZhenSource:
         result['page'] = int(pg)
         result['pagecount'] = 999 if videos else 1
         result['limit'] = len(videos)
-        result['total'] = len(videos) * 10
+        result['total'] = len(videos) * 20
 
         logger.info(f"搜索 '{key}' 获得 {len(videos)} 个结果")
         return result
@@ -446,14 +390,13 @@ class ZhiZhenSource:
         result = {}
 
         try:
-            result["parse"] = 0
+            result["parse"] = 0  # 不解析，直接播放
             result["playUrl"] = ""
             result["url"] = id
             result["header"] = json.dumps(self.headers)
-            logger.info(f"播放请求: {id}")
 
         except Exception as e:
-            logger.error(f"播放器内容获取失败: {e}")
+            logger.error(f"播放器内容失败: {e}")
 
         return result
 
@@ -469,29 +412,16 @@ class ZhiZhenSource:
             return self.host + url
         return self.host + '/' + url
 
-    def get_pan_name(self, url):
-        """获取网盘名称"""
-        if 'baidu' in url:
-            return '百度网盘'
-        elif 'aliyundrive' in url:
-            return '阿里云盘'
-        elif '189.cn' in url:
-            return '天翼云盘'
-        elif any(ext in url for ext in ['.m3u8', '.mp4', '.flv']):
-            return '直连'
-        else:
-            return '网盘'
-
     def localProxy(self, param):
         """本地代理"""
         return {}
 
 
-# 创建全局实例
-source = ZhiZhenSource()
+# 创建实例
+source = MiqkSource()
 
 
-# TVBox标准接口函数
+# TVBox标准接口
 def homeContent(filter):
     return source.homeContent(filter)
 
