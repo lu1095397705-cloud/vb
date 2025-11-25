@@ -23,13 +23,15 @@
             "jar": "./jb/huban.jar",
             "api": "csp_Huban"
         },
-        {
-        "key": "ceshi",
-        "name": "ce",
-        "type": 3,
-        "api": "./js/ts.py",
-        "ext": "./js/ts.py",
-        "timeout": 25
+       {
+            "key": "py_cctv_1",
+            "name": "🅱️央视-少儿",
+            "type": 3,
+            "api": "py_cctv",
+            "searchable": 0,
+            "quickSearch": 0,
+            "filterable": 1,
+            "ext": "./py/py_cctv_1.py"
         },
             {
                 "key": "豆瓣",

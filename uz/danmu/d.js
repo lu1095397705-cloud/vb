@@ -122,8 +122,12 @@ var danmuLines = [
         url: '',
     },
     {
-        name: 'fc',
-        url: 'https://fc.lyz05.cn/?url=',
+        name: '1',
+        url: 'https://danmuku.sbs/?ac=dm&url=',
+    },
+    {
+        name: '2',
+        url: 'https://danmu.zxz.ee/?type=json&id=',
     },
     {
         name: '弹幕库',

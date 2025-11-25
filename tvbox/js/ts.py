@@ -38,4 +38,3 @@ tvbox_data["list"]["movie"] = movie_list
 # ---------------------- 4. 生成JSON文件 ----------------------
 with open("tvbox_data.json", "w", encoding="utf-8") as f:
     json.dump(tvbox_data, f, ensure_ascii=False, indent=2)
-print("TVBox格式的JSON文件已生成：tvbox_data.json")
