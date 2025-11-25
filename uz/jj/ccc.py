@@ -1,444 +1,279 @@
 import requests
-import json
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, quote
-from typing import List, Dict, Any, Optional
+import json
 import re
 
 
-class VideoCrawler:
-    """视频爬虫类 - 至臻视频网站爬取"""
+class ZhiZhenSource:
+    def __init__(self):
+        self.webSite = 'http://www.miqk.cc'
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
 
-    def __init__(self, base_url: str = "http://www.miqk.cc"):
-        self.base_url = base_url.rstrip('/')
-        self.session = requests.Session()
-        # 设置请求头，模拟浏览器访问
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3',
-            'Accept-Encoding': 'gzip, deflate',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-        })
-
-    def get_class_list(self) -> str:
-        """
-        获取分类列表
-        对应原JS的getClassList函数
-        返回JSON字符串
-        """
-        # 创建分类列表
-        categories = [
-            {
-                'type_id': '1',
-                'type_name': '至臻电影',
-                'hasSubclass': False,
-            },
-            {
-                'type_id': '2',
-                'type_name': '至臻剧集',
-                'hasSubclass': False,
-            },
-            {
-                'type_id': '3',
-                'type_name': '至臻动漫',
-                'hasSubclass': False,
-            },
-            {
-                'type_id': '4',
-                'type_name': '至臻综艺',
-                'hasSubclass': False,
-            },
-            {
-                'type_id': '5',
-                'type_name': '至臻短剧',
-                'hasSubclass': False,
-            },
-            {
-                'type_id': '24',
-                'type_name': '至臻老剧',
-                'hasSubclass': False,
-            },
-            {
-                'type_id': '26',
-                'type_name': '至臻严选',
-                'hasSubclass': False,
-            },
+    def homeContent(self, filter):
+        result = {}
+        classes = [
+            {"type_id": "1", "type_name": "至臻电影"},
+            {"type_id": "2", "type_name": "至臻剧集"},
+            {"type_id": "3", "type_name": "至臻动漫"},
+            {"type_id": "4", "type_name": "至臻综艺"},
+            {"type_id": "5", "type_name": "至臻短剧"},
+            {"type_id": "24", "type_name": "至臻老剧"},
+            {"type_id": "26", "type_name": "至臻严选"}
         ]
+        result['class'] = classes
+        return result
 
-        # 创建响应对象
-        back_data = {
-            'data': categories,
-            'error': None
-        }
+    def homeVideoContent(self):
+        # 首页推荐视频，这里可以留空或实现推荐功能
+        return []
 
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
-
-    def get_subclass_list(self, args: Dict[str, Any]) -> str:
-        """
-        获取子分类列表
-        对应原JS的getSubclassList函数
-        返回JSON字符串
-        """
-        # 创建空响应对象
-        back_data = {
-            'data': [],
-            'error': None
-        }
-
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
-
-    def get_subclass_video_list(self, args: Dict[str, Any]) -> str:
-        """
-        获取子分类视频列表
-        对应原JS的getSubclassVideoList函数
-        返回JSON字符串
-        """
-        # 创建空响应对象
-        back_data = {
-            'data': [],
-            'error': None
-        }
-
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
-
-    def get_video_list(self, args: Dict[str, Any]) -> str:
-        """
-        获取分类视频列表
-        对应原JS的getVideoList函数
-
-        Args:
-            args: 包含url和page参数的字典
-        """
-        # 提取参数
-        category_id = args.get('url', '')
-        page = args.get('page', 1)
-
-        # 构建URL
-        url = f"{self.base_url}/index.php/vod/show/id/{category_id}/page/{page}.html"
-
-        # 创建响应对象
-        back_data = {
-            'data': [],
-            'error': None
-        }
+    def categoryContent(self, tid, pg, filter, extend):
+        result = {}
+        videos = []
 
         try:
-            response = self.session.get(url, timeout=10)
+            url = f"{self.webSite.rstrip('/')}/index.php/vod/show/id/{tid}/page/{pg}.html"
+            response = requests.get(url, headers=self.headers, timeout=10)
             response.encoding = 'utf-8'
-
-            if response.status_code != 200:
-                back_data['error'] = f"请求失败，状态码: {response.status_code}"
-                return json.dumps(back_data, ensure_ascii=False)
-
             soup = BeautifulSoup(response.text, 'html.parser')
-            videos = []
 
-            # 查找视频项
-            vod_items = soup.select('.module-item')
-
+            vod_items = soup.select('#main .module-item')
             for item in vod_items:
-                video_info = {}
+                video = {}
 
-                # 提取视频链接
-                link_element = item.select_one('.module-item-pic a')
-                if link_element and link_element.get('href'):
-                    video_info['vod_id'] = link_element['href']
+                # 获取视频链接
+                link_tag = item.select_one('.module-item-pic a')
+                if link_tag and link_tag.get('href'):
+                    video['vod_id'] = link_tag['href']
 
-                # 提取视频名称
-                img_element = item.select_one('.module-item-pic img')
-                if img_element:
-                    video_info['vod_name'] = img_element.get('alt', '').strip()
-                    video_info['vod_pic'] = img_element.get('data-src', '')
+                # 获取视频名称
+                img_tag = item.select_one('.module-item-pic img')
+                if img_tag and img_tag.get('alt'):
+                    video['vod_name'] = img_tag['alt']
 
-                # 提取备注信息
-                remark_element = item.select_one('.module-item-text')
-                if remark_element:
-                    video_info['vod_remarks'] = remark_element.get_text(strip=True)
+                # 获取封面图片
+                if img_tag and img_tag.get('data-src'):
+                    video['vod_pic'] = self.combine_url(img_tag['data-src'])
 
-                # 提取年份信息
-                year_element = item.select_one('.module-item-caption span')
-                if year_element:
-                    video_info['vod_year'] = year_element.get_text(strip=True)
+                # 获取备注信息
+                remark_tag = item.select_one('.module-item-text')
+                if remark_tag:
+                    video['vod_remarks'] = remark_tag.get_text().strip()
 
-                if video_info:  # 确保有数据才添加
-                    videos.append(video_info)
+                # 获取年份
+                year_tag = item.select_one('.module-item-caption span')
+                if year_tag:
+                    video['vod_year'] = year_tag.get_text().strip()
 
-            back_data['data'] = videos
+                if video.get('vod_id') and video.get('vod_name'):
+                    videos.append(video)
 
         except Exception as e:
-            back_data['error'] = f"获取视频列表失败: {str(e)}"
+            print(f"获取分类内容失败: {e}")
 
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
+        result['list'] = videos
+        result['page'] = int(pg)
+        result['pagecount'] = 999  # 假设有足够多的页数
+        result['limit'] = len(videos)
+        result['total'] = len(videos) * 10  # 估算总数
 
-    def get_video_detail(self, args: Dict[str, Any]) -> str:
-        """
-        获取视频详情
-        对应原JS的getVideoDetail函数
+        return result
 
-        Args:
-            args: 包含url参数的字典
-        """
-        # 提取参数
-        video_url = args.get('url', '')
-
-        # 处理URL
-        if not video_url.startswith('http'):
-            if video_url.startswith('/'):
-                full_url = self.base_url + video_url
-            else:
-                full_url = self.base_url + '/' + video_url
-        else:
-            full_url = video_url
-
-        # 创建响应对象
-        back_data = {
-            'data': None,
-            'error': None
-        }
+    def detailContent(self, array):
+        tid = array[0]
+        result = {}
 
         try:
-            response = self.session.get(full_url, timeout=10)
+            url = f"{self.webSite.rstrip('/')}{tid}"
+            response = requests.get(url, headers=self.headers, timeout=10)
             response.encoding = 'utf-8'
-
-            if response.status_code != 200:
-                back_data['error'] = f"请求失败，状态码: {response.status_code}"
-                return json.dumps(back_data, ensure_ascii=False)
-
             soup = BeautifulSoup(response.text, 'html.parser')
-            video_detail = {
-                'vod_id': video_url,
-                'panUrls': []  # 网盘链接列表
-            }
 
-            # 提取视频标题
-            title_element = soup.select_one('.page-title')
-            if title_element and title_element.contents:
-                video_detail['vod_name'] = title_element.contents[0].strip()
+            vod_detail = {}
+            vod_detail['vod_id'] = tid
 
-            # 提取封面图
-            cover_element = soup.select_one('.mobile-play .lazyload')
-            if cover_element and cover_element.get('data-src'):
-                video_detail['vod_pic'] = cover_element['data-src']
+            # 获取标题
+            title_tag = soup.select_one('.page-title')
+            if title_tag:
+                vod_detail['vod_name'] = title_tag.get_text().strip()
 
-            # 提取视频信息项
+            # 获取封面
+            pic_tag = soup.select_one('.mobile-play .lazyload')
+            if pic_tag and pic_tag.get('data-src'):
+                vod_detail['vod_pic'] = self.combine_url(pic_tag['data-src'])
+
+            # 解析视频信息
             info_items = soup.select('.video-info-itemtitle')
-
             for item in info_items:
-                key = item.get_text(strip=True)
+                key = item.get_text().strip()
                 next_sibling = item.find_next_sibling()
 
                 if not next_sibling:
                     continue
 
                 if '剧情' in key:
-                    # 提取剧情简介
-                    content_element = next_sibling.find('p')
-                    if content_element:
-                        video_detail['vod_content'] = content_element.get_text(strip=True)
-
+                    content_tag = next_sibling.find('p')
+                    if content_tag:
+                        vod_detail['vod_content'] = content_tag.get_text().strip()
                 elif '导演' in key:
-                    # 提取导演信息
                     directors = []
-                    director_links = next_sibling.find_all('a')
-                    for link in director_links:
-                        director_text = link.get_text(strip=True)
-                        if director_text:
-                            directors.append(director_text)
+                    director_tags = next_sibling.find_all('a')
+                    for tag in director_tags:
+                        text = tag.get_text().strip()
+                        if text:
+                            directors.append(text)
                     if directors:
-                        video_detail['vod_director'] = ', '.join(directors)
-
+                        vod_detail['vod_director'] = ','.join(directors)
                 elif '主演' in key:
-                    # 提取演员信息
                     actors = []
-                    actor_links = next_sibling.find_all('a')
-                    for link in actor_links:
-                        actor_text = link.get_text(strip=True)
-                        if actor_text:
-                            actors.append(actor_text)
+                    actor_tags = next_sibling.find_all('a')
+                    for tag in actor_tags:
+                        text = tag.get_text().strip()
+                        if text:
+                            actors.append(text)
                     if actors:
-                        video_detail['vod_actor'] = ', '.join(actors)
+                        vod_detail['vod_actor'] = ','.join(actors)
 
-            # 提取网盘链接 - 修复弃用警告
-            pan_elements = soup.select('.module-row-info')
-            for element in pan_elements:
-                # 使用string=True替代text=True
-                text_elements = element.find_all(string=True)
-                for text in text_elements:
-                    cleaned_text = text.strip()
-                    if cleaned_text and len(cleaned_text) > 10:  # 过滤掉过短的文本
-                        video_detail['panUrls'].append(cleaned_text)
+            # 解析播放链接
+            play_from = []
+            play_url = []
+            pan_urls = []
 
-            back_data['data'] = video_detail
+            # 获取网盘链接
+            pan_items = soup.select('.module-row-info')
+            for item in pan_items:
+                p_tag = item.find('p')
+                if p_tag:
+                    share_url = p_tag.get_text().strip()
+                    if share_url:
+                        pan_urls.append(share_url)
+
+            # 将网盘链接组织成播放列表
+            if pan_urls:
+                play_from.append('至臻网盘')
+                play_urls = []
+                for i, pan_url in enumerate(pan_urls, 1):
+                    play_urls.append(f"第{i集}${pan_url}")
+                play_url.append('#'.join(play_urls))
+
+            if play_from and play_url:
+                vod_detail['vod_play_from'] = '$$$'.join(play_from)
+                vod_detail['vod_play_url'] = '$$$'.join(play_url)
+
+            result['list'] = [vod_detail]
 
         except Exception as e:
-            back_data['error'] = f"获取视频详情失败: {str(e)}"
+            print(f"获取详情失败: {e}")
+            result['list'] = []
 
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
+        return result
 
-    def get_video_play_url(self, args: Dict[str, Any]) -> str:
-        """
-        获取视频播放地址
-        对应原JS的getVideoPlayUrl函数
-        返回JSON字符串
-        """
-        # 创建空响应对象
-        back_data = {
-            'data': None,
-            'error': None
-        }
-
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
-
-    def search_video(self, args: Dict[str, Any]) -> str:
-        """
-        搜索视频
-        对应原JS的searchVideo函数
-
-        Args:
-            args: 包含searchWord和page参数的字典
-        """
-        # 提取参数
-        keyword = args.get('searchWord', '')
-        page = args.get('page', 1)
-
-        # URL编码关键词
-        encoded_keyword = quote(keyword)
-
-        url = f"{self.base_url}/index.php/vod/search/page/{page}/wd/{encoded_keyword}.html"
-
-        # 创建响应对象
-        back_data = {
-            'data': [],
-            'error': None
-        }
+    def searchContent(self, key, quick, pg):
+        result = {}
+        videos = []
 
         try:
-            response = self.session.get(url, timeout=10)
+            url = f"{self.webSite.rstrip('/')}/index.php/vod/search/page/{pg}/wd/{key}.html"
+            response = requests.get(url, headers=self.headers, timeout=10)
             response.encoding = 'utf-8'
-
-            if response.status_code != 200:
-                back_data['error'] = f"请求失败，状态码: {response.status_code}"
-                return json.dumps(back_data, ensure_ascii=False)
-
             soup = BeautifulSoup(response.text, 'html.parser')
-            videos = []
 
-            # 查找搜索结果项
-            search_items = soup.select('.module-search-item')
+            items = soup.select('.module-search-item')
+            for item in items:
+                video = {}
 
-            for item in search_items:
-                video_info = {}
+                # 获取视频链接
+                link_tag = item.select_one('.video-serial')
+                if link_tag and link_tag.get('href'):
+                    video['vod_id'] = link_tag['href']
 
-                # 提取视频链接和标题
-                link_element = item.select_one('.video-serial')
-                if link_element:
-                    video_info['vod_id'] = link_element.get('href', '')
-                    video_info['vod_name'] = link_element.get('title', '')
-                    video_info['vod_remarks'] = link_element.get_text(strip=True)
+                # 获取视频名称
+                if link_tag and link_tag.get('title'):
+                    video['vod_name'] = link_tag['title']
 
-                # 提取封面图
-                img_element = item.select_one('.module-item-pic img')
-                if img_element:
-                    video_info['vod_pic'] = img_element.get('data-src', '')
+                # 获取封面
+                img_tag = item.select_one('.module-item-pic > img')
+                if img_tag and img_tag.get('data-src'):
+                    video['vod_pic'] = self.combine_url(img_tag['data-src'])
 
-                if video_info:
-                    videos.append(video_info)
+                # 获取备注
+                if link_tag:
+                    video['vod_remarks'] = link_tag.get_text().strip()
 
-            back_data['data'] = videos
+                if video.get('vod_id') and video.get('vod_name'):
+                    videos.append(video)
 
         except Exception as e:
-            back_data['error'] = f"搜索失败: {str(e)}"
+            print(f"搜索失败: {e}")
 
-        # 转换为JSON字符串
-        return json.dumps(back_data, ensure_ascii=False)
+        result['list'] = videos
+        result['page'] = int(pg)
+        result['pagecount'] = 999
+        result['limit'] = len(videos)
+        result['total'] = len(videos) * 10
+
+        return result
+
+    def playerContent(self, flag, id, flags):
+        result = {}
+
+        # 这里直接返回网盘链接，TVBox会调用相应的解析器
+        result["parse"] = 0  # 不解析，直接播放
+        result["playUrl"] = ""
+        result["url"] = id
+        result["header"] = json.dumps(self.headers)
+
+        return result
+
+    def combine_url(self, url):
+        if not url:
+            return ''
+        if url.startswith('http'):
+            return url
+        if url.startswith('/'):
+            return self.webSite + url
+        return self.webSite + '/' + url
+
+    def isVideoFormat(self, url):
+        # 判断是否为视频格式
+        video_formats = ['.m3u8', '.mp4', '.flv', '.avi', '.mkv', '.mov', '.wmv', '.webm']
+        return any(url.lower().endswith(fmt) for fmt in video_formats)
+
+    def localProxy(self, param):
+        # 本地代理，如果需要的话
+        return []
 
 
-class VideoCrawlerManager:
-    """视频爬虫管理器 - 提供更友好的API接口"""
-
-    def __init__(self, base_url: str = "http://www.miqk.cc"):
-        self.crawler = VideoCrawler(base_url)
-
-    def list_categories(self) -> str:
-        """获取所有视频分类"""
-        return self.crawler.get_class_list()
-
-    def get_videos_by_category(self, category_id: str, page: int = 1) -> str:
-        """根据分类获取视频列表"""
-        args = {
-            'url': category_id,
-            'page': page
-        }
-        return self.crawler.get_video_list(args)
-
-    def get_video_info(self, video_url: str) -> str:
-        """获取视频详细信息"""
-        args = {
-            'url': video_url
-        }
-        return self.crawler.get_video_detail(args)
-
-    def search(self, keyword: str, page: int = 1) -> str:
-        """搜索视频"""
-        args = {
-            'searchWord': keyword,
-            'page': page
-        }
-        return self.crawler.search_video(args)
+# 创建实例
+source = ZhiZhenSource()
 
 
-# 使用示例
-if __name__ == "__main__":
-    # 创建爬虫实例
-    crawler_manager = VideoCrawlerManager()
+# TVBox标准接口函数
+def homeContent(filter):
+    return source.homeContent(filter)
 
-    print("=== 至臻视频爬虫示例 ===")
 
-    # 1. 获取分类列表
-    print("\n1. 获取视频分类:")
-    categories_result = crawler_manager.list_categories()
-    categories_data = json.loads(categories_result)
+def homeVideoContent():
+    return source.homeVideoContent()
 
-    if categories_data.get('data'):
-        for category in categories_data['data']:
-            print(f"  - {category['type_name']} (ID: {category['type_id']})")
 
-    # 2. 获取电影分类的视频列表
-    print("\n2. 获取电影分类第一页视频:")
-    movies_result = crawler_manager.get_videos_by_category("1", 1)
-    movies_data = json.loads(movies_result)
+def categoryContent(tid, pg, filter, extend):
+    return source.categoryContent(tid, pg, filter, extend)
 
-    if movies_data.get('data'):
-        print(f"找到 {len(movies_data['data'])} 个视频")
-        for i, video in enumerate(movies_data['data'][:3]):  # 只显示前3个
-            print(f"  {i + 1}. {video.get('vod_name', '未知')} - {video.get('vod_remarks', '')}")
 
-    # 3. 搜索视频示例
-    print("\n3. 搜索'爱情'相关视频:")
-    search_result = crawler_manager.search("爱情", 1)
-    search_data = json.loads(search_result)
+def detailContent(array):
+    return source.detailContent(array)
 
-    if search_data.get('data') and search_data['data']:
-        video_url = search_data['data'][0].get('vod_id')
-        if video_url:
-            # 4. 获取第一个搜索结果的详情
-            print("获取第一个搜索结果的详情:")
-            detail_result = crawler_manager.get_video_info(video_url)
-            detail_data = json.loads(detail_result)
 
-            if detail_data.get('data'):
-                detail = detail_data['data']
-                print(f"  标题: {detail.get('vod_name', '未知')}")
-                print(f"  导演: {detail.get('vod_director', '未知')}")
-                print(f"  主演: {detail.get('vod_actor', '未知')}")
-                print(f"  简介: {detail.get('vod_content', '无')[:100]}...")
-                print(f"  网盘链接数: {len(detail.get('panUrls', []))}")
+def searchContent(key, quick, pg):
+    return source.searchContent(key, quick, pg)
 
+
+def playerContent(flag, id, flags):
+    return source.playerContent(flag, id, flags)
+
+
+def localProxy(param):
+    return source.localProxy(param)
