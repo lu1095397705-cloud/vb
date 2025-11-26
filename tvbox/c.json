@@ -8,7 +8,7 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "./js/zz.js"
+      "ext": "https://gitee.com/lu228826/box/raw/master/tvbox/js/zz.js"
     }
   ]
 }
