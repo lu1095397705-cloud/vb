@@ -17,7 +17,7 @@
       "searchable": 1,
       "quickSearch": 0,
       "filterable": 1,
-      "ext": "./js/zz.py"
+      "ext": "https://gitee.com/lu228826/box/raw/master/tvbox/js/zz.py"
     },
             {
                 "key": "豆瓣",
@@ -32,20 +32,13 @@
             "key": "360_spider",
             "name": "360影视",
             "type": 3,
-            "api": "csp_SP360",
+            "api": "csp_SP360{\n            \"key\": \"tx\",\n            \"name\": \"腾讯视频\",\n            \"type\": 3,\n            \"api\": \"./jb/dy.js\",\n            \"jar\":\"./jb/xyq.jar\",\n            \"ext\": \"./js/tx.js\"\n        },",
             "jar":"./jb/xyq.jar",
             "filterable": 1,
             "quickSearch": 1,
             "searchable": 1
         },
-        {
-            "key": "tx",
-            "name": "腾讯视频",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "jar":"./jb/xyq.jar",
-            "ext": "./js/tx.js"
-        },
+
         {
             "key": "qiyi",
             "name": "爱奇艺",

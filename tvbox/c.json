@@ -1,0 +1,14 @@
+{
+  "sites": [
+    {
+      "key": "miqk",
+      "name": "MiQK影视",
+      "type": 3,
+      "api": "drpy_js",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "./js/zz.js"
+    }
+  ]
+}
