@@ -10,15 +10,15 @@
             "api": "csp_Huban"
         },
       {
-    "key": "miqk",
-    "name": "至臻影视",
-    "type": 3,
-    "api": "py_zz",
-    "searchable": 1,
-    "quickSearch": 0,
-    "filterable": 1,
-    "ext": "./js/zz.py"
-},
+      "key": "zz",
+      "name": "至臻影视",
+      "type": 3,
+      "api": "csp_Zz",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 1,
+      "ext": "./js/zz.py"
+    },
             {
                 "key": "豆瓣",
                 "name": "豆瓣",

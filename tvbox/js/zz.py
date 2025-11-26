@@ -1,68 +1,120 @@
-import json
+import requests
+import re
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 
-# TVBox配置数据
-config = {
-    "sites": [
-        {
-            "key": "miqk",
-            "name": "米奇妙资源站",
-            "type": 1,
-            "api": "https://www.miqk.cc/api.php/provide/vod/",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        }
-    ],
-    "parses": [
-        {"name": "解析聚合", "type": 3, "url": "Demo"},
-        {"name": "Web解析聚合", "type": 3, "url": "Web"},
-        {"name": "线路1", "type": 1, "url": "https://jx.jsonplayer.com/player/?url="},
-        {"name": "线路2", "type": 1, "url": "https://jx.777jiexi.com/player/?url="}
-    ],
-    "ijk": [
-        {"group": "软解码", "options": [
-            {"category": 4, "name": "opensles", "value": "0"},
-            {"category": 4, "name": "overlay-format", "value": "842225234"},
-            {"category": 4, "name": "framedrop", "value": "1"},
-            {"category": 4, "name": "start-on-prepared", "value": "1"},
-            {"category": 1, "name": "http-detect-range-support", "value": "0"},
-            {"category": 1, "name": "fflags", "value": "fastseek"},
-            {"category": 2, "name": "skip_loop_filter", "value": "48"},
-            {"category": 4, "name": "reconnect", "value": "1"},
-            {"category": 4, "name": "enable-accurate-seek", "value": "0"},
-            {"category": 4, "name": "mediacodec", "value": "0"},
-            {"category": 4, "name": "mediacodec-auto-rotate", "value": "0"},
-            {"category": 4, "name": "mediacodec-handle-resolution-change", "value": "0"},
-            {"category": 4, "name": "mediacodec-hevc", "value": "0"}
-        ]},
-        {"group": "硬解码", "options": [
-            {"category": 4, "name": "opensles", "value": "0"},
-            {"category": 4, "name": "overlay-format", "value": "842225234"},
-            {"category": 4, "name": "framedrop", "value": "1"},
-            {"category": 4, "name": "start-on-prepared", "value": "1"},
-            {"category": 1, "name": "http-detect-range-support", "value": "0"},
-            {"category": 1, "name": "fflags", "value": "fastseek"},
-            {"category": 2, "name": "skip_loop_filter", "value": "48"},
-            {"category": 4, "name": "reconnect", "value": "1"},
-            {"category": 4, "name": "enable-accurate-seek", "value": "0"},
-            {"category": 4, "name": "mediacodec", "value": "1"},
-            {"category": 4, "name": "mediacodec-auto-rotate", "value": "1"},
-            {"category": 4, "name": "mediacodec-handle-resolution-change", "value": "1"},
-            {"category": 4, "name": "mediacodec-hevc", "value": "1"}
-        ]}
-    ],
-    "ads": [
-        "mimg.127.net",
-        "www.127.net",
-        "haitu.tv",
-        "player.bilibili.com",
-        "s1.hdslb.com"
-    ]
+# 全局配置
+site_url = "https://www.miqk.cc"
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 }
 
-# 保存配置文件
-with open("tvbox_config.json", "w", encoding="utf-8") as f:
-    json.dump(config, f, ensure_ascii=False, indent=2)
 
-print("TVBox配置文件已生成: tvbox_config.json")
-print("使用方法：在TVBox中添加此文件作为配置源")
+def home():
+    return {
+        "class": [{"type_id": "", "type_name": "最新资源"}],
+        "filters": {}
+    }
+
+
+def homeVideo():
+    try:
+        res = requests.get(site_url, headers=headers, timeout=10)
+        res.encoding = 'utf-8'
+        soup = BeautifulSoup(res.text, 'html.parser')
+        videos = []
+        for item in soup.select('div.item')[:20]:
+            a = item.select_one('a.title') or item.select_one('h3 a')
+            img = item.select_one('img')
+            if not a: continue
+            title = a.get_text(strip=True)
+            vid = a.get('href')
+            pic = img.get('data-src') or img.get('src') if img else ''
+            if vid and title:
+                videos.append({
+                    "vod_id": urljoin(site_url, vid),
+                    "vod_name": title,
+                    "vod_pic": urljoin(site_url, pic) if pic else '',
+                    "vod_remarks": ""
+                })
+        return {"list": videos}
+    except:
+        return {"list": []}
+
+
+def category(tid, pg, filter, extend):
+    # 网盘站通常无分类，统一走首页
+    return homeVideo()
+
+
+def detail(vod_id):
+    try:
+        res = requests.get(vod_id, headers=headers, timeout=10)
+        res.encoding = 'utf-8'
+        soup = BeautifulSoup(res.text, 'html.parser')
+
+        title = soup.select_one('h1') or soup.select_one('title')
+        vod_name = title.get_text(strip=True) if title else "未知影片"
+
+        # 提取所有可能的网盘链接
+        links = []
+        text = res.text
+
+        # 匹配百度网盘、阿里云盘等
+        patterns = [
+            r'https?://pan\.baidu\.com/s/[a-zA-Z0-9_-]+',
+            r'https?://www\.aliyundrive\.com/s/[a-zA-Z0-9_-]+',
+            r'https?://www\.alipan\.com/s/[a-zA-Z0-9_-]+'
+        ]
+
+        for pattern in patterns:
+            matches = re.findall(pattern, text)
+            for link in matches:
+                links.append(link)
+
+        # 去重
+        links = list(dict.fromkeys(links))
+
+        play_list = "#".join([f"网盘资源{idx + 1}${link}" for idx, link in enumerate(links)])
+
+        return {
+            "list": [{
+                "vod_id": vod_id,
+                "vod_name": vod_name,
+                "vod_play_from": "网盘",
+                "vod_play_url": play_list
+            }]
+        }
+    except:
+        return {"list": []}
+
+
+def search(wd, quick):
+    try:
+        search_url = f"{site_url}/index.php?m=vod-search&wd={wd}"
+        res = requests.get(search_url, headers=headers, timeout=10)
+        res.encoding = 'utf-8'
+        soup = BeautifulSoup(res.text, 'html.parser')
+        videos = []
+        for item in soup.select('div.item')[:20]:
+            a = item.select_one('a.title') or item.select_one('h3 a')
+            img = item.select_one('img')
+            if not a: continue
+            title = a.get_text(strip=True)
+            vid = a.get('href')
+            pic = img.get('data-src') or img.get('src') if img else ''
+            if vid and title:
+                videos.append({
+                    "vod_id": urljoin(site_url, vid),
+                    "vod_name": title,
+                    "vod_pic": urljoin(site_url, pic) if pic else '',
+                    "vod_remarks": ""
+                })
+        return {"list": videos}
+    except:
+        return {"list": []}
+
+
+def playerUrl(flag, id, vipFlags):
+    # 网盘链接直接返回，TVBox会调用解析器或跳转浏览器
+    return {"url": id, "header": {}}
