@@ -1,14 +1,11 @@
 {
   "sites": [
-    {
-      "key": "miqk",
-      "name": "MiQK影视",
+{
+      "key": "sunnafh",
+      "name": "🌙圣城影视",
       "type": 3,
-      "api": "drpy_js",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "https://gitee.com/lu228826/box/raw/master/tvbox/js/zz.js"
+      "api": "https://gitee.com/zhangsan/tvbox-sunnafh/raw/master/sunnafh.js",
+      "categories": ["电影","剧集","综艺","动漫"]
     }
   ]
 }
