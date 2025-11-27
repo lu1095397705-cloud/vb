@@ -8,6 +8,6 @@
   "jar": "./jb/xyq.jar",
   "ext": "./js/zz.js",
   "timeout": 25
-},
+}
   ]
 }
