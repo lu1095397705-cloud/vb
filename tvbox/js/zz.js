@@ -1,62 +1,51 @@
-
+// ==UserScript==
+// name: 🌙圣城影视FM专用版
+// date: 2025-12-20 FM壳子实测完美有图
+// ==/UserScript==
 
 var rule = {
-    title: '🌙圣城影视',
+    title: '🌙圣城影视[FM专用]',
     host: 'https://www.sunnafh.com',
     homeUrl: '/',
     url: '/vodshow/fyclass--------fypage---.html',
-    detailUrl: '/voddetail/fyid.html',
-    searchUrl: '/vodsearch/**----------fypage---.html',
+    detailUrl:'/voddetail/fyid.html',
+    searchUrl: '/vodsearch/-------------.html?wd=**&submit=',
     searchable: 2,
     quickSearch: 1,
+    filterable: 0,
     headers: {'User-Agent': 'MOBILE_UA'},
 
-    class_name: '电影&剧集&综艺&动漫&纪录片',
+    class_name: '电影&连续剧&综艺&动漫&纪录片',
     class_url: '1&2&3&4&20',
+
+    一级: '.module-item;.module-item-title&&Text;.lazyload&&data-original;.module-item-note&&Text;.module-item-title a&&href',  // FM最严格的写法
+    二级: {
+        "title": ".video-title&&Text;.video-info-aux a&&Text",
+        "img": ".lazyload&&data-original",
+        "desc": ".video-info-items:eq(3)&&Text;;.video-info-items:eq(1)&&Text;.video-info-items:eq(2)&&Text",
+        "content": ".sqjj_a&&Text",
+        "tabs": ".module-tab-item span",
+        "lists": ".module-play-list:eq(#id) a",
+        "list_text": "span&&Text",
+        "list_url": "a&&href"
+    },
+
+    搜索: '.module-card-item;.module-card-item-title a&&Text;.lazyload&&data-original;.module-info-tag&&Text;a&&href',
 
     play_parse: true,
     lazy: $js.toString(() => {
-        // 直接请求播放页
-        let html = request(input, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://www.sunnafh.com/'
-            }
-        });
-
-        // 新版加密参数在 script 里
-        let config = html.match(/r player_aaaa=({[^}]+})/);
-        if (config && config[1]) {
+        let html = request(input, {headers:{'User-Agent':'Mozilla/5.0','Referer':rule.host}});
+        let config = html.match(/player_aaaa=({.+?})/);
+        if(!config) config = html.match(/player_aaaaa=({.+?})/);
+        if(config){
             let json = JSON.parse(config[1]);
-            let url = json.url || '';
-            if (url) {
-                if (url.startsWith('http')) {
-                    input = { parse:0, url: url, header: rule.headers};
-                } else if (json.encrypt && json.url) {
-                    // 极少数情况走解密
-                    let decrypted = crypto.decrypt(url, json.encrypt == 1 ? 'aes' : 'des', '12345678');
-                    input = { parse:0, url: decrypted};
-                }
+            let url = json.url;
+            if(url.startsWith('http')){
+                input = {parse:0, url:url, header:{'User-Agent':'Mozilla/5.0'}};
+                return;
             }
         }
-
-        // 兜底：直接播放原地址（新版很多已经是直链）
-        if (!input || !input.url) {
-            input = { parse:0, url: input, header: {'User-Agent': 'Mozilla/5.0', 'Referer': rule.host}};
-        }
-    }),
-
-    一级: '.module-items .module-item;img&&alt;img&&data-src;.module-item-text&&Text;a&&href',
-    二级: {
-        title: 'h1&&Text;.video-info-aux a:eq(0)&&Text',
-        img: '.module-item-pic img&&data-src',
-        desc: '.video-info-items:eq(3)&&Text;;.video-info-items:eq(1)&&Text;.video-info-items:eq(2)&&Text;.video-info-items:eq(0)&&Text',
-        content: '.sqjj_a&&Text',
-        tabs: '.module-tab-items .module-tab-item',
-        lists: '.module-play-list:eq(#id) a',
-        list_text: 'span&&Text',
-        list_url: 'a&&href'
-    },
-
-    搜索: '.module-search-item;.video-name a&&Text;img&&data-src;.video-serial&&Text;a&&href',
+        // 兜底直链
+        input = {parse:0, url:input, header:{'User-Agent':'Mozilla/5.0','Referer':rule.host}};
+    })
 }
