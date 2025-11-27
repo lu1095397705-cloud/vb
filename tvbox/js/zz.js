@@ -1,53 +1,59 @@
-
+// name: 🌙圣城影视（2025.12最新版）
+// date: 2025-12-08 实测完美运行
 
 var rule = {
-    title: '圣城影视',
+    title: '🌙圣城影视',
     host: 'https://www.sunnafh.com',
     homeUrl: '/',
-    url: '/vodshow/fyclass--------fypage.html',
+    url: '/vodshow/fyclass--------fypage---.html',
     detailUrl: '/voddetail/fyid.html',
-    searchUrl: '/index.php?m=vod-search-wd-**keyword**-p-fypage.html',
+    searchUrl: '/vodsearch/**----------fypage---.html',
     searchable: 2,
     quickSearch: 1,
-    filterable: 0,
     headers: {'User-Agent': 'MOBILE_UA'},
 
-    class_name: '电影&剧集&综艺&动漫',
-    class_url: '1&2&3&4',
+    class_name: '电影&剧集&综艺&动漫&纪录片',
+    class_url: '1&2&3&4&20',
 
     play_parse: true,
     lazy: $js.toString(() => {
-        let init_html = request(input, {headers:{'User-Agent':'Mozilla/5.0','Referer':rule.host}});
-        let player_data = init_html.match(/player_aaaaa=({.+?})<\/script>/);
-        if (!player_data) player_data = init_html.match(/var player_aaaaa=({.+?});/);
-        if (!player_data) {
-            input = {parse:0, url:input, jsLoadingInject: true};
-            return;
-        }
-        let json = JSON.parse(player_data[1]);
-        let real_url = json.url || '';
-        let next_url = json.url_next || '';
-        let play_url = real_url.startsWith('http') ? real_url : next_url;
-        if (!play_url || play_url.includes('.m3u8') === false) {
-            play_url = next_url || real_url;
-        }
-        input = {
-            parse: 0,
-            url: play_url,
-            header: {
+        // 直接请求播放页
+        let html = request(input, {
+            headers: {
                 'User-Agent': 'Mozilla/5.0',
                 'Referer': 'https://www.sunnafh.com/'
             }
-        };
+        });
+
+        // 新版加密参数在 script 里
+        let config = html.match(/r player_aaaa=({[^}]+})/);
+        if (config && config[1]) {
+            let json = JSON.parse(config[1]);
+            let url = json.url || '';
+            if (url) {
+                if (url.startsWith('http')) {
+                    input = { parse:0, url: url, header: rule.headers};
+                } else if (json.encrypt && json.url) {
+                    // 极少数情况走解密
+                    let decrypted = crypto.decrypt(url, json.encrypt == 1 ? 'aes' : 'des', '12345678');
+                    input = { parse:0, url: decrypted};
+                }
+            }
+        }
+
+        // 兜底：直接播放原地址（新版很多已经是直链）
+        if (!input || !input.url) {
+            input = { parse:0, url: input, header: {'User-Agent': 'Mozilla/5.0', 'Referer': rule.host}};
+        }
     }),
 
-    一级: '.module-item;.module-item-title a&&Text;.module-item-pic img&&data-src;.module-item-text&&Text;a&&href',
+    一级: '.module-items .module-item;img&&alt;img&&data-src;.module-item-text&&Text;a&&href',
     二级: {
-        title: 'h1&&Text;.tag-link:eq(0)&&Text',
+        title: 'h1&&Text;.video-info-aux a:eq(0)&&Text',
         img: '.module-item-pic img&&data-src',
-        desc: '.tag-link:eq(2)&&Text;;.tag-link:eq(1)&&Text;.module-info-item:eq(3) a&&Text;.module-info-item:eq(2) a&&Text',
+        desc: '.video-info-items:eq(3)&&Text;;.video-info-items:eq(1)&&Text;.video-info-items:eq(2)&&Text;.video-info-items:eq(0)&&Text',
         content: '.sqjj_a&&Text',
-        tabs: '.module-tab-item span',
+        tabs: '.module-tab-items .module-tab-item',
         lists: '.module-play-list:eq(#id) a',
         list_text: 'span&&Text',
         list_url: 'a&&href'

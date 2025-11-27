@@ -2,9 +2,10 @@
   "sites": [
 {
       "key": "sunnafh",
-      "name": "🌙圣城影视",
+      "name": "圣城影视",
       "type": 3,
-      "api": "https://gitee.com/zhangsan/tvbox-sunnafh/raw/master/sunnafh.js",
+      "spider": "./js/zz.js",
+      "api": "./js/zz.js",
       "categories": ["电影","剧集","综艺","动漫"]
     }
   ]
