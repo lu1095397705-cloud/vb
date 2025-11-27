@@ -1,8 +1,8 @@
 {
   "sites": [
-    {
+{
   "key": "sunnafh_fm",
-  "name": "🌙圣城FM专用",
+  "name": "圣城FM专用",
   "type": 3,
   "api":"./js/zz.js",
   "playUrl": "",
