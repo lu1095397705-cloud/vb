@@ -1,12 +1,13 @@
 {
   "sites": [
 {
-  "key": "sunnafh_fm",
-  "name": "圣城FM专用",
+  "key": "mxdm",
+  "name": "mx动漫",
   "type": 3,
-  "api":"./js/zz.js",
-  "playUrl": "",
-  "categories": ["电影","连续剧","综艺","动漫","纪录片"]
-}
+  "api": "./jb/dy.js",
+  "jar": "./jb/xyq.jar",
+  "ext": "./js/zz.js",
+  "timeout": 25
+},
   ]
 }

@@ -1,51 +1,51 @@
 // ==UserScript==
-// name: 🌙圣城影视FM专用版
-// date: 2025-12-20 FM壳子实测完美有图
+// name: 🔥MX动漫 FM专用版
+// date: 2025-11-27 实测完美有数据
 // ==/UserScript==
 
 var rule = {
-    title: '🌙圣城影视[FM专用]',
-    host: 'https://www.sunnafh.com',
+    title: '🔥MX动漫[FM专用]',
+    host: 'https://www.mxdm.xyz',
     homeUrl: '/',
-    url: '/vodshow/fyclass--------fypage---.html',
-    detailUrl:'/voddetail/fyid.html',
-    searchUrl: '/vodsearch/-------------.html?wd=**&submit=',
+    url: '/type/fyclass.html',  // 分类页基础
+    detailUrl: '/dongman/fyid.html',
+    searchUrl: '/search/**------------.html',
     searchable: 2,
     quickSearch: 1,
     filterable: 0,
-    headers: {'User-Agent': 'MOBILE_UA'},
+    headers: { 'User-Agent': 'MOBILE_UA' },
 
-    class_name: '电影&连续剧&综艺&动漫&纪录片',
-    class_url: '1&2&3&4&20',
+    class_name: '日本动漫&国产动漫&动漫电影&欧美动漫&专题',
+    class_url: 'riman&guoman&dmdianying&oman&topic',
 
-    一级: '.module-item;.module-item-title&&Text;.lazyload&&data-original;.module-item-note&&Text;.module-item-title a&&href',  // FM最严格的写法
+    一级: 'body; a[href*="/dongman/"]&&Text; ; p&&Text; a[href*="/dongman/"]&&href',  // 无图片，用空占位；FM严格适配
     二级: {
-        "title": ".video-title&&Text;.video-info-aux a&&Text",
-        "img": ".lazyload&&data-original",
-        "desc": ".video-info-items:eq(3)&&Text;;.video-info-items:eq(1)&&Text;.video-info-items:eq(2)&&Text",
-        "content": ".sqjj_a&&Text",
-        "tabs": ".module-tab-item span",
-        "lists": ".module-play-list:eq(#id) a",
-        "list_text": "span&&Text",
+        "title": "h1&&Text",
+        "img": "",  // 无图
+        "desc": "p&&Text",
+        "content": ".intro&&Text",
+        "tabs": ".play-tab a",  // JS动态tab
+        "lists": ".play-list:eq(#id) a",
+        "list_text": "a&&Text",
         "list_url": "a&&href"
     },
 
-    搜索: '.module-card-item;.module-card-item-title a&&Text;.lazyload&&data-original;.module-info-tag&&Text;a&&href',
+    搜索: 'body; a[href*="/dongman/"]&&Text; ; p&&Text; a[href*="/dongman/"]&&href',
 
     play_parse: true,
     lazy: $js.toString(() => {
-        let html = request(input, {headers:{'User-Agent':'Mozilla/5.0','Referer':rule.host}});
-        let config = html.match(/player_aaaa=({.+?})/);
-        if(!config) config = html.match(/player_aaaaa=({.+?})/);
-        if(config){
-            let json = JSON.parse(config[1]);
-            let url = json.url;
-            if(url.startsWith('http')){
-                input = {parse:0, url:url, header:{'User-Agent':'Mozilla/5.0'}};
+        let html = request(input, { headers: { 'User-Agent': 'Mozilla/5.0', 'Referer': rule.host } });
+        // 匹配常见player JS
+        let match = html.match(/player_aaaa=({.+?})/) || html.match(/var player = ({.+?})/);
+        if (match) {
+            let json = JSON.parse(match[1]);
+            let url = json.url || json.src;
+            if (url.startsWith('http')) {
+                input = { parse: 0, url: url, header: { 'User-Agent': 'Mozilla/5.0' } };
                 return;
             }
         }
         // 兜底直链
-        input = {parse:0, url:input, header:{'User-Agent':'Mozilla/5.0','Referer':rule.host}};
+        input = { parse: 0, url: input, header: { 'User-Agent': 'Mozilla/5.0', 'Referer': rule.host } };
     })
 }
