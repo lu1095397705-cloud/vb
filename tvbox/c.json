@@ -2,7 +2,7 @@
   "sites": [
 {
       "key": "sunnafh",
-      "name": "圣城影视",
+      "name": "圣城",
       "type": 3,
       "spider": "./js/zz.js",
       "api": "./js/zz.js",
