@@ -1,11 +1,12 @@
 {
   "sites": [
-{
-      "key": "sunnafh",
-      "name": "圣城",
-      "type": 3,
-      "api": "./js/zz.js",
-      "categories": ["电影","剧集","综艺","动漫"]
-    }
+{{
+  "key": "sunnafh_fm",
+  "name": "🌙圣城FM专用",
+  "type": 3,
+  "api":"./js/zz.js",
+  "playUrl": "",
+  "categories": ["电影","连续剧","综艺","动漫","纪录片"]
+}
   ]
 }
