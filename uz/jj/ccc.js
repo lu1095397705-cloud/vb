@@ -3,11 +3,6 @@
 // 该扩展依赖 uz3lib.js 中的 cheerio 库
 // ignore
 
-/*
- * @Author: UZExtensionDev
- * @Date: 2023-10-27
- * @Description: 适配 sunnafh.com 的 uzVideo 扩展
- */
 
 class SunnaFHAdapter extends WebApiBase {
     constructor() {
