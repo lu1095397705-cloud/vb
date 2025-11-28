@@ -152,7 +152,5 @@ var spider = {
         });
     }
 };
-
-// ignore
 export default spider;
-// ignore
+
