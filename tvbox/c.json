@@ -3,13 +3,14 @@
 
     
 {
-  "key": "mxdm",
-  "name": "mx动漫",
+  "key": "sunnafh",
+  "name": "SunnaFH影视",
   "type": 3,
-  "api": "./jb/dy.js",
-  "jar": "./jb/xyq.jar",
-  "ext": "./js/zz.js",
-  "timeout": 25
+  "api": "csp_XBPQ",
+  "searchable": 1,
+  "quickSearch": 1,
+  "filterable": 1,
+  "ext": "./js/ss.js"
 }
   ]
 }
