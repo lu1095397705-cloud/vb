@@ -1,3 +1,10 @@
+// ignore
+//@name:[盘] 二小
+//@version:2
+//@webSite:http://2xiaopan.fun
+//@remark:
+//@order: A06
+// ignore
 // UZVideo 专用 - 阳光电影修正版
 // 移除所有外部 import，使用纯原生写法
 
