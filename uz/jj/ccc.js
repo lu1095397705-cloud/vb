@@ -3,7 +3,6 @@
 // 该扩展依赖 uz3lib.js 中的 cheerio 库
 // ignore
 
-
 class SunnaFHAdapter extends WebApiBase {
     constructor() {
         super();
@@ -315,7 +314,3 @@ class SunnaFHAdapter extends WebApiBase {
         return JSON.stringify(json);
     }
 }
-
-// 实例化扩展，uz 会自动捕获这个实例
-// 注意：实例变量名必须唯一
-var sunnaFhInstance = new SunnaFHAdapter();
