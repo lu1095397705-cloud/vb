@@ -1,8 +1,13 @@
-//@name:[盘] 木偶
-//@version:5
-//@webSite:https://666.666291.xyz
-//@remark:
-//@order: A02
+// ignore
+// 这里的代码块 uz 内部会忽略，用于防止编辑器报错（如果有的话）
+// 该扩展依赖 uz3lib.js 中的 cheerio 库
+// ignore
+
+/*
+ * @Author: UZExtensionDev
+ * @Date: 2023-10-27
+ * @Description: 适配 sunnafh.com 的 uzVideo 扩展
+ */
 
 class SunnaFHAdapter extends WebApiBase {
     constructor() {
@@ -315,3 +320,7 @@ class SunnaFHAdapter extends WebApiBase {
         return JSON.stringify(json);
     }
 }
+
+// 实例化扩展，uz 会自动捕获这个实例
+// 注意：实例变量名必须唯一
+var sunnaFhInstance = new SunnaFHAdapter();
