@@ -1,5 +1,5 @@
 // ignore
-// 这里的代码块 uz 内部会忽略，用于防止编辑器报错（如果有的话）
+// @name:888
 // 该扩展依赖 uz3lib.js 中的 cheerio 库
 // ignore
 
