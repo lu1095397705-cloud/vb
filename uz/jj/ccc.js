@@ -1,7 +1,8 @@
-// ignore
-// @name:888
-// 该扩展依赖 uz3lib.js 中的 cheerio 库
-// ignore
+//@name:[盘] 木偶
+//@version:5
+//@webSite:https://666.666291.xyz
+//@remark:
+//@order: A02
 
 class SunnaFHAdapter extends WebApiBase {
     constructor() {
