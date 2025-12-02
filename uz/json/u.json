@@ -24,14 +24,7 @@
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/Pan_zhizhen.js",
         "type": 101
     },
-  {
-        "name": "py测试",
-        "version": 1,
-        "webSite": "http://www.miqk.cc",
-        "order": "A07",
-        "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/ccc.py",
-        "type": 101
-    },
+  
     {
         "name": "小卢弹幕",
         "version": 10,
