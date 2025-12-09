@@ -1,10 +1,10 @@
 {
-  "spider": "./jb/ok.jar",
+  "spider": "./jb/xyq.jar",
 
   "sites": [
     {
             "key": "配置中心",
-            "name": "👨‍🍳‍配置┃中心",
+            "name": "👨‍‍配置┃中心",
             "type": 3,
             "api": "csp_ConfigGuard",
             "searchable": 0,
