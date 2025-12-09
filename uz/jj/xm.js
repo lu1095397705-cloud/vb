@@ -1,8 +1,8 @@
 //@name:小米影视
-//@version:1.0.0
+//@version:1.0.2
 //@webSite:http://xiaomi666.fun
-//@remark:通用Maccms V10适配，支持在线播放
-//@order: A02
+//@remark:适配Maccms通用/MxPro模板，增强播放解析
+//@order: A01
 const appConfig = {
     _webSite: 'http://xiaomi666.fun',
     get webSite() {
@@ -21,8 +21,8 @@ const appConfig = {
 }
 
 /**
- * 获取分类列表
- * 采用Maccms默认分类ID，如果站点进行了改动，可能需要调整 type_id
+ * 1. 获取分类列表
+ * 使用苹果CMS V10 默认ID，如无法显示请手动修正 type_id
  */
 async function getClassList(args) {
     var backData = new RepVideoClassList()
@@ -44,12 +44,11 @@ async function getSubclassVideoList(args) {
 }
 
 /**
- * 获取视频列表
- * 兼容 MxPro (.module-item) 和 通用模板 (.vodlist_item, .stui-vodlist__thumb)
+ * 2. 获取分类视频列表
  */
 async function getVideoList(args) {
     var backData = new RepVideoList()
-    // 构造通用列表页 URL
+    // 构造URL: /index.php/vod/show/id/1/page/1.html
     let url = UZUtils.removeTrailingSlash(appConfig.webSite) +
               `/index.php/vod/show/id/${args.url}/page/${args.page}.html`
 
@@ -60,31 +59,28 @@ async function getVideoList(args) {
             const $ = cheerio.load(pro.data)
             let videos = []
 
-            // 尝试多种选择器
+            // 兼容多种模板选择器 (MxPro, 默认模板, 海螺等)
             let items = $('.module-item')
             if (items.length === 0) items = $('.vodlist_item')
-            if (items.length === 0) items = $('.stui-vodlist__thumb') // 某些传统模板
+            if (items.length === 0) items = $('.stui-vodlist__thumb')
 
             items.each((_, e) => {
                 let videoDet = new VideoDetail()
-                let aTag = $(e).find('a').first()
-                let imgTag = $(e).find('img').first()
 
-                // 处理 MxPro 的特殊结构
-                if ($(e).find('.module-item-pic a').length > 0) {
-                    aTag = $(e).find('.module-item-pic a')
-                }
+                // 获取链接和标题
+                let aTag = $(e).find('.module-item-pic a').first()
+                if (aTag.length === 0) aTag = $(e).find('a').first()
+
+                let imgTag = $(e).find('img').first()
 
                 videoDet.vod_id = aTag.attr('href')
                 videoDet.vod_name = aTag.attr('title') || imgTag.attr('alt')
 
-                // 处理懒加载图片
+                // 获取图片 (处理懒加载)
                 videoDet.vod_pic = imgTag.attr('data-src') || imgTag.attr('data-original') || imgTag.attr('src')
-                if (videoDet.vod_pic && !videoDet.vod_pic.startsWith('http')) {
-                    videoDet.vod_pic = combineUrl(videoDet.vod_pic)
-                }
+                videoDet.vod_pic = combineUrl(videoDet.vod_pic)
 
-                // 处理更新状态 (右标)
+                // 获取状态 (右上角文字)
                 let remarks = $(e).find('.module-item-text').text() ||
                               $(e).find('.pic_text').text() ||
                               $(e).find('.pic-text').text()
@@ -101,8 +97,7 @@ async function getVideoList(args) {
 }
 
 /**
- * 获取视频详情
- * 解析播放列表
+ * 3. 获取视频详情 (解析播放列表)
  */
 async function getVideoDetail(args) {
     var backData = new RepVideoDetail()
@@ -115,49 +110,45 @@ async function getVideoDetail(args) {
             let vodDetail = new VideoDetail()
             vodDetail.vod_id = args.url
 
-            // 1. 基础信息
-            vodDetail.vod_name = $('h1').text().trim()
+            // 3.1 基础信息
+            let titleEl = $('.page-title')
+            vodDetail.vod_name = titleEl.length > 0 ? titleEl.text().trim() : $('h1').text().trim()
+
             let img = $('.detail_pic img, .module-item-pic img').first()
-            vodDetail.vod_pic = img.attr('data-src') || img.attr('src')
-            if (vodDetail.vod_pic && !vodDetail.vod_pic.startsWith('http')) {
-                vodDetail.vod_pic = combineUrl(vodDetail.vod_pic)
-            }
+            vodDetail.vod_pic = combineUrl(img.attr('data-src') || img.attr('src'))
 
-            // 简介
-            vodDetail.vod_content = $('.content_desc, .video-info-content').text().trim()
+            // 3.2 简介
+            vodDetail.vod_content = $('.content_desc span, .video-info-content, .content_detail').text().trim()
 
-            // 导演主演 (尝试抓取，如果不匹配则留空)
-            let infoText = $('.video-info-main, .content_detail').text()
-            if(infoText) {
-                // 简单的正则匹配提取（可选）
-            }
-
-            // 2. 播放列表解析
+            // 3.3 解析播放线路
             let playFroms = []
             let playUrls = []
 
-            // 定位播放源 Tab
-            let fromItems = $('.play_source_tab a, .module-tab-item, .nav-tabs li a')
+            // 查找线路 Tab
+            let fromItems = $('.module-tab-item, .play_source_tab a, .nav-tabs li a')
             fromItems.each((i, e) => {
-                let name = $(e).text().replace(/播放|来源/g, '').trim()
+                let name = $(e).find('span').text() || $(e).text()
+                // 清理多余字符
+                name = name.replace(/播放|来源/g, '').trim()
                 if (name) playFroms.push(name)
             })
 
-            // 定位播放列表容器
-            let listItems = $('.playlist_notfull, .module-play-list-content, .stui-content__playlist')
+            // 查找线路对应的剧集列表
+            let listItems = $('.module-play-list-content, .playlist_notfull, .stui-content__playlist')
 
             listItems.each((i, e) => {
                 let urls = []
                 $(e).find('a').each((j, a) => {
-                    let name = $(a).text().trim()
-                    let link = $(a).attr('href')
-                    if (link) {
-                        urls.push(`${name}$${link}`)
+                    let epName = $(a).text().trim()
+                    let epUrl = $(a).attr('href')
+                    if (epUrl) {
+                        urls.push(`${epName}$${epUrl}`)
                     }
                 })
                 playUrls.push(urls.join('#'))
             })
 
+            // 组合数据
             vodDetail.vod_play_from = playFroms.join('$$$')
             vodDetail.vod_play_url = playUrls.join('$$$')
 
@@ -170,37 +161,53 @@ async function getVideoDetail(args) {
 }
 
 /**
- * 获取真实播放地址
- * 提取 player_aaaa 变量
+ * 4. 获取真实播放地址 (核心改进版)
  */
 async function getVideoPlayUrl(args) {
     var backData = new RepVideoPlayUrl()
     try {
         let webUrl = combineUrl(args.url)
-        let pro = await req(webUrl)
+
+        // 发起请求时带上 Referer，防止防盗链拦截
+        let pro = await req(webUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Referer': appConfig.webSite
+            }
+        })
 
         if (pro.data) {
-            const $ = cheerio.load(pro.data)
+            const html = pro.data
 
-            // 核心逻辑：提取 Maccms 播放器配置 json
-            let scriptContent = $('script:contains("player_aaaa")').html()
-            if (scriptContent) {
-                let jsonMatch = scriptContent.match(/player_aaaa\s*=\s*({.*?});/)
-                if (jsonMatch && jsonMatch[1]) {
-                    let playerConfig = JSON.parse(jsonMatch[1])
-                    // playerConfig.url 通常是加密的或者直链
-                    // UZ环境通常会自动处理常见的m3u8，如果需要解密需额外逻辑
-                    // 暂时直接返回 url，大部分站点现已不怎么深度加密
-                    backData.data = playerConfig.url
-                }
-            }
+            // 策略A：尝试解析 Maccms 播放器变量 player_aaaa
+            let jsonMatch = html.match(/player_aaaa\s*=\s*({.*?});/)
 
-            // 如果没找到脚本，尝试找 iframe
-            if (!backData.data) {
-                let iframe = $('iframe[src*="m3u8"], iframe[src*="mp4"]').first()
-                if (iframe.length > 0) {
-                    backData.data = iframe.attr('src')
+            if (jsonMatch && jsonMatch[1]) {
+                let playerConfig = JSON.parse(jsonMatch[1])
+                let url = playerConfig.url
+                let encrypt = playerConfig.encrypt // 0:不加密, 1:escape, 2:base64
+
+                // 解码逻辑
+                if (encrypt == 1) {
+                    url = unescape(url)
+                } else if (encrypt == 2) {
+                    url = unescape(base64Decode(url))
                 }
+
+                // 判断结果类型
+                if (url.indexOf('.m3u8') > -1 || url.indexOf('.mp4') > -1) {
+                    // 直链直接播放
+                    backData.data = url
+                } else if (url.startsWith('http')) {
+                    // 包含http的链接，通常是云解析地址，返回给APP，APP会自动嗅探
+                    backData.data = url
+                } else {
+                    // 只有ID的情况，寻找页面内的iframe
+                    backData.data = extractIframeUrl(html)
+                }
+            } else {
+                // 策略B：没有找到变量，暴力查找 iframe
+                backData.data = extractIframeUrl(html)
             }
         }
     } catch (error) {
@@ -210,38 +217,32 @@ async function getVideoPlayUrl(args) {
 }
 
 /**
- * 搜索视频
+ * 5. 搜索视频
  */
 async function searchVideo(args) {
     var backData = new RepVideoList()
-    // 通用搜索 URL
+    // 构造搜索URL
     let url = UZUtils.removeTrailingSlash(appConfig.webSite) +
               `/index.php/vod/search/page/${args.page}/wd/${args.searchWord}.html`
     try {
         let pro = await req(url)
         if (pro.data) {
             const $ = cheerio.load(pro.data)
-            // 搜索结果列表选择器
-            let items = $('.module-search-item, .searchlist_item, .stui-vodlist__media')
+            // 搜索结果通用选择器
+            let items = $('.module-search-item, .searchlist_item, .stui-vodlist__media li')
 
             items.each((_, e) => {
                 let video = new VideoDetail()
-                // 寻找详情链接
-                let aTag = $(e).find('a[href*="vod/detail"]').first()
-                // 寻找图片
-                let imgTag = $(e).find('img').first()
+                // 尝试适配 MxPro 搜索结构
+                let aTag = $(e).find('.video-serial')[0] || $(e).find('a[href*="vod/detail"]')[0]
+                let imgTag = $(e).find('img')[0]
 
-                if (aTag.length > 0) {
-                    video.vod_id = aTag.attr('href')
-                    video.vod_name = aTag.attr('title') || imgTag.attr('alt') || $(e).find('h3, h4').text().trim()
-                    video.vod_pic = imgTag.attr('data-src') || imgTag.attr('src')
-                    if (video.vod_pic && !video.vod_pic.startsWith('http')) {
-                        video.vod_pic = combineUrl(video.vod_pic)
-                    }
-
-                    // 状态
-                    let remarks = $(e).find('.video-serial, .pic_text, .pic-text').text()
-                    video.vod_remarks = remarks ? remarks.trim() : ''
+                if (aTag) {
+                    video.vod_id = $(aTag).attr('href')
+                    // 标题获取，优先 title 属性，其次 alt，其次文本
+                    video.vod_name = $(aTag).attr('title') || $(imgTag).attr('alt') || $(e).find('h3 a').text().trim()
+                    video.vod_pic = combineUrl($(imgTag).attr('data-src') || $(imgTag).attr('src'))
+                    video.vod_remarks = $(e).find('.video-serial').text().trim() || $(e).find('.pic_text').text().trim()
 
                     backData.data.push(video)
                 }
@@ -253,12 +254,66 @@ async function searchVideo(args) {
     return JSON.stringify(backData)
 }
 
-// 辅助函数：处理 URL 拼接
+// === 辅助工具函数 ===
+
+/**
+ * URL 拼接与修复
+ */
 function combineUrl(url) {
     if (!url) return ''
     if (url.startsWith('http')) return url
-    // 移除末尾斜杠 + 移除开头斜杠 = 避免双斜杠
+    if (url.startsWith('//')) return 'http:' + url
     let baseUrl = UZUtils.removeTrailingSlash(appConfig.webSite)
     if (!url.startsWith('/')) url = '/' + url
     return baseUrl + url
+}
+
+/**
+ * 提取 iframe 地址 (保底策略)
+ */
+function extractIframeUrl(html) {
+    const $ = cheerio.load(html)
+    // 优先找 player_iframe 容器
+    let iframeSrc = $('#player_iframe iframe').attr('src')
+    // 其次找任意包含 http 的 iframe
+    if (!iframeSrc) {
+        iframeSrc = $('iframe[src*="http"]').attr('src')
+    }
+    // 过滤掉广告iframe
+    if (iframeSrc && iframeSrc.indexOf('ad') === -1) {
+        return iframeSrc
+    }
+    return ''
+}
+
+/**
+ * Base64 解码 (兼容非浏览器环境)
+ */
+function base64Decode(str) {
+    try {
+        if (typeof atob !== 'undefined') return atob(str);
+        // Polyfill for UZ environment if atob missing
+        var c1, c2, c3, c4;
+        var i, len, out;
+        var base64DecodeChars = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1];
+        len = str.length;
+        i = 0;
+        out = "";
+        while (i < len) {
+            do { c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff]; } while (i < len && c1 == -1);
+            if (c1 == -1) break;
+            do { c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff]; } while (i < len && c2 == -1);
+            if (c2 == -1) break;
+            out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
+            do { c3 = str.charCodeAt(i++) & 0xff; if (c3 == 61) return out; c3 = base64DecodeChars[c3]; } while (i < len && c3 == -1);
+            if (c3 == -1) break;
+            out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
+            do { c4 = str.charCodeAt(i++) & 0xff; if (c4 == 61) return out; c4 = base64DecodeChars[c4]; } while (i < len && c4 == -1);
+            if (c4 == -1) break;
+            out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
+        }
+        return out;
+    } catch (e) {
+        return str;
+    }
 }
