@@ -1,11 +1,11 @@
 {
-  "spider": "./jb/fmm.jar",
+  "spider": "./jb/xyq.jar",
   "sites": [
     {
       "key": "muou_pan",
       "name": "木偶网盘(JS)",
       "type": 3,
-      "api": "csp_Web",
+      "api": "./jb/dy.js",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
