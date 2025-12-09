@@ -1,17 +1,16 @@
 {
-     "spider": "./jb/fmm.jar",
+  "spider": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf633567dd/1684074212264/fan.txt;md5;bb155c3f0133bbce4756ad52003f5968",
+  "wallpaper": "http://饭太硬.top/深色壁纸/api.php",
+  "sites": [
+    {
+      "key": "muou_pan",
+      "name": "木偶网盘(JS)",
+      "type": 3,
+      "api": "csp_Web",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "./js/zs.js"
+    }
 
-     "sites": [
-      {
-          "key": "miqk",
-          "name": "迷情看",
-          "type": 3,
-          "api": "./jb/dy.js",
-          "searchable": 1,
-          "quickSearch": 1,
-          "filterable": 1,
-          "ext": "./js/zs.js"
-      }
-    ]
-
-}
+  ]
