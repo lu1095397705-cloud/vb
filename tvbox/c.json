@@ -4,12 +4,13 @@
      "sites": [
       {
           "key": "miqk",
-          "name": "迷情看(夸克)",
+          "name": "迷情看",
           "type": 3,
-          "api": "./js/zs.js",
+          "api": "./jb/dy.js",
           "searchable": 1,
           "quickSearch": 1,
-          "filterable": 1
+          "filterable": 1,
+          "ext": "./js/zs.js"
       }
     ]
 
