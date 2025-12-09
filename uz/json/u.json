@@ -32,6 +32,14 @@
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/sf.js",
         "type": 101
     },
+  {
+        "name": "[盘] 小米",
+        "version": 4,
+        "webSite": "http://xiaomi666.fun/",
+        "order": "A07",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/xm.js",
+        "type": 101
+    },
     {
         "name": "自定义弹幕",
         "version": 19,
