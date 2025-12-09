@@ -24,6 +24,14 @@
         "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/Pan_zhizhen.js",
         "type": 101
     },
+   {
+        "name": "[盘] 傻福",
+        "version": 4,
+        "webSite": "http://xsayang.fun/",
+        "order": "A07",
+        "api": "https://gitee.com/lu228826/box/raw/master/uz/jj/sf.js",
+        "type": 101
+    },
     {
         "name": "自定义弹幕",
         "version": 19,
