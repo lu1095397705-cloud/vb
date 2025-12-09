@@ -12,7 +12,7 @@
       "key": "muou_pan",
       "name": "木偶网盘(JS)",
       "type": 3,
-      "api": "csp_WoggGuard",
+      "api": "csp_Mogg",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
