@@ -2,18 +2,11 @@
   "spider": "./jb/xh.jar",
 
   "sites": [
-    {
-            "key": "配置中心",
-            "name": "‍配置┃中心",
+      {
+            "key": "设置",
+            "name": "网弹|设置",
             "type": 3,
-            "api": "csp_ConfigGuard",
-            "searchable": 0,
-            "changeable": 0,
-            "indexs": 0,
-            "style": {
-                "type": "rect",
-                "ratio": 1.43
-            }
+            "api": "csp_HBconfig"
         },
     {
       "key": "muou_pan",
