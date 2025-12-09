@@ -1,6 +1,20 @@
 {
   "spider": "./jb/ok.jar",
+
   "sites": [
+    {
+            "key": "配置中心",
+            "name": "👨‍🍳‍配置┃中心",
+            "type": 3,
+            "api": "csp_ConfigGuard",
+            "searchable": 0,
+            "changeable": 0,
+            "indexs": 0,
+            "style": {
+                "type": "rect",
+                "ratio": 1.43
+            }
+        },
     {
       "key": "muou_pan",
       "name": "木偶网盘(JS)",
