@@ -1,16 +1,16 @@
 {
-  "sites": [
+  "spider": "./jb/fm.jar",
 
-    
-{
-  "key": "sunnafh",
-  "name": "SunnaFH影视",
-  "type": 3,
-  "api": "csp_XBPQ",
-  "searchable": 1,
-  "quickSearch": 1,
-  "filterable": 1,
-  "ext": "./js/ss.js"
-}
-  ]
+     "sites": [
+      {
+          "key": "miqk",
+          "name": "迷情看(夸克)",
+          "type": 3,
+          "api": "./js/zs.js",
+          "searchable": 1,
+          "quickSearch": 1,
+          "filterable": 1
+      }
+    ]
+
 }
