@@ -1,7 +1,7 @@
 //@name:小米影视
-//@version:1.0.8
+//@version:1.1.0
 //@webSite:http://xiaomi666.fun
-//@remark:修复播放列表获取失败问题，增强兼容性
+//@remark:最终修复版-支持网盘/下载列表/全线路抓取
 //@order: A01
 const appConfig = {
     _webSite: 'http://xiaomi666.fun',
@@ -56,30 +56,22 @@ async function getVideoList(args) {
         if (pro.data) {
             const $ = cheerio.load(pro.data)
             let videos = []
-
-            // 兼容多种模板列表选择器
+            // 聚合多种列表选择器
             let items = $('.module-item, .vodlist_item, .stui-vodlist__thumb, .list-item')
 
             items.each((_, e) => {
                 let videoDet = new VideoDetail()
-
                 let aTag = $(e).find('.module-item-pic a').first()
                 if (aTag.length === 0) aTag = $(e).find('a').first()
-
                 let imgTag = $(e).find('img').first()
 
                 if (aTag.length > 0) {
                     videoDet.vod_id = aTag.attr('href')
                     videoDet.vod_name = aTag.attr('title') || imgTag.attr('alt') || $(e).text().trim()
-
                     let src = imgTag.attr('data-src') || imgTag.attr('data-original') || imgTag.attr('src')
                     videoDet.vod_pic = combineUrl(src)
-
-                    let remarks = $(e).find('.module-item-text').text() ||
-                                  $(e).find('.pic_text').text() ||
-                                  $(e).find('.pic-text').text()
+                    let remarks = $(e).find('.module-item-text').text() || $(e).find('.pic-text').text()
                     videoDet.vod_remarks = remarks ? remarks.trim() : ''
-
                     videos.push(videoDet)
                 }
             })
@@ -92,17 +84,15 @@ async function getVideoList(args) {
 }
 
 /**
- * 3. 获取视频详情 (深度修复版)
+ * 3. 获取视频详情 (核心修复: 网盘/下载列表)
  */
 async function getVideoDetail(args) {
     var backData = new RepVideoDetail()
     try {
         let webUrl = combineUrl(args.url)
-
-        // 关键修复：添加 Headers，防止服务器返回不完整的 HTML
         let pro = await req(webUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
                 'Referer': appConfig.webSite
             }
         })
@@ -115,62 +105,71 @@ async function getVideoDetail(args) {
             // 基础信息
             let title = $('h1.page-title').text().trim() || $('h1').text().trim()
             vodDetail.vod_name = title
-
             let img = $('.module-item-pic img, .detail_pic img').first()
-            let imgSrc = img.attr('data-src') || img.attr('src')
-            vodDetail.vod_pic = combineUrl(imgSrc)
+            vodDetail.vod_pic = combineUrl(img.attr('data-src') || img.attr('src'))
+            vodDetail.vod_content = $('.module-info-introduction-content, .content_desc').text().trim()
 
-            let desc = $('.module-info-introduction-content, .video-info-content, .content_desc').text().trim()
-            vodDetail.vod_content = desc
-
-            // --- 播放列表解析 (增强版) ---
-
+            // --- 播放列表解析逻辑 ---
             let playFroms = []
             let playUrls = []
 
-            // 1. 查找所有可能的播放列表容器
-            // MxPro: .module-play-list -> .module-play-list-content
-            // 通用: .stui-content__playlist, .playlist_notfull
-            let playlistNodes = $('.module-play-list-content')
-            if (playlistNodes.length === 0) playlistNodes = $('.module-play-list') // 退一步找外层
-            if (playlistNodes.length === 0) playlistNodes = $('.stui-content__playlist')
-            if (playlistNodes.length === 0) playlistNodes = $('.playlist_notfull')
+            // 1. 寻找所有可能的 Tab (线路名)
+            // 包括播放线路 (.module-tab-item) 和 下载/网盘线路 (通常没有特定 class，或在 .module-tab-items 中)
+            let tabContainer = $('.module-tab-items').first()
+            let tabNodes = tabContainer.find('.module-tab-item')
 
-            // 2. 查找线路名称 Tab
-            // MxPro: .module-tab-item
-            // 通用: .play_source_tab a
-            let tabNodes = $('.module-tab-item')
-            if (tabNodes.length === 0) tabNodes = $('.play_source_tab a, .nav-tabs li a')
+            // 如果没找到标准 Tab，尝试旧版选择器
+            if (tabNodes.length === 0) {
+                tabNodes = $('.play_source_tab a, .nav-tabs li a, .module-tab-content .module-tab-item')
+            }
+
+            // 2. 寻找所有可能的 List (内容容器)
+            // 关键：同时查找 "播放列表" 和 "下载列表" (.module-down-list)
+            // MxPro 模板中，下载/网盘链接往往在 .module-down-list 中
+            let playlistNodes = $('.module-play-list-content, .module-play-list, .stui-content__playlist, .module-down-list')
 
             // 3. 遍历提取
             playlistNodes.each((i, e) => {
                 let urls = []
-                let aLinks = $(e).find('a') // 查找容器内所有链接
+                let aLinks = $(e).find('a')
 
                 aLinks.each((j, a) => {
                     let epName = $(a).find('span').text() || $(a).text()
-                    epName = epName.trim()
+                    epName = epName.replace(/[\r\n]/g, '').trim()
                     let epUrl = $(a).attr('href')
-                    // 排除掉非播放链接（如javascript:;）
-                    if (epUrl && (epUrl.startsWith('http') || epUrl.startsWith('/'))) {
+
+                    // 只要 href 存在且不是纯锚点/JS
+                    if (epUrl && epUrl.indexOf('javascript:') === -1 && epUrl !== '#') {
                         urls.push(`${epName}$${epUrl}`)
                     }
                 })
 
-                // 只有当该列表里确实有链接时才添加
                 if (urls.length > 0) {
-                    // 尝试匹配线路名称
+                    // 尝试匹配线路名
                     let fromName = `线路${i + 1}`
+                    // 优先从 Tab 获取名称
                     if (i < tabNodes.length) {
                         let rawName = $(tabNodes[i]).find('span').text() || $(tabNodes[i]).text()
-                        rawName = rawName.replace(/播放|来源/g, '').trim()
-                        if (rawName) fromName = rawName
+                        rawName = rawName.replace(/播放|来源|\[|\]/g, '').trim()
+                        if(rawName) fromName = rawName
+                    } else {
+                        // 如果 Tab 数量少于 List 数量（常见于下载列表被单独列出）
+                        // 判断容器 Class，如果是 down-list，命名为“下载/网盘”
+                        if ($(e).hasClass('module-down-list')) {
+                            fromName = "网盘下载"
+                        }
                     }
 
                     playFroms.push(fromName)
                     playUrls.push(urls.join('#'))
                 }
             })
+
+            // 兜底：如果上面没找到，尝试暴力搜索页面所有带 href 的列表
+            if (playUrls.length === 0) {
+                 // 这种情况极少见，除非页面结构完全变了
+                 backData.error = "未找到有效的播放列表"
+            }
 
             vodDetail.vod_play_from = playFroms.join('$$$')
             vodDetail.vod_play_url = playUrls.join('$$$')
@@ -184,25 +183,21 @@ async function getVideoDetail(args) {
 }
 
 /**
- * 4. 获取真实播放地址 (支持网盘 & 嗅探)
+ * 4. 获取真实播放地址
  */
 async function getVideoPlayUrl(args) {
     var backData = new RepVideoPlayUrl()
     try {
         let webUrl = combineUrl(args.url)
-
-        // 必须带 Referer
         let pro = await req(webUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
                 'Referer': appConfig.webSite
             }
         })
 
         if (pro.data) {
             const html = pro.data
-
-            // 提取 Maccms 播放器变量
             let jsonMatch = html.match(/player_aaaa\s*=\s*({.*?});/)
 
             if (jsonMatch && jsonMatch[1]) {
@@ -210,21 +205,16 @@ async function getVideoPlayUrl(args) {
                 let url = playerConfig.url
                 let encrypt = playerConfig.encrypt
 
-                if (encrypt == 1) {
-                    url = unescape(url)
-                } else if (encrypt == 2) {
-                    url = unescape(base64Decode(url))
-                }
+                if (encrypt == 1) url = unescape(url)
+                else if (encrypt == 2) url = unescape(base64Decode(url))
 
-                // 策略：只要是 URL 就返回，交给 APP 处理 (支持直链、网盘、云解析)
+                // 只要是链接就返回，让 App 决定如何打开 (支持 http/https 直链、网盘、m3u8)
                 if (url.startsWith('http')) {
                     backData.data = url
                 } else {
-                    // ID 类型，找 iframe
                     backData.data = extractIframeUrl(html)
                 }
             } else {
-                // 无变量，保底找 iframe
                 backData.data = extractIframeUrl(html)
             }
         }
@@ -246,7 +236,6 @@ async function searchVideo(args) {
         if (pro.data) {
             const $ = cheerio.load(pro.data)
             let items = $('.module-search-item, .searchlist_item')
-
             items.each((_, e) => {
                 let video = new VideoDetail()
                 let aTag = $(e).find('.video-serial')[0] || $(e).find('a[href*="vod/detail"]')[0]
