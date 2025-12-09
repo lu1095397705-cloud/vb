@@ -10,7 +10,7 @@
         },
     {
       "key": "muou_pan",
-      "name": "木偶网盘(JS)",
+      "name": "木偶网盘",
       "type": 3,
       "api": "csp_Mogg",
       "searchable": 1,
