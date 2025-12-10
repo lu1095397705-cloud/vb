@@ -1,17 +1,31 @@
-//@name:小米影视
-//@version:1.1.0
+//@name:[盘] 小米
+//@version:4
 //@webSite:http://xiaomi666.fun
-//@remark:最终修复版-支持网盘/下载列表/全线路抓取
-//@order: A01
+//@remark:
+//@order: A07
+// 上面是插件的元数据配置，定义了名称、版本、目标站点和排序优先级。
+
+// 全局配置对象
 const appConfig = {
+    // 目标网站的基础地址
     _webSite: 'http://xiaomi666.fun',
+
+    /**
+     * 网站主页，uz 调用每个函数前都会进行赋值操作
+     * 如果不想被改变 请自定义一个变量
+     */
     get webSite() {
         return this._webSite
     },
     set webSite(value) {
         this._webSite = value
     },
+
     _uzTag: '',
+    /**
+     * 扩展标识，初次加载时，uz 会自动赋值，请勿修改
+     * 用于读取环境变量，区分不同配置
+     */
     get uzTag() {
         return this._uzTag
     },
@@ -21,234 +35,229 @@ const appConfig = {
 }
 
 /**
- * 1. 获取分类列表
+ * 异步获取分类列表的方法。
+ * 这是 APP 首页顶部的导航栏分类。
+ * @param {UZArgs} args
+ * @returns {Promise<RepVideoClassList>}
  */
 async function getClassList(args) {
     var backData = new RepVideoClassList()
+    // 这里采用硬编码（Hardcoded）方式，直接写死了分类。
+    // type_id 对应网站 URL 中的分类参数，例如 /id/1.html
     backData.data = [
-        { type_id: '1', type_name: '电影', hasSubclass: false },
-        { type_id: '2', type_name: '连续剧', hasSubclass: false },
-        { type_id: '3', type_name: '综艺', hasSubclass: false },
-        { type_id: '4', type_name: '动漫', hasSubclass: false }
+        {
+            type_id: '1',
+            type_name: '电影',
+            hasSubclass: false, // 表示该分类下没有二级筛选（如按年份、地区）
+        },
+        {
+            type_id: '2',
+            type_name: '电视剧',
+            hasSubclass: false,
+        },
+        {
+            type_id: '4',
+            type_name: '动漫',
+            hasSubclass: false,
+        }
+
     ]
     return JSON.stringify(backData)
 }
 
+// 获取二级分类列表（筛选器），当前未实现，直接返回空
 async function getSubclassList(args) {
-    return JSON.stringify(new RepVideoSubclassList())
+    let backData = new RepVideoSubclassList()
+    return JSON.stringify(backData)
 }
 
+// 获取二级分类对应的视频列表，当前未实现，直接返回空
 async function getSubclassVideoList(args) {
-    return JSON.stringify(new RepVideoList())
+    var backData = new RepVideoList()
+    return JSON.stringify(backData)
 }
 
 /**
- * 2. 获取分类视频列表
+ * 获取分类视频列表
+ * 当用户点击某个分类时调用此函数
+ * @param {UZArgs} args
+ * @returns {Promise<RepVideoList>}
  */
 async function getVideoList(args) {
     var backData = new RepVideoList()
-    let url = UZUtils.removeTrailingSlash(appConfig.webSite) +
-              `/index.php/vod/show/id/${args.url}/page/${args.page}.html`
-
+    // 构造请求 URL。args.url 是分类ID，args.page 是页码
+    // 结果类似: http://www.miqk.cc/index.php/vod/show/id/1/page/1.html
+    let url =
+        UZUtils.removeTrailingSlash(appConfig.webSite) +
+        `/index.php/vod/show/id/${args.url}/page/${args.page}.html`
     try {
+        // req 是环境内置的网络请求函数
         const pro = await req(url)
         backData.error = pro.error
+        let videos = []
+        // 如果请求成功并返回了数据
         if (pro.data) {
+            // 使用 cheerio 解析 HTML
             const $ = cheerio.load(pro.data)
-            let videos = []
-            // 聚合多种列表选择器
-            let items = $('.module-item, .vodlist_item, .stui-vodlist__thumb, .list-item')
+            // 查找所有视频列表项，CSS选择器定位到 #main 下的 .module-item
+            let vodItems = $('#main .module-item')
 
-            items.each((_, e) => {
+            // 遍历每一个找到的视频元素
+            vodItems.each((_, e) => {
                 let videoDet = new VideoDetail()
-                let aTag = $(e).find('.module-item-pic a').first()
-                if (aTag.length === 0) aTag = $(e).find('a').first()
-                let imgTag = $(e).find('img').first()
-
-                if (aTag.length > 0) {
-                    videoDet.vod_id = aTag.attr('href')
-                    videoDet.vod_name = aTag.attr('title') || imgTag.attr('alt') || $(e).text().trim()
-                    let src = imgTag.attr('data-src') || imgTag.attr('data-original') || imgTag.attr('src')
-                    videoDet.vod_pic = combineUrl(src)
-                    let remarks = $(e).find('.module-item-text').text() || $(e).find('.pic-text').text()
-                    videoDet.vod_remarks = remarks ? remarks.trim() : ''
-                    videos.push(videoDet)
-                }
+                // 提取详情页链接，作为 vod_id
+                videoDet.vod_id = $(e).find('.module-item-pic a').attr('href')
+                // 提取图片 alt 属性作为视频名称
+                videoDet.vod_name = $(e)
+                    .find('.module-item-pic img')
+                    .attr('alt')
+                // 提取图片地址 (通常使用 data-src 实现懒加载)
+                videoDet.vod_pic = $(e)
+                    .find('.module-item-pic img')
+                    .attr('data-src')
+                // 提取右上角的备注（如：更新至8集、4K等）
+                videoDet.vod_remarks = $(e).find('.module-item-text').text()
+                // 提取年份
+                videoDet.vod_year = $(e)
+                    .find('.module-item-caption span')
+                    .first()
+                    .text()
+                videos.push(videoDet)
             })
-            backData.data = videos
         }
+        backData.data = videos
     } catch (error) {
-        backData.error = '列表解析错误: ' + error
+        // 异常处理
     }
     return JSON.stringify(backData)
 }
 
 /**
- * 3. 获取视频详情 (核心修复: 网盘/下载列表)
+ * 获取视频详情
+ * 进入具体视频页面后调用，用于提取简介、导演、网盘链接等
+ * @param {UZArgs} args
+ * @returns {Promise<RepVideoDetail>}
  */
 async function getVideoDetail(args) {
     var backData = new RepVideoDetail()
     try {
-        let webUrl = combineUrl(args.url)
-        let pro = await req(webUrl, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                'Referer': appConfig.webSite
-            }
-        })
+        // 构造详情页完整 URL
+        let webUrl = UZUtils.removeTrailingSlash(appConfig.webSite) + args.url
+        let pro = await req(webUrl)
 
-        if (pro.data) {
-            const $ = cheerio.load(pro.data)
+        backData.error = pro.error
+        let proData = pro.data
+        if (proData) {
+            const $ = cheerio.load(proData)
             let vodDetail = new VideoDetail()
             vodDetail.vod_id = args.url
+            // 提取标题
+            vodDetail.vod_name = $('.page-title')[0].children[0].data
+            // 提取详情页的大图
+            vodDetail.vod_pic = $($('.mobile-play')).find(
+                '.lazyload'
+            )[0].attribs['data-src']
 
-            // 基础信息
-            let title = $('h1.page-title').text().trim() || $('h1').text().trim()
-            vodDetail.vod_name = title
-            let img = $('.module-item-pic img, .detail_pic img').first()
-            vodDetail.vod_pic = combineUrl(img.attr('data-src') || img.attr('src'))
-            vodDetail.vod_content = $('.module-info-introduction-content, .content_desc').text().trim()
+            // 获取详情信息块（导演、主演、剧情等标题）
+            let video_items = $('.video-info-itemtitle')
 
-            // --- 播放列表解析逻辑 ---
-            let playFroms = []
-            let playUrls = []
+            // 遍历这些信息块，解析具体内容
+            for (const item of video_items) {
+                let key = $(item).text() // 获取标题，如 "剧情："
 
-            // 1. 寻找所有可能的 Tab (线路名)
-            // 包括播放线路 (.module-tab-item) 和 下载/网盘线路 (通常没有特定 class，或在 .module-tab-items 中)
-            let tabContainer = $('.module-tab-items').first()
-            let tabNodes = tabContainer.find('.module-tab-item')
+                // 获取对应的内容文本
+                let vItems = $(item).next().find('a')
+                let value = vItems
+                    .map((i, el) => {
+                        let text = $(el).text().trim()
+                        return text ? text : null
+                    })
+                    .get()
+                    .filter(Boolean)
+                    .join(', ')
 
-            // 如果没找到标准 Tab，尝试旧版选择器
-            if (tabNodes.length === 0) {
-                tabNodes = $('.play_source_tab a, .nav-tabs li a, .module-tab-content .module-tab-item')
-            }
-
-            // 2. 寻找所有可能的 List (内容容器)
-            // 关键：同时查找 "播放列表" 和 "下载列表" (.module-down-list)
-            // MxPro 模板中，下载/网盘链接往往在 .module-down-list 中
-            let playlistNodes = $('.module-play-list-content, .module-play-list, .stui-content__playlist, .module-down-list')
-
-            // 3. 遍历提取
-            playlistNodes.each((i, e) => {
-                let urls = []
-                let aLinks = $(e).find('a')
-
-                aLinks.each((j, a) => {
-                    let epName = $(a).find('span').text() || $(a).text()
-                    epName = epName.replace(/[\r\n]/g, '').trim()
-                    let epUrl = $(a).attr('href')
-
-                    // 只要 href 存在且不是纯锚点/JS
-                    if (epUrl && epUrl.indexOf('javascript:') === -1 && epUrl !== '#') {
-                        urls.push(`${epName}$${epUrl}`)
-                    }
-                })
-
-                if (urls.length > 0) {
-                    // 尝试匹配线路名
-                    let fromName = `线路${i + 1}`
-                    // 优先从 Tab 获取名称
-                    if (i < tabNodes.length) {
-                        let rawName = $(tabNodes[i]).find('span').text() || $(tabNodes[i]).text()
-                        rawName = rawName.replace(/播放|来源|\[|\]/g, '').trim()
-                        if(rawName) fromName = rawName
-                    } else {
-                        // 如果 Tab 数量少于 List 数量（常见于下载列表被单独列出）
-                        // 判断容器 Class，如果是 down-list，命名为“下载/网盘”
-                        if ($(e).hasClass('module-down-list')) {
-                            fromName = "网盘下载"
-                        }
-                    }
-
-                    playFroms.push(fromName)
-                    playUrls.push(urls.join('#'))
+                // 根据标题关键字判断内容类型并赋值
+                if (key.includes('剧情')) {
+                    // 剧情简介通常在 <p> 标签里，特殊处理
+                    vodDetail.vod_content = $(item)
+                        .next()
+                        .find('p')
+                        .text()
+                        .trim()
+                } else if (key.includes('导演')) {
+                    vodDetail.vod_director = value.trim()
+                } else if (key.includes('主演')) {
+                    vodDetail.vod_actor = value.trim()
                 }
-            })
-
-            // 兜底：如果上面没找到，尝试暴力搜索页面所有带 href 的列表
-            if (playUrls.length === 0) {
-                 // 这种情况极少见，除非页面结构完全变了
-                 backData.error = "未找到有效的播放列表"
             }
 
-            vodDetail.vod_play_from = playFroms.join('$$$')
-            vodDetail.vod_play_url = playUrls.join('$$$')
+            // === 关键部分：提取网盘链接 ===
+            const panUrls = []
+            // 定位到包含分享链接的行
+            let items = $('.module-row-info')
+            for (const item of items) {
+                // 提取 p 标签内的文本，通常是网盘链接
+                let shareUrl = $(item).find('p')[0].children[0].data
+                panUrls.push(shareUrl)
+            }
+            // 将提取到的链接赋值给 vodDetail.panUrls
+            // APP 会识别这个字段来展示“转存”或“打开”按钮
+            vodDetail.panUrls = panUrls
+            console.log(panUrls)
 
             backData.data = vodDetail
         }
     } catch (error) {
-        backData.error = '详情解析错误: ' + error
+        backData.error = '获取视频详情失败' + error
     }
+
     return JSON.stringify(backData)
 }
 
 /**
- * 4. 获取真实播放地址
+ * 获取视频的播放地址
+ * @param {UZArgs} args
+ * @returns {Promise<RepVideoPlayUrl>}
  */
 async function getVideoPlayUrl(args) {
     var backData = new RepVideoPlayUrl()
-    try {
-        let webUrl = combineUrl(args.url)
-        let pro = await req(webUrl, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                'Referer': appConfig.webSite
-            }
-        })
-
-        if (pro.data) {
-            const html = pro.data
-            let jsonMatch = html.match(/player_aaaa\s*=\s*({.*?});/)
-
-            if (jsonMatch && jsonMatch[1]) {
-                let playerConfig = JSON.parse(jsonMatch[1])
-                let url = playerConfig.url
-                let encrypt = playerConfig.encrypt
-
-                if (encrypt == 1) url = unescape(url)
-                else if (encrypt == 2) url = unescape(base64Decode(url))
-
-                // 只要是链接就返回，让 App 决定如何打开 (支持 http/https 直链、网盘、m3u8)
-                if (url.startsWith('http')) {
-                    backData.data = url
-                } else {
-                    backData.data = extractIframeUrl(html)
-                }
-            } else {
-                backData.data = extractIframeUrl(html)
-            }
-        }
-    } catch (error) {
-        backData.error = '解析播放地址失败: ' + error
-    }
+    // 这是一个“网盘”类插件，资源通过 panUrls 返回。
+    // 不需要解析具体的 m3u8/mp4 播放地址，所以这里返回空即可。
     return JSON.stringify(backData)
 }
 
 /**
- * 5. 搜索视频
+ * 搜索视频
+ * @param {UZArgs} args
+ * @returns {Promise<RepVideoList>}
  */
 async function searchVideo(args) {
     var backData = new RepVideoList()
-    let url = UZUtils.removeTrailingSlash(appConfig.webSite) +
-              `/index.php/vod/search/page/${args.page}/wd/${args.searchWord}.html`
     try {
-        let pro = await req(url)
-        if (pro.data) {
-            const $ = cheerio.load(pro.data)
-            let items = $('.module-search-item, .searchlist_item')
-            items.each((_, e) => {
-                let video = new VideoDetail()
-                let aTag = $(e).find('.video-serial')[0] || $(e).find('a[href*="vod/detail"]')[0]
-                let imgTag = $(e).find('img')[0]
+        // 构造搜索 URL，wd=关键词
+        let searchUrl = `${UZUtils.removeTrailingSlash(
+            appConfig.webSite
+        )}/index.php/vod/search/page/${args.page}/wd/${args.searchWord}.html`
 
-                if (aTag) {
-                    video.vod_id = $(aTag).attr('href')
-                    video.vod_name = $(e).find('h3').text().trim() || $(aTag).attr('title')
-                    video.vod_pic = combineUrl($(imgTag).attr('data-src') || $(imgTag).attr('src'))
-                    video.vod_remarks = $(e).find('.video-serial').text().trim()
-                    backData.data.push(video)
-                }
-            })
+        let repData = await req(searchUrl)
+        const $ = cheerio.load(repData.data)
+        // 定位搜索结果列表项
+        let items = $('.module-search-item')
+
+        // 遍历搜索结果
+        for (const item of items) {
+            let video = new VideoDetail()
+            // 提取 ID (href)
+            video.vod_id = $(item).find('.video-serial')[0].attribs.href
+            // 提取 标题 (title)
+            video.vod_name = $(item).find('.video-serial')[0].attribs.title
+            // 提取 图片
+            video.vod_pic = $(item).find('.module-item-pic > img')[0].attribs[
+                'data-src'
+            ]
+            // 提取 备注/状态
+            video.vod_remarks = $($(item).find('.video-serial')[0]).text()
+            backData.data.push(video)
         }
     } catch (error) {
         backData.error = error
@@ -256,56 +265,16 @@ async function searchVideo(args) {
     return JSON.stringify(backData)
 }
 
-// === 工具函数 ===
-
+// 辅助函数：处理 URL 拼接，防止多余的斜杠或缺少域名
 function combineUrl(url) {
-    if (!url) return ''
-    if (url.startsWith('http')) return url
-    if (url.startsWith('//')) return 'http:' + url
-    let baseUrl = UZUtils.removeTrailingSlash(appConfig.webSite)
-    if (!url.startsWith('/')) url = '/' + url
-    return baseUrl + url
-}
-
-function extractIframeUrl(html) {
-    const $ = cheerio.load(html)
-    let iframeSrc = $('#player_iframe iframe').attr('src')
-    if (!iframeSrc) {
-        $('iframe').each((i, el) => {
-            let src = $(el).attr('src')
-            if (src && src.startsWith('http') && src.indexOf('ad') === -1) {
-                iframeSrc = src
-                return false
-            }
-        })
+    if (url === undefined) {
+        return ''
     }
-    return iframeSrc || ''
-}
-
-function base64Decode(str) {
-    try {
-        if (typeof atob !== 'undefined') return atob(str);
-        var c1, c2, c3, c4;
-        var i, len, out;
-        var base64DecodeChars = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1];
-        len = str.length;
-        i = 0;
-        out = "";
-        while (i < len) {
-            do { c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff]; } while (i < len && c1 == -1);
-            if (c1 == -1) break;
-            do { c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff]; } while (i < len && c2 == -1);
-            if (c2 == -1) break;
-            out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
-            do { c3 = str.charCodeAt(i++) & 0xff; if (c3 == 61) return out; c3 = base64DecodeChars[c3]; } while (i < len && c3 == -1);
-            if (c3 == -1) break;
-            out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
-            do { c4 = str.charCodeAt(i++) & 0xff; if (c4 == 61) return out; c4 = base64DecodeChars[c4]; } while (i < len && c4 == -1);
-            if (c4 == -1) break;
-            out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
-        }
-        return out;
-    } catch (e) {
-        return str;
+    if (url.indexOf(appConfig.webSite) !== -1) {
+        return url
     }
+    if (url.startsWith('/')) {
+        return appConfig.webSite + url
+    }
+    return appConfig.webSite + '/' + url
 }
