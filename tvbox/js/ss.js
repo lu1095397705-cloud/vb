@@ -1,50 +1,35 @@
+//https://www.ntdm8.com/
 var rule = {
-    title: 'SunnaFH',
-    host: 'https://www.sunnafh.com',
-    // 网站通常使用 lazyload，图片在 data-original 中
-    // 列表页地址格式: /vodtype/分类ID-页码.html
-    url: '/vodtype/fyclass-fypage.html',
-    // 搜索地址: 使用 wd 参数
+    title: '玩偶',
+    host: 'https://wogg.xxooo.cf/',
+    homeUrl: '/vodtype/fyclass.html',
+    url: '/vodshow/fyclass--------fypage---.html',
+    filterable: 0, //是否启用分类筛选,
+    //filter_url: '--{{fl.by}}-{{fl.class}}--{{fl.letter}}---fypage---{{fl.year}}',
     searchUrl: '/vodsearch/-------------.html?wd=**',
-    searchable: 2, // 1=可搜, 2=启用搜索
-    quickSearch: 0, // 1=允许快速搜索
-    filterable: 0, // 1=启用筛选
-    headers: {
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G9600 Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.89 Mobile Safari/537.36',
-        'Referer': 'https://www.sunnafh.com/'
+    searchable: 2, //是否启用全局搜索,
+    quickSearch: 1, //是否启用快速搜索,
+    headers: { //网站的请求头,完整支持所有的,常带ua和cookies
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
     },
-    // 首页分类定义 (也可以写 automated 自动获取，这里手动定义更稳定)
-    class_name: '电影&电视剧&综艺&动漫&纪录片',
-    class_url: '1&2&3&4&5',
-
-    // 推荐内容 (首页) 解析规则
-    // 格式: 列表选择器;标题;图片;描述;链接
-    推荐: '.stui-vodlist__box; a&&title; a&&data-original; .pic-text&&Text; a&&href',
-
-    // 一级列表页解析规则
-    // 格式: 列表选择器;标题;图片;描述;链接
-    // 注意: 该站使用的是 .stui-vodlist__box 或者 .stui-vodlist__item
+    timeout: 1000,
+    class_parse: '.nav-menu-items&&li;a&&title;a&&href;.*/(\\w+).html',
+    cate_exclude: '推荐',
+    play_parse: true,
+    detailUrl: '',
+    lazy: "",
     limit: 6,
-    double: true, // 是否双层解析，通常设为 true 兼容性更好
-    一级: '.stui-vodlist__box; a&&title; a&&data-original; .pic-text&&Text; a&&href',
-
-    // 二级详情页解析规则
+    推荐: '*',
+    double: true, // 推荐内容是否双层定位
+    一级: '.module-item&&.module-item-pic;img&&alt;img&&data-src;.module-item-text&&Text;a&&href',//列表；名称；图片，剧集数；链接,
+    二级访问前: '',
     二级: {
-        // 标题
-        title: 'h1.title&&Text;.data:eq(0)&&Text',
-        // 图片
-        img: '.stui-content__thumb a&&data-original',
-        // 描述
-        desc: '.data:eq(-1)&&Text;.data:eq(-2)&&Text;.data:eq(-3)&&Text',
-        // 内容简介
-        content: '.stui-content__desc&&Text',
-        // 线路数组 (播放源)
-        tabs: '.nav-tabs li a',
-        // 播放列表数组 (集数)
-        lists: '.stui-content__playlist:eq(#id) li',
+        "title": "h4&&Text;.detail_imform_value:eq(6)&&Text",//名称；状态
+        "img": ".poster&&src",
+        "desc": "",
+        "content": ".detail_imform_desc_pre&&Text",//简介
+        "tabs": "js:TABS=['小卢快线','小卢二线','🦌','少','点','了']",//线路名
+        "lists": ".movurl:eq(#id)&&li"//列表
     },
-
-    // 搜索结果解析规则
-    // 搜索页面的结构通常和列表页略有不同，这里适配通用 stui 搜索列表
-    搜索: '.stui-vodlist__media li; a&&title; a&&data-original; .pic-text&&Text; a&&href',
+    搜索: '*',
 }
