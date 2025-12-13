@@ -10,7 +10,8 @@ var rule = {
     searchable: 2, //是否启用全局搜索,
     quickSearch: 1, //是否启用快速搜索,
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
-        'User-Agent': 'MOBILE_UA',
+        'User-Agent': '\n' +
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
     },
     timeout: 5000,
     class_parse: '.search-tag&&li;a&&Text;a&&href;.*/(\\w+).html',
