@@ -4,7 +4,7 @@
       "key": "py_wogg_custom",
       "name": "Wogg盘搜(py)",
       "type": 3,
-      "api": "./py/ts.py",
+      "api": "https://gitee.com/lu228826/box/raw/master/tvbox/py/ts.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
