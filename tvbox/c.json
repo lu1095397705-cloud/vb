@@ -1,11 +1,12 @@
-{"spider": "./xyq.jar",
+{
+
 
      "sites": [
 
 
     {
       "key": "wogg",
-      "name": "Wogg网盘资源",
+      "name": "Wogg",
       "type": 3,
       "api": "./jb/dy.js",
       "searchable": 1,
