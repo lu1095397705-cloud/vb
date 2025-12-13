@@ -12,8 +12,8 @@ var rule = {
     headers: { //网站的请求头,完整支持所有的,常带ua和cookies
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
     },
-    timeout: 1000,
-    class_parse: '.nav-menu-items&&li;a&&title;a&&href;.*/(\\w+).html',
+    timeout: 5000,
+    class_parse: '.nav-menu-items li;a&&title;a&&href;.*/(.*?)/.html',
     cate_exclude: '推荐',
     play_parse: true,
     detailUrl: '',
