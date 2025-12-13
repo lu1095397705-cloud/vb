@@ -7,7 +7,7 @@
       "key": "wogg",
       "name": "Wogg网盘资源",
       "type": 3,
-      "api": "csp_Wogg",
+      "api": "./jb/dy.js",
       "searchable": 1,
       "filterable": 1,
       "ext": "./js/ss.js"
