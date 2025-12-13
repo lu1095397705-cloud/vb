@@ -2,7 +2,7 @@
   "sites": [
     {
       "key": "py_wogg_custom",
-      "name": "Wogg盘搜(py)",
+      "name": "盘搜(py)",
       "type": 3,
       "api": "https://gitee.com/lu228826/box/raw/master/tvbox/py/ts.py",
       "searchable": 1,
