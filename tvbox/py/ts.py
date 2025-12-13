@@ -15,8 +15,8 @@ rule = {
        },
 
 
-    'class_name': '小日本&&中国&&欧美',
-    'class_url': '/type/riben.html&&/type/zhongguo.html&&/type/omei.html',
+    'class_name': '小日本&&中国',
+    'class_url': '/type/riben&&/type/zhongguo',
     'class_parse': '.search-tag&&li;a&&Text;a&&href;.*/(\w+).html',
 
 
