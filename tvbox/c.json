@@ -1,5 +1,5 @@
 {
-  "spider": "",
+  "spider": "./jb/hb.jar",
   "sites": [
     {
       "key": "push_agent",
@@ -14,7 +14,7 @@
       "key": "hd_py",
       "name": "two",
       "type": 3,
-      "api": "https://13362.kstore.space/tvbox/py/two.py",
+      "api": "./py/two.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
