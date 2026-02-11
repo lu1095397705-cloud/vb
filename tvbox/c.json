@@ -1,5 +1,5 @@
 {
-  "spider": "./jb/hb.jar",
+  "spider": "https://13362.kstore.space/tvbox/jb/hb.jar",
   "sites": [
     {
       "key": "push_agent",
