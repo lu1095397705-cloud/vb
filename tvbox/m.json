@@ -1,6 +1,23 @@
 {
-  "wallpaper": "http://228826.xyz/wallpaper/index.php",
+  "spider": "./jb/hb.jar",
+  "wallpaper": "",
   "sites": [
+    {
+      "key": "py_tx",
+      "name": "(py)腾讯视频",
+      "type": 3,
+      "api": "https://13362.kstore.space/tvbox/py/tx.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "设置",
+      "name": "网弹|设置",
+      "type": 3,
+      "api": "csp_Config"
+    },
     {
       "key": "huban",
       "name": "虎斑┃弹幕┃设置",
@@ -9,81 +26,192 @@
       "api": "csp_Huban"
     },
     {
-      "key": "lu",
-      "name": "伊专线",
-      "type": 1,
-      "api": "http://228826.xyz/api.php/provide/vod/?ac=list",
-      "ext": "http://228826.xyz/api.php/provide/vod/?ac=list"
+      "key": "push_agent",
+      "name": "推送",
+      "type": 3,
+      "api": "csp_Push",
+      "searchable": 0,
+      "filterable": 0,
+      "changeable": 0
     },
     {
       "key": "qiyi",
-      "name": "爱奇艺",
+      "name": "(js)爱奇艺",
       "type": 3,
       "api": "./jb/dy.js",
-      "jar": "./jb/xyq.jar",
       "ext": "./js/qy.js"
     },
     {
       "key": "youku",
-      "name": "优酷",
+      "name": "(js)优酷",
       "type": 3,
       "api": "./jb/dy.js",
-      "jar": "./jb/xyq.jar",
       "ext": "./js/yk.js"
     },
     {
       "key": "mgtv",
-      "name": "芒果视频",
+      "name": "(js)芒果视频",
       "type": 3,
       "api": "./jb/dy.js",
-      "jar": "./jb/xyq.jar",
       "ext": "./js/mg.js"
     },
     {
-      "key": "li_py",
-      "name": "韩剧(遥遥领先)",
+      "key": "网盘虎斑",
+      "name": "虎斑|4k",
+      "type": 3,
+      "playerType": 2,
+      "api": "csp_Mogg",
+      "ext": {
+        "tyitoken": "http://127.0.0.1:9978/file/TVBox/tyitoken.txt",
+        "dutoken": "./json/bd.txt",
+        "p123token": "http://127.0.0.1:9978/file/TVBox/p123token.txt",
+        "token": "http://127.0.0.1:9978/file/TVBox/Altoken.txt",
+        "cookie": "./json/qk.txt",
+        "uccookie": "./json/uc.txt",
+        "tuctoken": "",
+        "site": "http://103.45.162.207:20720/"
+      }
+    },
+    {
+      "key": "py_gz",
+      "name": "4k木偶",
+      "type": 3,
+      "api": "https://13362.kstore.space/tvbox/py/muou.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "py_gz",
+      "name": "(py)瓜子",
+      "type": 3,
+      "api": "https://13362.kstore.space/tvbox/py/gz.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "py_li",
+      "name": "(py)libvod（韩剧）",
       "type": 3,
       "api": "https://13362.kstore.space/tvbox/py/libvod.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
-      "filterable": 1,
-      "playerType": 2
+      "filterable": 1
     },
     {
-      "key": "ne_py",
-      "name": "樱花动漫(伊专线)",
+      "key": "py_two",
+      "name": "(py)bttwo(高峰不卡)",
       "type": 3,
-      "api": "https://13362.kstore.space/tvbox/py/nt.py",
+      "api": "https://13362.kstore.space/tvbox/py/two.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
-      "filterable": 1,
-      "playerType": 2
+      "filterable": 1
     }
   ],
   "parses": [
     {
+      "name": "麒麟解析(稳）",
+      "type": 0,
+      "url": "https://mo.765365.xyz/proxyjx/?url=",
+      "flags": [
+        "youku",
+        "优酷",
+        "优 酷",
+        "优酷视频",
+        "360zy",
+        "qq",
+        "腾讯",
+        "腾 讯",
+        "腾讯视频",
+        "iqiyi",
+        "qiyi",
+        "奇艺",
+        "爱奇艺",
+        "爱 奇 艺",
+        "m1905",
+        "xigua",
+        "letv",
+        "leshi",
+        "乐视",
+        "乐 视",
+        "sohu",
+        "搜狐",
+        "搜 狐",
+        "搜狐视频",
+        "tudou",
+        "pptv",
+        "mgtv",
+        "芒果",
+        "imgo",
+        "芒果TV",
+        "芒 果 T V",
+        "bilibili",
+        "哔 哩"
+      ]
+    },
+    {
       "name": "伊朵玫瑰送给你(快)",
       "type": 1,
+      "timeout": 30,
       "url": "https://api.oxli.top/api/?key=c3f24c21d4558b67f110&url="
     },
     {
-      "name": "两袖清风怎敢误佳人(慢)",
+      "name": "两袖清风(慢)",
       "type": 1,
-      "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url="
+      "timeout": 30,
+      "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url=",
+      "flags": [
+        "youku",
+        "优酷",
+        "优 酷",
+        "优酷视频",
+        "360zy",
+        "qq",
+        "腾讯",
+        "腾 讯",
+        "腾讯视频",
+        "iqiyi",
+        "qiyi",
+        "奇艺",
+        "爱奇艺",
+        "爱 奇 艺",
+        "m1905",
+        "xigua",
+        "letv",
+        "leshi",
+        "乐视",
+        "乐 视",
+        "sohu",
+        "搜狐",
+        "搜 狐",
+        "搜狐视频",
+        "tudou",
+        "pptv",
+        "mgtv",
+        "芒果",
+        "imgo",
+        "芒果TV",
+        "芒 果 T V",
+        "bilibili",
+        "哔 哩"
+      ]
     },
     {
-      "name": "赠君茉莉愿君勿离(高画质)",
+      "name": "芒果4k",
       "type": 1,
       "url": "https://api.oxli.top/api/?type=4k&key=c3f24c21d4558b67f110&url="
     }
-
   ],
   "flags": [
     "youku",
     "优酷",
     "优 酷",
+    "预告片",
     "优酷视频",
     "360zy",
     "qq",
@@ -114,5 +242,16 @@
     "芒 果 T V",
     "bilibili",
     "哔 哩"
+  ],
+  "doh": [
+
+    {
+    "name": "Tencent",
+    "url": "https://doh.pub/dns-query",
+    "ips": [
+      "119.29.29.29",
+      "1.12.12.12"
+    ]
+  }
   ]
 }
