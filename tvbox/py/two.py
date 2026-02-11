@@ -178,10 +178,13 @@ class Spider(Spider):
         return result
 
     def playerContent(self, flag, id, vipFlags):
-        video_rule = r"\.(m3u8|mp4|flv|m4a|avi)([?!#].*)?$"
         return {
             'parse': 1,
             'url': id,
-            'timeout': 60,
-            'rule': video_rule
+            'timeout':17,
+            'header': {
+                'User-Agent': 'User-Agent : Mozilla/5.0 (Linux; Android 12; 23113RKC6C Build/V417IR; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/110.0.5481.154 Mobile Safari/537.36',
+                'Accept': '*/*',
+                'Origin': 'https://www.bttwo.me'
+            }
         }
