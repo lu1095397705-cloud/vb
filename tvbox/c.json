@@ -1,16 +1,34 @@
 {
+  "spider": "",
   "sites": [
     {
-      "key": "py_wogg_custom",
-      "name": "盘搜(py)",
+      "key": "push_agent",
+      "name": "推送",
       "type": 3,
-      "api": "https://gitee.com/lu228826/box/raw/master/tvbox/py/ts.py",
+      "api": "csp_Push",
+      "searchable": 0,
+      "filterable": 0,
+      "changeable": 0
+    },
+    {
+      "key": "hd_py",
+      "name": "two",
+      "type": 3,
+      "api": "https://13362.kstore.space/tvbox/py/two.py",
       "searchable": 1,
+      "changeable": 1,
       "quickSearch": 1,
-      "filterable": 1,
-      "ext": ""
+      "filterable": 1
     }
   ],
-  "parses": [],
-  "flags": []
+  "doh": [
+    {
+      "name": "AdGuard",
+      "url": "https://dns.adguard.com/dns-query",
+      "ips": [
+        "94.140.14.140",
+        "94.140.14.141"
+      ]
+    }
+  ]
 }

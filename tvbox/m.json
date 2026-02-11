@@ -1,220 +1,118 @@
 {
-    "wallpaper": "http://我不是.摸鱼儿.com/wallpaper/",
-    "sites": [
+  "wallpaper": "http://228826.xyz/wallpaper/index.php",
+  "sites": [
+    {
+      "key": "huban",
+      "name": "虎斑┃弹幕┃设置",
+      "type": 3,
+      "jar": "./jb/huban.jar",
+      "api": "csp_Huban"
+    },
+    {
+      "key": "lu",
+      "name": "伊专线",
+      "type": 1,
+      "api": "http://228826.xyz/api.php/provide/vod/?ac=list",
+      "ext": "http://228826.xyz/api.php/provide/vod/?ac=list"
+    },
+    {
+      "key": "qiyi",
+      "name": "爱奇艺",
+      "type": 3,
+      "api": "./jb/dy.js",
+      "jar": "./jb/xyq.jar",
+      "ext": "./js/qy.js"
+    },
+    {
+      "key": "youku",
+      "name": "优酷",
+      "type": 3,
+      "api": "./jb/dy.js",
+      "jar": "./jb/xyq.jar",
+      "ext": "./js/yk.js"
+    },
+    {
+      "key": "mgtv",
+      "name": "芒果视频",
+      "type": 3,
+      "api": "./jb/dy.js",
+      "jar": "./jb/xyq.jar",
+      "ext": "./js/mg.js"
+    },
+    {
+      "key": "li_py",
+      "name": "韩剧(遥遥领先)",
+      "type": 3,
+      "api": "https://13362.kstore.space/tvbox/py/libvod.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "playerType": 2
+    },
+    {
+      "key": "ne_py",
+      "name": "樱花动漫(伊专线)",
+      "type": 3,
+      "api": "https://13362.kstore.space/tvbox/py/nt.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "playerType": 2
+    }
+  ],
+  "parses": [
+    {
+      "name": "伊朵玫瑰送给你(快)",
+      "type": 1,
+      "url": "https://api.oxli.top/api/?key=c3f24c21d4558b67f110&url="
+    },
+    {
+      "name": "两袖清风怎敢误佳人(慢)",
+      "type": 1,
+      "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url="
+    },
+    {
+      "name": "赠君茉莉愿君勿离(高画质)",
+      "type": 1,
+      "url": "https://api.oxli.top/api/?type=4k&key=c3f24c21d4558b67f110&url="
+    }
 
-        {
-            "key": "huban",
-            "name": "虎斑┃弹幕┃设置",
-            "type": 3,
-            "jar": "./jb/huban.jar",
-            "api": "csp_Huban"
-        },
-
-            {
-                "key": "豆瓣",
-                "name": "豆瓣",
-                "type": 3,
-                "api": "csp_DoubanGuard",
-                "jar":"./jb/ok.jar",
-                "searchable": 0,
-                "changeable": 1
-            },
-
-
-        {
-            "key": "qiyi",
-            "name": "爱奇艺",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "jar": "./jb/xyq.jar",
-            "ext": "./js/qy.js"
-        },
-        {
-            "key": "youku",
-            "name": "优酷",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "jar": "./jb/xyq.jar",
-            "ext": "./js/yk.js"
-        },
-        {
-            "key": "mgtv",
-            "name": "芒果视频",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "jar": "./jb/xyq.jar",
-            "ext": "./js/mg.js"
-        },
-        {
-            "key": "瓜子",
-            "name": "瓜子┃App",
-            "type": 3,
-            "api": "csp_GuaziGuard",
-            "jar":"./jb/ok.jar",
-            "searchable": 1,
-            "quickSearch": 1,
-            "changeable": 1,
-            "filterable": 1,
-            "timeout": 10
-        },
-        
-        {
-            "key": "csp_JianPian",
-            "name": "荐片",
-            "type": 3,
-            "api": "csp_JianPian",
-            "jar":"./jb/xyq.jar",
-            "playerType": 1,
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
-        {
-            "key": "csp_Netfixtv",
-            "name": "至臻┃影视",
-            "type": 3,
-            "api": "csp_Duopan",
-            "jar":"./jb/fm.jar",
-            "filterable": 1,
-            "ext": {
-                "site_urls": [
-                    "http://xiaomi666.fun",
-                    "https://xiaomiai.site",
-                    "https://mihdr.top",
-                    "https://www.mihdr.top",
-                    "http://www.miqk.cc",
-                    "https://www.zhizhenpan.fun"
-                ],
-                "url_key": "Netfixtv2",
-                "threadinfo": {
-                    "chunksize": 512,
-                    "threads": 16
-                }
-            }
-        },
-                {
-                    "key": "玩偶",
-                    "name": "玩偶┃4K",
-                    "type": 3,
-                    "api": "csp_WoggGuard",
-                    "jar":"./jb/ok.jar",
-                    "searchable": 1,
-                    "filterable": 1,
-                    "changeable": 1,
-                    "timeout": 30
-                },
-                {
-                    "key": "木偶",
-                    "name": "🪵木偶┃4K",
-                    "type": 3,
-                    "api": "csp_MuouGuard",
-                    "jar":"./jb/ok.jar",
-                    "searchable": 1,
-                    "quickSearch": 1,
-                    "changeable": 1,
-                    "filterable": 1,
-                    "timeout": 25
-                },
-               {
-                "key": "至臻",
-                "name": "💌至臻┃4K",
-                "type": 3,
-                "api": "csp_ZhiZhenGuard",
-                "jar":"./jb/ok.jar", 
-                "searchable": 1,
-                "quickSearch": 1,
-                "changeable": 1,
-                "filterable": 1,
-                "timeout": 25
-            },
-            
-        {
-            "key": "jc",
-            "name": "金蝉",
-            "type": 1,
-            "playUrl":"json:https://json.jinchanjiexi.net:1994/api/?key=mNy1OrsHtwlSEZ944e&url=",
-            "api": "https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
-            "ext":"https://zy.jinchancaiji.com/api.php/provide/vod/?ac=list",
-            "timeout": 30
-        },
-
-        {
-        "key": "ntdm",
-        "name": "nt动漫",
-        "type": 3,
-        "api": "./jb/dy.js",
-        "jar": "./jb/xyq.jar",
-        "ext": "./js/ntdm.js",
-        "timeout": 25
-        },
-        {
-            "key": "mxdm",
-            "name": "mx动漫",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "jar": "./jb/xyq.jar",
-            "ext": "./js/mxdm.js",
-            "timeout": 25
-        },
-    
-        {
-            "key": "去看吧",
-            "name": "去看吧｜动漫",
-            "type": 3,
-            "api": "./jb/dy.js",
-            "jar": "./jb/xyq.jar",
-            "ext": "./js/qkb.js",
-            "timeout": 25
-        }
-        
-    ],
-    "parses": [
-        {
-            "name": "夏夜4k",
-            "type": "1",
-            "url": "http://8.155.50.80/xiayexk.php?url="
-            
-        
-        },
-        {
-            "name": "火花",
-            "type": "1",
-            "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url="
-        }
-       
-    ],
-    "flags": [
-        "youku",
-        "优酷",
-        "优 酷",
-        "优酷视频",
-        "qq",
-        "腾讯",
-        "腾 讯",
-        "腾讯视频",
-        "iqiyi",
-        "qiyi",
-        "奇艺",
-        "爱奇艺",
-        "爱 奇 艺",
-        "m1905",
-        "xigua",
-        "letv",
-        "leshi",
-        "乐视",
-        "乐 视",
-        "sohu",
-        "搜狐",
-        "搜 狐",
-        "搜狐视频",
-        "tudou",
-        "pptv",
-        "mgtv",
-        "芒果",
-        "imgo",
-        "芒果TV",
-        "芒 果 T V",
-        "bilibili",
-        "哔 哩"
-    ]
+  ],
+  "flags": [
+    "youku",
+    "优酷",
+    "优 酷",
+    "优酷视频",
+    "360zy",
+    "qq",
+    "腾讯",
+    "腾 讯",
+    "腾讯视频",
+    "iqiyi",
+    "qiyi",
+    "奇艺",
+    "爱奇艺",
+    "爱 奇 艺",
+    "m1905",
+    "xigua",
+    "letv",
+    "leshi",
+    "乐视",
+    "乐 视",
+    "sohu",
+    "搜狐",
+    "搜 狐",
+    "搜狐视频",
+    "tudou",
+    "pptv",
+    "mgtv",
+    "芒果",
+    "imgo",
+    "芒果TV",
+    "芒 果 T V",
+    "bilibili",
+    "哔 哩"
+  ]
 }
