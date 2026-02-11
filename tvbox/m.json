@@ -19,13 +19,6 @@
       "api": "csp_Config"
     },
     {
-      "key": "huban",
-      "name": "虎斑┃弹幕┃设置",
-      "type": 3,
-      "jar": "./jb/huban.jar",
-      "api": "csp_Huban"
-    },
-    {
       "key": "push_agent",
       "name": "推送",
       "type": 3,
