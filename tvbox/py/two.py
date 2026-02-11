@@ -82,7 +82,7 @@ class Spider(Spider):
         # 修复：pg 参数应该带入 URL
         url = f'{self.host}{tid}'
         try:
-            time.sleep(random.uniform(1.3, 4.2))
+
             res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
             if res.cookies.get_dict():
                 self.cookies.update(res.cookies.get_dict())
@@ -120,7 +120,6 @@ class Spider(Spider):
 
     def detailContent(self, ids):
         url=ids[0]
-        time.sleep(random.uniform(1.6, 6.3))
         res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
         if res.cookies.get_dict():
             self.cookies.update(res.cookies.get_dict())
@@ -180,21 +179,9 @@ class Spider(Spider):
 
     def playerContent(self, flag, id, vipFlags):
         video_rule = r"\.(m3u8|mp4|flv|m4a|avi)([?!#].*)?$"
-
-        # 最新的电脑端 Chrome User-Agent (Windows 版)
-        pc_ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
-
         return {
             'parse': 1,
             'url': id,
-            'jx': 0,
             'timeout': 60,
-            'rule': video_rule,
-            'header': {
-                'User-Agent': pc_ua,
-                'Origin': 'https://www.bttwo.me',
-                'Referer': 'https://www.bttwo.me/',  # 建议加上这个，防止视频地址失效
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-                'Accept-Language': 'zh-CN,zh;q=0.9'
-            }
+            'rule': video_rule
         }
