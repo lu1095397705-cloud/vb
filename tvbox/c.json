@@ -1,4 +1,4 @@
-{
+{ "spider":"./jb/hb.jar",
   "sites": [
     {
       "key": "push_agent",
@@ -13,12 +13,15 @@
       "key": "hd_py",
       "name": "1",
       "type": 3,
-      "api": "./py/two.py",
+      "api": "./py/wanou.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
       "filterable": 1
     }
+  ],
+  "hosts": [
+    "www.bttwo.me"
   ],
   "rules": [
     {
@@ -29,13 +32,12 @@
 			]
 		}],
   "doh": [
-
     {
     "name": "Tencent",
-    "url": "https://doh.pub/dns-query",
+    "url": "https://dns.alidns.com/dns-query",
     "ips": [
-      "119.29.29.29",
-      "1.12.12.12"
+      "223.5.5.5",
+      "223.6.6.6"
     ]
   }
   ]
