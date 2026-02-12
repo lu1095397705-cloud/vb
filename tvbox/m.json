@@ -66,10 +66,40 @@
       }
     },
     {
-      "key": "py_gz",
+      "key": "py_muou",
       "name": "4k木偶",
       "type": 3,
       "api": "./py/muou.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "py_zz",
+      "name": "至臻4k",
+      "type": 3,
+      "api": "./py/zhizhen.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "py_",
+      "name": "欧歌4k",
+      "type": 3,
+      "api": "./py/ouge.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "py_sf",
+      "name": "傻福4k",
+      "type": 3,
+      "api": "./py/sf.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
@@ -87,7 +117,7 @@
     },
     {
       "key": "py_li",
-      "name": "(py)libvod（韩剧）",
+      "name": "(py)li（韩剧）",
       "type": 3,
       "api": "./py/libvod.py",
       "searchable": 1,
@@ -95,104 +125,25 @@
       "quickSearch": 1,
       "filterable": 1
     },
-    {
-      "key": "py_two",
-      "name": "(py)bttwo(高峰不卡)",
-      "type": 3,
-      "api": "./py/two.py",
-      "searchable": 1,
-      "changeable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    }
+
   ],
   "parses": [
     {
       "name": "麒麟解析(稳）",
       "type": 0,
-      "url": "https://mo.765365.xyz/proxyjx/?url=",
-      "flags": [
-        "youku",
-        "优酷",
-        "优 酷",
-        "优酷视频",
-        "360zy",
-        "qq",
-        "腾讯",
-        "腾 讯",
-        "腾讯视频",
-        "iqiyi",
-        "qiyi",
-        "奇艺",
-        "爱奇艺",
-        "爱 奇 艺",
-        "m1905",
-        "xigua",
-        "letv",
-        "leshi",
-        "乐视",
-        "乐 视",
-        "sohu",
-        "搜狐",
-        "搜 狐",
-        "搜狐视频",
-        "tudou",
-        "pptv",
-        "mgtv",
-        "芒果",
-        "imgo",
-        "芒果TV",
-        "芒 果 T V",
-        "bilibili",
-        "哔 哩"
-      ]
+      "url": "https://mo.765365.xyz/proxyjx/?url="
     },
     {
       "name": "伊朵玫瑰送给你(快)",
       "type": 1,
-      "timeout": 30,
       "url": "https://api.oxli.top/api/?key=c3f24c21d4558b67f110&url="
     },
     {
       "name": "两袖清风(慢)",
       "type": 1,
       "timeout": 30,
-      "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url=",
-      "flags": [
-        "youku",
-        "优酷",
-        "优 酷",
-        "优酷视频",
-        "360zy",
-        "qq",
-        "腾讯",
-        "腾 讯",
-        "腾讯视频",
-        "iqiyi",
-        "qiyi",
-        "奇艺",
-        "爱奇艺",
-        "爱 奇 艺",
-        "m1905",
-        "xigua",
-        "letv",
-        "leshi",
-        "乐视",
-        "乐 视",
-        "sohu",
-        "搜狐",
-        "搜 狐",
-        "搜狐视频",
-        "tudou",
-        "pptv",
-        "mgtv",
-        "芒果",
-        "imgo",
-        "芒果TV",
-        "芒 果 T V",
-        "bilibili",
-        "哔 哩"
-      ]
+      "url": "https://api.huohua.live/api/?key=v8GHObhk1dzFZ23Lom&url="
+
     },
     {
       "name": "芒果4k",

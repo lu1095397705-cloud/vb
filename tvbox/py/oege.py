@@ -4,10 +4,12 @@ import time
 import json
 from base.spider import Spider
 from bs4 import BeautifulSoup
+
+
 class Spider(Spider):
 
     def init(self, extend=""):
-        self.host = 'http://xsayang.fun:12512'
+        self.host = 'https://woog.nxog.eu.org'
         self.cookies = {}
         self.ua_list = [
             "Mozilla/5.0 (Linux; Android 13; PGEM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36",
@@ -46,25 +48,35 @@ class Spider(Spider):
 
     def homeContent(self, filter):
         return {'class': [
-        {
-            'type_id': '1',
-            'type_name': '傻样电影'
-        },
-        {
-            'type_id': '2',
-            'type_name': '傻样剧集'
+            {
+                'type_id': '1',
+                'type_name': '欧歌电影',
 
-        },
-        {
-            'type_id': '4',
-            'type_name': '傻样动漫'
+            },
+            {
+                'type_id': '2',
+                'type_name': '欧哥剧集',
 
-        },
-        {
-            'type_id': '3',
-            'type_name': '傻样综艺'
+            },
+            {
+               'type_id': '3',
+                'type_name': '欧歌动漫',
 
-        }
+            },
+            {
+                'type_id': '4',
+                'type_name': '欧歌综艺',
+
+            },
+            {
+                'type_id': '5',
+                'type_name': '欧歌短剧',
+
+            },
+            {
+                'type_id': '21',
+                'type_name': '欧歌综合',
+            }
 
                           ]
                 }
@@ -121,7 +133,7 @@ class Spider(Spider):
         "vod_pic":'',
         "vod_play_from":play_name,
         "vod_play_url":play_url,
-        "vod_content":'抓取自木偶网盘,(伊)点第1集跳转到推送才能播放(学习交流，请勿非法用途)'
+        "vod_content":'抓取自欧歌网盘,(伊)点第1集跳转到推送才能播放(学习交流，请勿非法用途)'
         }
         return {"list": [vod]}
 
