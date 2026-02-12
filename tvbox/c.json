@@ -13,7 +13,7 @@
       "key": "hd_py",
       "name": "zhizhen",
       "type": 3,
-      "api": "./py/wanou.py",
+      "api": "./py/zhizhen.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
