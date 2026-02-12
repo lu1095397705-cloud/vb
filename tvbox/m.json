@@ -99,7 +99,7 @@
       "key": "py_sf",
       "name": "傻福4k",
       "type": 3,
-      "api": "./py/sf.py",
+      "api": "./py/sy.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
