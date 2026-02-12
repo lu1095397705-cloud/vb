@@ -47,9 +47,40 @@ class Spider(Spider):
     }
 
     def homeContent(self, filter):
-        return {'class': [{"type_id": "1", "type_name": "电影"},
-                          {"type_id": "2", "type_name": "剧集"},
-                          {"type_id": "3", "type_name": "动漫"}
+        return {'class': [{
+            'type_id': '1',
+            'type_name': '至臻电影',
+        },
+        {
+            'type_id': '2',
+            'type_name': '至臻剧集'
+
+        },
+        {
+            'type_id': '3',
+            'type_name': '至臻动漫'
+
+        },
+        {
+            'type_id': '4',
+            'type_name': '至臻综艺'
+
+        },
+        {
+            'type_id': '5',
+            'type_name': '至臻短剧'
+
+        },
+        {
+            'type_id': '24',
+            'type_name': '至臻老剧'
+
+        },
+        {
+            'type_id': '26',
+            'type_name': '至臻严选'
+
+        }
                           ]
                 }
 
