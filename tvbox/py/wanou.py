@@ -55,7 +55,7 @@ class Spider(Spider):
             },
             {
             'type_id': '1',
-            'type_name': '至臻电影',
+            'type_name': '至臻电影'
         },
         {
             'type_id': '2',
