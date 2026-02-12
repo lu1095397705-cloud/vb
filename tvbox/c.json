@@ -11,9 +11,9 @@
     },
     {
       "key": "hd_py",
-      "name": "zz",
+      "name": "sy",
       "type": 3,
-      "api": "./py/zhizhen.py",
+      "api": "./py/sy.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
