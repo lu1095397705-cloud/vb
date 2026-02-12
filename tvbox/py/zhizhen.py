@@ -89,7 +89,6 @@ class Spider(Spider):
     def categoryContent(self, tid, pg, filter, extend):
         url = f'{self.host}/index.php/vod/type/id/{tid}/page/{pg}.html'
         try:
-            time.sleep(random.uniform(0.3, 2.2))
             res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
             if res.cookies.get_dict():
                 self.cookies.update(res.cookies.get_dict())
@@ -112,7 +111,6 @@ class Spider(Spider):
 
     def detailContent(self, ids):
         url = self.host + ids[0]
-        time.sleep(random.uniform(1.6, 6.3))
         res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
         if res.cookies.get_dict():
             self.cookies.update(res.cookies.get_dict())
@@ -146,7 +144,6 @@ class Spider(Spider):
 
     def searchContent(self, key, quick, pg="1"):
         url = f'{self.host}/index.php/vod/search/page/{pg}/wd/{key}.html'
-        time.sleep(random.uniform(2.2, 10.5))
         res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
         if res.cookies.get_dict():
             self.cookies.update(res.cookies.get_dict())
