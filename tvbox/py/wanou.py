@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 class Spider(Spider):
 
     def init(self, extend=""):
-        self.host = 'http://wogg.xxooo.cf'
+        self.host = 'http://www.miqk.cc'
         self.cookies = {}
         self.ua_list = [
             "Mozilla/5.0 (Linux; Android 13; PGEM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36",

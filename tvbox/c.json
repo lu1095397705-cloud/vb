@@ -11,7 +11,7 @@
     },
     {
       "key": "hd_py",
-      "name": "1",
+      "name": "zhizhen",
       "type": 3,
       "api": "./py/wanou.py",
       "searchable": 1,
