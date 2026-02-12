@@ -11,7 +11,7 @@
     },
     {
       "key": "hd_py",
-      "name": "zhizhen",
+      "name": "zz",
       "type": 3,
       "api": "./py/zhizhen.py",
       "searchable": 1,
