@@ -48,7 +48,7 @@ class Spider(Spider):
 
     def homeContent(self, filter):
         return {'class': [
-            {
+        {
                 'type_id': '26',
                 'type_name': '至臻严选'
 
