@@ -4,10 +4,10 @@
   "sites": [
     {
       "key": "py_tx",
-      "name": "(py)腾讯视频",
+      "name": "(cms)腾讯视频",
       "type": 1,
-      "api": "http://154.219.117.232:9981/jacloudapi.php/provide/vod/from/qq/?ac=list",
-      "ext": "http://154.219.117.232:9981/jacloudapi.php/provide/vod/from/qq/?ac=list"
+      "api": "https://www.caiji.cyou/api.php/provide/vod/from/qq?ac=list",
+      "ext": "https://www.caiji.cyou/api.php/provide/vod/from/qq?ac=list"
 
     },
     {
