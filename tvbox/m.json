@@ -115,9 +115,9 @@
     },
     {
       "key": "py_li",
-      "name": "(py)li（韩剧）",
+      "name": "(py)HD（韩剧）",
       "type": 3,
-      "api": "./py/libvod.py",
+      "api": "./py/HDmoli.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
@@ -126,11 +126,6 @@
 
   ],
   "parses": [
-    {
-      "name": "麒麟解析(稳）",
-      "type": 0,
-      "url": "https://mo.765365.xyz/proxyjx/?url="
-    },
     {
       "name": "伊朵玫瑰送给你(快)",
       "type": 1,
