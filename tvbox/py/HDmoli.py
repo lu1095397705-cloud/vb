@@ -64,7 +64,7 @@ class Spider(Spider):
 
     def categoryContent(self, tid, pg, filter, extend):
         # 修复：pg 参数应该带入 URL
-        url = f'{self.host}/show/{tid}-----------.html'
+        url = f'{self.host}/show/{tid}--------{pg}---.html'
         try:
 
             res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
