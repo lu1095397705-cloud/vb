@@ -105,7 +105,7 @@
     },
     {
       "key": "py_gz",
-      "name": "(py)瓜子",
+      "name": "(py)瓜子2k",
       "type": 3,
       "api": "./py/gz.py",
       "searchable": 1,
@@ -115,7 +115,7 @@
     },
     {
       "key": "py_li",
-      "name": "(py)HD（韩剧）",
+      "name": "(py)HD专注国外（韩剧）",
       "type": 3,
       "api": "./py/HDmoli.py",
       "searchable": 1,

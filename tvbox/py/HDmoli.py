@@ -60,7 +60,11 @@ class Spider(Spider):
         }
 
     def homeContent(self, filter):
-        return {'class': [{"type_id": "15", "type_name": "韩剧"}]}
+        return {'class': [{"type_id": "15", "type_name": "韩剧"},
+                          {"type_id": "14", "type_name": "港台剧"},
+                          {"type_id": "25", "type_name": "日韩漫"},
+                          {"type_id": "26", "type_name": "港台漫"}
+                          ]}
 
     def categoryContent(self, tid, pg, filter, extend):
         # 修复：pg 参数应该带入 URL
