@@ -117,7 +117,7 @@
       "key": "py_li",
       "name": "(py)HD（韩剧）",
       "type": 3,
-      "api": "./py/HDmoli.py",
+      "api": "./py/HD.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
