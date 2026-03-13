@@ -11,9 +11,9 @@ class Spider(Spider):
         self.host = 'https://movie.douban.com'
         self.cookies = {}
         self.ua_list = [
-            "Mozilla/5.0 (Linux; Android 13; PGEM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 13; V2242A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 13; PGT-AN00) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36"
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 13; V2242A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36"
         ]
         self.refresh_session()
 
@@ -33,9 +33,19 @@ class Spider(Spider):
             'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
         }
 
+    def format_pic(self, pic_url):
+        """修复海报无法显示的核心函数"""
+        if not pic_url:
+            return ""
+        # 1. 强制将 webp 替换为 jpg，解决老旧电视盒子无法显示图片的问题 (豆瓣CDN自带jpg转换)
+        pic_url = pic_url.replace('.webp', '.jpg')
+        # 2. TVBox 专属语法：在图片URL后加上 @Referer=... 绕过豆瓣的图片防盗链(403)
+        if "@" not in pic_url:
+            pic_url = pic_url + "@Referer=https://movie.douban.com/"
+        return pic_url
+
     def homeContent(self, filter):
-        # 定义 TVBox 顶部分类。
-        # 这里用 "类型_标签" 的格式作为 type_id，方便后面拆分给豆瓣接口用
+        # 顶部分类。使用 "类型_标签" 格式，方便 categoryContent 拆分调用接口
         classes = [
             {"type_id": "movie_热门", "type_name": "热门电影"},
             {"type_id": "movie_豆瓣高分", "type_name": "高分电影"},
@@ -50,18 +60,13 @@ class Spider(Spider):
 
     def categoryContent(self, tid, pg, filter, extend):
         try:
-            # 解析 tid，例如 "movie_热门" -> d_type="movie", d_tag="热门"
-            d_type, d_tag = tid.split('_')
+            d_type, d_tag = tid.split('_', 1)
             limit = 20
             start = (int(pg) - 1) * limit
 
-            # URL编码中文标签
             d_tag_encoded = urllib.parse.quote(d_tag)
-
-            # 调用豆瓣 AJAX 加载接口
             url = f'{self.host}/j/search_subjects?type={d_type}&tag={d_tag_encoded}&page_limit={limit}&page_start={start}'
 
-            # 适当延时防封
             time.sleep(random.uniform(0.5, 1.5))
             res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
 
@@ -72,11 +77,14 @@ class Spider(Spider):
             vod_list = []
 
             for item in data.get('subjects', []):
+                # 兼容提取 cover、pic、img 字段
+                raw_pic = item.get('cover') or item.get('pic') or item.get('img') or ""
+
                 vod_list.append({
-                    "vod_id":"push://search?wd=" + item.get('id'),  # 影片ID
-                    "vod_name": item.get('title'),  # 标题
-                    "vod_pic": item.get('cover'),  # 封面海报
-                    "vod_remarks": f"评分: {item.get('rate')}"  # 右下角角标显示评分
+                    "vod_id": str(item.get('id')),
+                    "vod_name": item.get('title'),
+                    "vod_pic": self.format_pic(raw_pic),  # 调用图片修复函数
+                    "vod_remarks": f"评分: {item.get('rate')}"
                 })
 
             return {'list': vod_list, 'page': int(pg), 'pagecount': 99, 'limit': limit, 'total': 999}
@@ -89,5 +97,7 @@ class Spider(Spider):
 
     def searchContent(self, key, quick, pg="1"):
         pass
+
     def playerContent(self, flag, id, vipFlags):
         pass
+

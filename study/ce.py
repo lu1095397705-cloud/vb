@@ -1,149 +1,103 @@
-import requests
-from bs4 import BeautifulSoup
-import json
-import re
-from urllib.parse import quote
-import time
 import random
+import re
+import time
+import json
+import urllib.parse
 from base.spider import Spider
-import urllib
-
 
 
 class Spider(Spider):
-
     def init(self, extend=""):
-        self.session = requests.Session()
-        self.header = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-            "Referer": "https://www.ntdm8.com/",
-            "Origin": "https://www.ntdm8.com",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1",
-            "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
-            "Sec-Ch-Ua-Mobile": "?0",
-            "Sec-Ch-Ua-Platform": '"Windows"',
-            "Sec-Fetch-Dest": "document",
-            "Sec-Fetch-Mode": "navigate",
-            "Sec-Fetch-Site": "same-origin",
-            "Sec-Fetch-User": "?1"
+        self.host = 'https://movie.douban.com'
+        self.cookies = {}
+        self.ua_list = [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 13; V2242A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36"
+        ]
+        self.refresh_session()
+
+    def refresh_session(self):
+        try:
+            res = self.fetch(self.host, headers=self.get_headers(self.host), timeout=10)
+            if res and res.cookies.get_dict():
+                self.cookies.update(res.cookies.get_dict())
+        except:
+            pass
+
+    def get_headers(self, url):
+        return {
+            'user-Agent': random.choice(self.ua_list),
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+            'referer': f'{self.host}/',
+            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
         }
 
-        self.session.headers.update(self.header)
+    def format_pic(self, pic_url):
+        """修复海报无法显示的核心函数"""
+        if not pic_url:
+            return ""
+        # 1. 强制将 webp 替换为 jpg，解决老旧电视盒子无法显示图片的问题 (豆瓣CDN自带jpg转换)
+        pic_url = pic_url.replace('.webp', '.jpg')
+        # 2. TVBox 专属语法：在图片URL后加上 @Referer=... 绕过豆瓣的图片防盗链(403)
+        if "@" not in pic_url:
+            pic_url = pic_url + "@Referer=https://movie.douban.com/"
+        return pic_url
 
     def homeContent(self, filter):
-        result = {}
-        result['class'] = [
-            {"type_id": "zhongguo", "type_name": "中国"},
-            {"type_id": "riben", "type_name": "小日本去死日本"},
-            {"type_id": "omei", "type_name": "欧美"}
+        # 顶部分类。使用 "类型_标签" 格式，方便 categoryContent 拆分调用接口
+        classes = [
+            {"type_id": "movie_热门", "type_name": "热门电影"},
+            {"type_id": "movie_豆瓣高分", "type_name": "高分电影"},
+            {"type_id": "tv_热门", "type_name": "热门剧集"},
+            {"type_id": "tv_国产剧", "type_name": "国产剧"},
+            {"type_id": "tv_美剧", "type_name": "美剧"},
+            {"type_id": "tv_韩剧", "type_name": "韩剧"},
+            {"type_id": "tv_日本动画", "type_name": "热门动漫"},
+            {"type_id": "tv_综艺", "type_name": "热门综艺"}
         ]
-        return result
-
-
-    def homeVideoContent(self):
-        return {}
+        return {'class': classes}
 
     def categoryContent(self, tid, pg, filter, extend):
-        time.sleep(random.uniform(2, 4))
-        result = {}
-        videos = []
-        url = f"https://www.ntdm8.com/type/{tid}-{pg}.html"
-        resp = self.session.get(url, timeout=10)
-        html = resp.text
-        # 关键改动：使用 'html.parser'，它在所有环境中都可用
-        soup = BeautifulSoup(html, 'html.parser')
-        for boxall in soup.find_all('div', class_='cell blockdif2'):
-            a_tag = boxall.find('a')
-            img_tag = boxall.find('img')
-            remark_tag = boxall.find('span', class_='newname')
-            # 安全检查：确保所有需要的标签都存在
-            if not (a_tag and img_tag):
-                continue
-            vod_id = a_tag.get('href', '').replace('/video/', '').replace('.html', '')
-            if not vod_id:
-                continue
-            videos.append({
-                "vod_id": vod_id,
-                "vod_name": img_tag.get('alt', '未知名称'),
-                "vod_pic": img_tag.get('src', ''),
-                "vod_remarks": remark_tag.text.strip() if remark_tag else ""
-            })
-            result['list'] = videos
-            result['page'] = pg
-            result['pagecount'] = 999
-            result['limit'] = len(videos)
-            result['total'] = 999
-        return result
+        try:
+            d_type, d_tag = tid.split('_', 1)
+            limit = 20
+            start = (int(pg) - 1) * limit
+
+            d_tag_encoded = urllib.parse.quote(d_tag)
+            url = f'{self.host}/j/search_subjects?type={d_type}&tag={d_tag_encoded}&page_limit={limit}&page_start={start}'
+
+            time.sleep(random.uniform(0.5, 1.5))
+            res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
+
+            if res.cookies.get_dict():
+                self.cookies.update(res.cookies.get_dict())
+
+            data = json.loads(res.text)
+            vod_list = []
+
+            for item in data.get('subjects', []):
+                # 兼容提取 cover、pic、img 字段
+                raw_pic = item.get('cover') or item.get('pic') or item.get('img') or ""
+
+                vod_list.append({
+                    "vod_id": str(item.get('id')),
+                    "vod_name": item.get('title'),
+                    "vod_pic": self.format_pic(raw_pic),  # 调用图片修复函数
+                    "vod_remarks": f"评分: {item.get('rate')}"
+                })
+
+            return {'list': vod_list, 'page': int(pg), 'pagecount': 99, 'limit': limit, 'total': 999}
+        except Exception as e:
+            print(f"列表解析错误: {e}")
+            return {'list': []}
 
     def detailContent(self, ids):
-        time.sleep(random.uniform(2, 4))
-        vod_id = str(ids[0])
-        url = "https://www.ntdm8.com" + vod_id
-
-        resp = self.session.get(url)
-        soup = BeautifulSoup(resp.text, 'lxml')
-
-        ston = "https://www.ntdm8.com"
-        play_boxs = soup.find_all('div', {'class': 'movurl mod'})
-
-        vod_play_url = []
-        for play_box in play_boxs:
-            play_urls = []
-            for a in play_box.find_all('a'):
-                name = a.get('title')
-                play_url = a.get('href')
-                full_url = ston + play_url
-                zh_ji = f'{name}${full_url}'
-                play_urls.append(zh_ji)
-            vod_play_url.append('#'.join(play_urls))
-        vod_play_urls = "$$$".join(vod_play_url)
-
-        vod = {
-            "vod_id": vod_id,
-            "vod_name": "",
-            "vod_pic": "",
-            "vod_remarks": "",
-            "vod_content": "",
-            "vod_play_from": "伊朵樱花送给你$$$两朵$$$三朵",
-            "vod_play_url": vod_play_urls
-
-        }
-        return {"list": [vod]}
+        pass
 
     def searchContent(self, key, quick, pg="1"):
-        videos = []
-        encoded_key = quote(key)
-        url = "https://www.ntdm8.com/search/-------------.html?wd={}".format(encoded_key)
-        resp = self.session.get(url)
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        for div in soup.find_all('div', class_="cell blockdif2"):
-            name = div.find('img').get('alt')
-            pic = div.find('img').get('src')
-            content = div.find('span', class_="newname").text
-            mid = div.find('a').get('href')
-
-            videos.append({
-                'vod_id': mid,
-                'vod_name': name,
-                'vod_pic': pic,
-                'vod_remarks': content,
-            })
-
-        result={"list":videos, "page":pg}
-        return result
+        pass
 
     def playerContent(self, flag, id, vipFlags):
-        url = id
-
-        result = {
-            "parse": 1,
-            "playUrl": "",
-            "url": url,
-            "header": self.header
-        }
-        return result
-
+        pass
 
