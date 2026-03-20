@@ -63,13 +63,9 @@ class Spider(Spider):
             d_type, d_tag = tid.split('_', 1)
             limit = 20
             start = (int(pg) - 1) * limit
-
             d_tag_encoded = urllib.parse.quote(d_tag)
             url = f'{self.host}/j/search_subjects?type={d_type}&tag={d_tag_encoded}&page_limit={limit}&page_start={start}'
-
-            time.sleep(random.uniform(0.5, 1.5))
             res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
-
             if res.cookies.get_dict():
                 self.cookies.update(res.cookies.get_dict())
 

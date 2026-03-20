@@ -1,20 +1,32 @@
-import re
-import urllib.parse
+import requests
+from bs4 import BeautifulSoup
+url = 'https://rrys.lv/rrvod/122538/'
+headers = {
+    'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36,'
 
-# 你的网页源代码
-text = """
-"url"
-:"%64%30%65%31%61%65%30%37%61%33%36%61%62%33%63%30%61%35%34%33%36%38%35%63%66%66%65%34%66%62%64%30"
-"""
-# 正则提取：处理了可能的换行和空格
-match = re.search(r'"url\s*"\s*:\s*"([^"]+)"', text, re.DOTALL)
-if match:
-    encoded_str = match.group(1)
+}
+response = requests.get(url, headers=headers)
+print(response.text)
+soup = BeautifulSoup(response.content, 'lxml')
+xlm=soup.find(id="y-playList")
+xlname=[]
+for item in xlm.find_all('div', class_="module-tab-item tab-item"):
+    names=item.get('data-dropdown-value')
+    xlname.append(names)
+xlnames='$$$'.join(xlname)
+w=soup.find_all('div', class_='module-play-list')
+playbox3=[]
+for index,ji in enumerate(w):
+    playbox1=[]
+    for ji2 in ji.find_all('a', class_="module-play-list-link"):
+        play_name = ji2.find('span').text
+        play_href = ji2.get('href')
+        play_url=f'{play_name}${play_href}'
+        playbox1.append(play_url)
+    playbox2='#'.join(playbox1)
+    playbox3.append(playbox2)
+playbox4="$$$".join(playbox3)
 
-    # 执行解码
-    decoded_str = urllib.parse.unquote(encoded_str)
 
-    print("解码后的 16 进制字符串：")
-    print(decoded_str)
-else:
-    print("未匹配到 url 内容")
+
+
