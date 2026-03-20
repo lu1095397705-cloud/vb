@@ -60,36 +60,33 @@ class Spider(Spider):
     def categoryContent(self, tid, pg, filter, extend):
         # 修复：pg 参数应该带入 URL
         url = f'{self.host}/k/{tid}--------{pg}---/'
-        try:
-            res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
-            if res.cookies.get_dict():
-                self.cookies.update(res.cookies.get_dict())
+        res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
+        if res.cookies.get_dict():
+            self.cookies.update(res.cookies.get_dict())
 
-            soup = BeautifulSoup(res.text, 'lxml')
-            i = soup.find('div', class_="module-items module-poster-items-base")
-            vod = []
-            for k in i.find_all('a'):
-                href = k.get('href')
-                name = k.get('title')
-                remark = k.find('div', class_="module-item-note").text
-                img = k.find('img').get('data-original')
-                if img:
-                    if not img.startswith('http'):
-                        img = f'{self.host}' + img
-                vod.append({
-                    'vod_id': href,
-                    'vod_name': name,
-                    'vod_pic': img,
-                    'vod_remarks': remark
-                })
-            return {'list': vod, 'page': 5, 'pagecount': 10, 'limit': 10, 'total': 10}
-        except:
-            return {'list': []}
+        soup = BeautifulSoup(res.text, 'lxml')
+        i = soup.find('div', class_="module-items module-poster-items-base")
+        vod = []
+        for k in i.find_all('a'):
+            href = k.get('href')
+            name = k.get('title')
+            remark = k.find('div', class_="module-item-note").text
+            img = k.find('img').get('data-original')
+            if img:
+                if not img.startswith('http'):
+                    img = f'{self.host}' + img
+            vod.append({
+                'vod_id': href,
+                'vod_name': name,
+                'vod_pic': img,
+                'vod_remarks': remark
+            })
+        return {'list': vod, 'page': 5, 'pagecount': 10, 'limit': 10, 'total': 10}
+
 
     def detailContent(self, ids):
-        # ids[0] 已经是 href 了（例如 /v/123.html）
         url = self.host + ids[0]
-        res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
+        res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=20)
         if res.cookies.get_dict():
             self.cookies.update(res.cookies.get_dict())
         soup = BeautifulSoup(res.content, 'lxml')
@@ -111,7 +108,6 @@ class Spider(Spider):
             playbox2 = '#'.join(playbox1)
             playbox3.append(playbox2)
         playbox4 = "$$$".join(playbox3)
-
         vod = {
         "vod_id": ids[0],
         "vod_name":'',
