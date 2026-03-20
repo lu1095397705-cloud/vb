@@ -132,8 +132,17 @@
       "changeable": 1,
       "quickSearch": 1,
       "filterable": 1
+    },
+    {
+      "key": "py_rrys",
+      "name": "人人影视(卡）",
+      "type": 3,
+      "api": "./py/rrys.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     }
-
   ],
   "parses": [
     {
