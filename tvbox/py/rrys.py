@@ -73,6 +73,9 @@ class Spider(Spider):
                 name = k.get('title')
                 remark = k.find('div', class_="module-item-note").text
                 img = k.find('img').get('data-original')
+                if img:
+                    if not img.startswith('http'):
+                        img = f'{self.host}' + img
                 vod.append({
                     'vod_id': href,
                     'vod_name': name,
@@ -132,6 +135,9 @@ class Spider(Spider):
             name = k.get('title')
             remark = k.find('div', class_="module-item-note").text
             img = k.find('img').get('data-original')
+            if img:
+                if not img.startswith('http'):
+                    img = f'{self.host}' + img
             vod.append({
                 'vod_id': href,
                 'vod_name': name,
