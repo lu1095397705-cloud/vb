@@ -52,7 +52,7 @@ class Spider(Spider):
                           {"type_id": "4", "type_name": "动漫"},
                           {"type_id": "1", "type_name": "电影"},
                           {"type_id": "14", "type_name": "港台"},
-                          {"type_id": "综艺", "type_name": "4"},
+                          {"type_id": "4", "type_name": "综艺"},
                           {"type_id": "33", "type_name": "韩剧"},
                           {"type_id": "15", "type_name": "小日本"}
         ]}
@@ -63,7 +63,6 @@ class Spider(Spider):
         res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
         if res.cookies.get_dict():
             self.cookies.update(res.cookies.get_dict())
-
         soup = BeautifulSoup(res.text, 'lxml')
         i = soup.find('div', class_="module-items module-poster-items-base")
         vod = []
@@ -119,26 +118,27 @@ class Spider(Spider):
         return {"list": [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        url = f'{self.host}/s/{key}-------------/'
+        url = f'{self.host}/s/-------------/?wd={key}'
         res = self.fetch(url, headers=self.get_headers(url), cookies=self.cookies, timeout=10)
         if res.cookies.get_dict():
             self.cookies.update(res.cookies.get_dict())
         soup = BeautifulSoup(res.text, 'lxml')
-        i = soup.find('div', class_="module-items module-poster-items-base")
-        vod = []
-        for k in i.find_all('a'):
-            href = k.get('href')
-            name = k.get('title')
-            remark = k.find('div', class_="module-item-note").text
-            img = k.find('img').get('data-original')
-            if img:
-                if not img.startswith('http'):
-                    img = f'{self.host}' + img
+        k = soup.find_all('div', class_="module-card-item module-item")
+        vod=[]
+        for ii in k:
+            i = ii.find('a')
+            href = i.get('href')
+            name = i.find('img').get('alt')
+            rem = i.find('div', class_="module-item-note").text
+            pic = i.find('img').get('data-original')
+            if pic:
+                if not pic.startswith('http'):
+                    pic = f'{self.host}' + pic
             vod.append({
                 'vod_id': href,
                 'vod_name': name,
-                'vod_pic': img,
-                'vod_remarks': remark
+                'vod_pic': pic,
+                'vod_remarks': rem
             })
         result = {}
         result['list'] = vod
