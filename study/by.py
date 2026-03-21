@@ -1,23 +1,48 @@
 import requests
+import json
 from bs4 import BeautifulSoup
-url = 'https://rrys.lv/s/-------------/?wd=%E5%89%91%E6%9D%A5'
-headers = {
-    'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36,'
 
+from tvbox.py.bebug import name
+
+url = 'https://japi.zxfmj.com/api/v2/settings/homeCategory'
+# https://japi.zxfmj.com/api/v2/settings/homeCategory
+headers = {
+    "Host": "japi.zxfmj.com",
+    "Connection": "keep-alive",
+    "Accept": "application/json, text/plain, */*",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 9; PBBM00 Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.110 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:424;packageName:com.lgvnqo.zniebv",
+    "version": "427",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,en-US;q=0.9",
+    "X-Requested-With": "com.lgvnqo.zniebv"
 }
+
 response = requests.get(url, headers=headers)
-# print(response.text)
-soup=BeautifulSoup(response.text, 'lxml')
-k=soup.find_all('div', class_="module-card-item module-item")
-for ii in k:
-    i=ii.find('a')
-    href=i.get('href')
-    name=i.find('img').get('alt')
-    rem=i.find('div',class_="module-item-note").text
-    pic=i.find('img').get('data-original')
-    if pic:
-        if not pic.startswith('http'):
-            pic='https://rrys.lv'+pic
+# print(response.json())
+res=response.json()
+wc=[]
+for i in res.get("data",[]):
+    id=i.get("id")
+    name=i.get("name")
+    li={"type_id": id, "type_name": name}
+    wc.append(li)
+print(wc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

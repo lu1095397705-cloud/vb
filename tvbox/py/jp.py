@@ -1,146 +1,101 @@
-import json
+from idlelib.rpc import response_queue
+
 import requests
+from bs4 import BeautifulSoup
 import urllib.parse
+import json
 from base.spider import Spider
-
-# 假设这是基类
-class Spider(Spider):
-    def __init__(self):
-        pass
+from pyspider.webui.app import fetch
 
 
 class Spider(Spider):
-    def __init__(self):
-        self.base_url = "https://ev5356.970xw.com"
-        self.img_domain = ""
-        self.headers = {
-            "User-Agent": "Mozilla/5.0 (Linux; Android 9; V2196A Build/PQ3A.190705.08211809; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.114 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:416;packageName:com.jp3.xg3"
-        }
-
-    def getName(self):
-        return "剪片"
-
     def init(self, extend=""):
-        """复刻 Java 中的 init 逻辑：动态获取域名"""
-        try:
-            # 1. DNS解析获取后缀
-            dns_res = requests.get("https://dns.alidns.com/resolve?name=swrdsfeiujo25sw.cc&type=TXT", timeout=5).json()
-            if "Answer" in dns_res:
-                raw_data = dns_res["Answer"][0]["data"].replace('"', '')
-                suffixes = raw_data.split(",")
-                for suffix in suffixes:
-                    test_url = f"https://wangerniu.{suffix}"
-                    # 2. 验证并获取资源域名配置
-                    try:
-                        cfg_resp = requests.get(f"{test_url}/api/v2/settings/resourceDomainConfig", timeout=3).json()
-                        if cfg_resp.get("data"):
-                            self.base_url = test_url
-                            self.img_domain = cfg_resp["data"]["imgDomain"].split(",")[0]
-                            break
-                    except:
-                        continue
-        except:
-            pass
-
-    def get_headers(self):
-        h = self.headers.copy()
-        h["Referer"] = self.base_url
-        return h
-
-    # 首页分类
+        self.host='https://japi.zxfmj.com'
+        self.headers = {
+            "Host": "japi.zxfmj.com",
+            "Connection": "keep-alive",
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "Mozilla/5.0 (Linux; Android 9; PBBM00 Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.110 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:424;packageName:com.lgvnqo.zniebv",
+            "version": "427",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,en-US;q=0.9",
+            "X-Requested-With": "com.lgvnqo.zniebv"
+        }
     def homeContent(self, filter):
-        url = f"{self.base_url}/api/v2/settings/homeCategory"
-        res = requests.get(url, headers=self.get_headers()).json()
-        classes = []
-        for item in res.get("data", []):
-            name = item.get("name")
-            if name != "推荐":
-                classes.append({"type_id": str(item.get("id")), "type_name": name})
-        return {"class": classes}
+        url=f'{self.host}/api/video/list?filter={filter}'
+        response = requests.get(url, headers=self.headers, timeout=10)
+        res = response.json()
+        wc = []
+        for i in res.get("data", []):
+            id = i.get("id")
+            name = i.get("name")
+            li = {"type_id": id, "type_name": name}
+            wc.append(li)
+        return {'class':wc}
 
-    # 推荐视频 (对应 Java 中的 homeVideoContent)
-    def homeVideoContent(self):
-        url = f"{self.base_url}/api/slide/list?pos_id=88"
-        res = requests.get(url, headers=self.get_headers()).json()
-        videos = []
-        for item in res.get("data", []):
-            videos.append({
-                "vod_id": str(item.get("id")),
-                "vod_name": item.get("title"),
-                "vod_pic": self.img_domain + item.get("thumbnail", ""),
-                "vod_remarks": item.get("last_episode_title", "")
-            })
-        return {"list": videos}
 
-    # 分类列表 (Java 源码中此段被跳过，按常规 API 补全)
+    def homeVideoContent(self): pass
+
     def categoryContent(self, tid, pg, filter, extend):
-        url = f"{self.base_url}/api/video/list?category_id={tid}&page={pg}&pageSize=20"
-        res = requests.get(url, headers=self.get_headers()).json()
-        videos = []
-        for item in res.get("data", []):
-            videos.append({
-                "vod_id": str(item.get("id")),
-                "vod_name": item.get("title"),
-                "vod_pic": self.img_domain + item.get("thumbnail", ""),
-                "vod_remarks": item.get("last_episode_title", "")
+        url=f'{self.host}/api/dyTag/hand_data?category_id={tid}'
+        response=fetch.get(url,headers=self.headers,timeout=10)
+        res = response.json()
+        vod = []
+        for item in res['data']['32']:
+            href = item.get('id')
+            rem = item.get('mask')
+            name = item.get('title')
+            pic = item.get('path')
+            pics = pic.replace('\\/', '/')
+            if pics:
+                if not pic.startswith('http'):
+                    pics = 'https://img.jgsfnl.com' + pics
+            vod.append({
+                'vod_id': href,
+                'vod_name': name,
+                'vod_pic': pics,
+                'vod_remarks': rem
             })
-        return {"list": videos, "page": pg, "pagecount": 999, "limit": 20, "total": 999}
+        return {'list': vod, 'page': 5, 'pagecount': 10, 'limit': 10, 'total': 10}
 
-    # 详情 (对应 Java 中的 detailContent)
     def detailContent(self, ids):
-        vod_id = ids[0]
-        url = f"{self.base_url}/api/video/detailv2?id={vod_id}"
-        res = requests.get(url, headers=self.get_headers()).json()
-        data = res.get("data", {})
+        id=ids[0]
+        url=f'{self.host}/api/video/detailv2?id={id}'
+        response=fetch.get(url,headers=self.headers,timeout=10)
+        all = response.json()
+        liall = all['data']['source_list_source']
+        xlname = []
+        for item in liall:
+            lxm = item.get('name')
+            xlname.append(lxm)
+        box = []
+        for ass in liall:
+            lia = ass.get('source_list', [])
+            urlbox = []
+            for ki in lia:
+                play_name = ki.get('source_name')
+                play_url = ki.get('url')
+                play_urls = play_url.replace('\\/', '/')
+                play_box = f'{play_name}${play_url}'
+                urlbox.append(play_box)
+            urlbox2 = '#'.join(urlbox)
+            box.append(urlbox2)
 
-        vod = {
-            "vod_id": vod_id,
-            "vod_name": data.get("title"),
-            "vod_pic": self.img_domain + data.get("thumbnail", ""),
-            "type_name": data.get("category_name"),
-            "vod_year": data.get("year"),
-            "vod_area": data.get("area"),
-            "vod_content": data.get("description"),
-            "vod_actor": data.get("actor", ""),
-            "vod_director": data.get("director", "")
-        }
+    # 搜索
+    def searchContent(self, key, quick): pass
 
-        # 核心逻辑：解析多线路播放列表
-        play_from = []
-        play_url = []
-        for source in data.get("list", []):  # Java a2.f()
-            play_from.append(source.get("source_name", "线路"))
-            urls = []
-            for ep in source.get("episodes", []):  # Java bVar2.a()
-                # 拼接格式: 集数名$播放地址
-                urls.append(f"{ep.get('title')}${ep.get('url')}")
-            play_url.append("#".join(urls))
-
-        vod["vod_play_from"] = "$$$".join(play_from)
-        vod["vod_play_url"] = "$$$".join(play_url)
-
-        return {"list": [vod]}
-
-    # 搜索 (对应 Java 中的 searchContent)
-    def searchContent(self, key, quick):
-        encoded_key = urllib.parse.quote(key)
-        url = f"{self.base_url}/api/v2/search/videoV2?key={encoded_key}&category_id=88&page=1&pageSize=20"
-        res = requests.get(url, headers=self.get_headers()).json()
-        videos = []
-        for item in res.get("data", []):
-            videos.append({
-                "vod_id": str(item.get("id")),
-                "vod_name": item.get("title"),
-                "vod_pic": self.img_domain + item.get("thumbnail", ""),
-                "vod_remarks": item.get("last_episode_title")
-            })
-        return {"list": videos}
-
-    # 播放 (对应 Java 中的 playerContent)
+    # 播放
     def playerContent(self, flag, id, vipFlags):
-        # 原 Java 代码中 playerContent 只是简单的把 id 传回，并带上 Headers
-        return {
+        result={
             "parse": 0,
-            "url": id,  # 这里的 id 其实就是 detail 里拿到的 url
-            "header": self.get_headers()
+            "url": id,
+            "header": self.headers,
         }
+        return result
+
+    # 视频格式
+    def isVideoFormat(self, url): pass
+
+    # 视频检测
+    def manualVideoCheck(self): pass
+
