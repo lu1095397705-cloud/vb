@@ -3,9 +3,8 @@ import json
 from bs4 import BeautifulSoup
 
 from tvbox.py.bebug import name
-
-url = 'https://japi.zxfmj.com/api/dyTag/hand_data?category_id=67'
-# https://japi.zxfmj.com/api/v2/settings/homeCategory
+tid=1
+url =f'https://japi.zxfmj.com/api/dyTag/hand_data?category_id={tid}'
 headers = {
     "Host": "japi.zxfmj.com",
     "Connection": "keep-alive",
@@ -17,12 +16,35 @@ headers = {
     "X-Requested-With": "com.lgvnqo.zniebv"
 }
 
-response = requests.get(url, headers=headers)
-print(response.json())
-
-
-
-
+response = requests.get(url, headers=headers, timeout=10)
+res = response.json()
+data = res.get('data', {})
+tid_map = {
+    1: '32',
+    2: '27',
+    3: '13',
+    88: '20'
+}
+key = tid_map.get(tid)
+bl = data.get(key, []) if key else []
+vod = []
+for item in bl:
+    href = item.get('id')
+    rem = item.get('mask')
+    name = item.get('title')
+    pic = item.get('path')
+    pics = pic.replace('\\/', '/')
+    if pics:
+        if not pic.startswith('http'):
+            pics = 'https://img.jgsfnl.com' + pics
+    vod.append({
+        'vod_id': href,
+        'vod_name': name,
+        'vod_pic': pics,
+        'vod_remarks': rem
+    })
+print(vod)
+# response=requests.get(url,headers=self.headers,timeout=10)
 
 
 

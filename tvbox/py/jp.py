@@ -1,6 +1,6 @@
 from base.spider import Spider
 import json
-
+import requests
 class Spider(Spider):
     def init(self, extend=""):
         self.host='https://japi.zxfmj.com'
@@ -30,8 +30,12 @@ class Spider(Spider):
     def homeVideoContent(self): pass
 
     def categoryContent(self, tid, pg, filter, extend):
-        url=f'{self.host}/api/dyTag/hand_data?category_id={tid}'
-        response=self.fetch(url,headers=self.headers,timeout=10)
+        try:
+            tid_int = int(tid)
+        except:
+            tid_int = tid
+        url=f'{self.host}/api/dyTag/hand_data?category_id={tid_int}'
+        response=requests.get(url,headers=self.headers,timeout=10)
         res = response.json()
         data = res.get('data', {})
         tid_map = {
@@ -40,7 +44,7 @@ class Spider(Spider):
             3: '13',
             88:'20'
         }
-        key = tid_map.get(tid)
+        key = tid_map.get(tid_int)
         bl = data.get(key, []) if key else []
         vod = []
         for item in bl:
