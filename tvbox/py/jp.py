@@ -101,27 +101,20 @@ class Spider(Spider):
 
     # 播放
     def playerContent(self, name, id, vip, flags):
+        # 这是你抓到的 m3u8 地址
+        # 模仿 Java 代码里的 Header
+        # 注意：packageName 必须和你抓到的一致（Java 里是 com.jp3.xg3，你之前抓到的是 com.lgvnqo.zniebv）
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Linux; Android 9; V2196A Build/PQ3A.190705.08211809; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.114 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:416;packageName:com.jp3.xg3",
+            "Referer": "https://ev5356.970xw.com",  # 这里用 Java 代码里的基础域名
+            "X-Requested-With": "com.jp3.xg3"  # 对应 Java 里的包名
+        }
 
-        play_url_from_api = id
-
-        # 2. 构造给播放器的 Header 字符串
-        # 注意：一定要包含那个特殊的 User-Agent 和 X-Requested-With
-        ua = "Mozilla/5.0 (Linux; Android 9; PBBM00 Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.110 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:424;packageName:com.lgvnqo.zniebv"
-        xr = "com.lgvnqo.zniebv"
-
-        # 按照 TVBox 格式拼接
-        # 如果 m3u8 内部还有多级跳转，建议把所有的 Header 都挂上
-        header_params = f"#User-Agent={ua}&X-Requested-With={xr}"
-
-        final_url = play_url_from_api + header_params
-
+        # 返回给 TVBox 的标准格式
         return {
             "parse": 0,
-            "url": final_url,
-            "header": {
-                "User-Agent": ua,
-                "X-Requested-With": xr
-            }
+            "url": id,
+            "header": headers  # 这一步最关键，Java 就是通过这个传递 Header 的
         }
 
     # 视频格式
