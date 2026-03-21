@@ -1,11 +1,4 @@
-import requests
-from bs4 import BeautifulSoup
-import urllib.parse
-import json
 from base.spider import Spider
-from pyspider.webui.app import fetch
-
-
 class Spider(Spider):
     def init(self, extend=""):
         self.host='https://japi.zxfmj.com'
@@ -21,7 +14,7 @@ class Spider(Spider):
         }
     def homeContent(self, filter):
         url=f'{self.host}/api/video/list?filter={filter}'
-        response = fetch.get(url, headers=self.headers, timeout=10)
+        response =self.fetch.get(url, headers=self.headers, timeout=10)
         res = response.json()
         wc = []
         for i in res.get("data", []):
@@ -36,7 +29,7 @@ class Spider(Spider):
 
     def categoryContent(self, tid, pg, filter, extend):
         url=f'{self.host}/api/dyTag/hand_data?category_id={tid}'
-        response=fetch.get(url,headers=self.headers,timeout=10)
+        response=self.fetch(url,headers=self.headers,timeout=10)
         res = response.json()
         vod = []
         for item in res['data']['32']:
@@ -59,7 +52,7 @@ class Spider(Spider):
     def detailContent(self, ids):
         id=ids[0]
         url=f'{self.host}/api/video/detailv2?id={id}'
-        response=fetch.get(url,headers=self.headers,timeout=10)
+        response=self.fetch(url,headers=self.headers,timeout=10)
         all = response.json()
         liall = all['data']['source_list_source']
         xlname = []
