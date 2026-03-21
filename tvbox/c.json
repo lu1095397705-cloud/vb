@@ -2,7 +2,7 @@
   "sites": [
     {
       "key": "py_jp",
-      "name": "j",
+      "name": "jp",
       "type": 3,
       "api": "./py/jp.py",
       "searchable": 1,
