@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 from tvbox.py.bebug import name
 
-url = 'https://japi.zxfmj.com/api/v2/settings/homeCategory'
+url = 'https://japi.zxfmj.com/api/dyTag/hand_data?category_id=67'
 # https://japi.zxfmj.com/api/v2/settings/homeCategory
 headers = {
     "Host": "japi.zxfmj.com",
@@ -18,15 +18,9 @@ headers = {
 }
 
 response = requests.get(url, headers=headers)
-# print(response.json())
-res=response.json()
-wc=[]
-for i in res.get("data",[]):
-    id=i.get("id")
-    name=i.get("name")
-    li={"type_id": id, "type_name": name}
-    wc.append(li)
-print(wc)
+print(response.json())
+
+
 
 
 

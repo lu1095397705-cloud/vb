@@ -33,8 +33,22 @@ class Spider(Spider):
         url=f'{self.host}/api/dyTag/hand_data?category_id={tid}'
         response=self.fetch(url,headers=self.headers,timeout=10)
         res = response.json()
+        bl = []
+        if tid:
+            if tid==3:
+                bl=res['data']['13']
+            elif tid==2:
+                bl=res['data']['27']
+            elif tid==1:
+                bl=res['data']['32']
+            elif tid==88:
+                bl=res['data']['20']
+            elif tid==99:
+                bl=res['data']['70']
+            elif tid==67:
+                bl=res['data']['21']
         vod = []
-        for item in res['data']['32']:
+        for item in bl:
             href = item.get('id')
             rem = item.get('mask')
             name = item.get('title')
