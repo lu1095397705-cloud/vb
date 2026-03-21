@@ -101,9 +101,7 @@ class Spider(Spider):
 
     # 播放
     def playerContent(self, name, id, vip, flags):
-        # 这是你抓到的 m3u8 地址
-        # 模仿 Java 代码里的 Header
-        # 注意：packageName 必须和你抓到的一致（Java 里是 com.jp3.xg3，你之前抓到的是 com.lgvnqo.zniebv）
+
         headers = {
             "User-Agent": "Mozilla/5.0 (Linux; Android 9; V2196A Build/PQ3A.190705.08211809; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.114 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:416;packageName:com.jp3.xg3",
             "Referer": "https://ev5356.970xw.com",  # 这里用 Java 代码里的基础域名
