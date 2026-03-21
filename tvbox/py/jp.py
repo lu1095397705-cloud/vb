@@ -86,6 +86,15 @@ class Spider(Spider):
                 urlbox.append(play_box)
             urlbox2 = '#'.join(urlbox)
             box.append(urlbox2)
+        vod = {
+            "vod_id": ids[0],
+            "vod_name": '',
+            "vod_pic": '',
+            "vod_play_from":'$$$'.join(xlname),
+            "vod_play_url": '$$$'.join(box),
+            "vod_content": 'py爬虫(伊)'
+        }
+        return {"list": [vod]}
 
     # 搜索
     def searchContent(self, key, quick): pass
