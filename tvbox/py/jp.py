@@ -101,18 +101,18 @@ class Spider(Spider):
 
     # 播放
     def playerContent(self, name, id, vip, flags):
-
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Linux; Android 9; V2196A Build/PQ3A.190705.08211809; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.114 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:416;packageName:com.jp3.xg3",
-            "Referer": "https://ev5356.970xw.com",  # 这里用 Java 代码里的基础域名
-            "X-Requested-With": "com.jp3.xg3"  # 对应 Java 里的包名
-        }
+        #
+        # headers = {
+        #     "User-Agent": "Mozilla/5.0 (Linux; Android 9; V2196A Build/PQ3A.190705.08211809; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.114 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:416;packageName:com.jp3.xg3",
+        #     "Referer": "https://ev5356.970xw.com",  # 这里用 Java 代码里的基础域名
+        #     "X-Requested-With": "com.jp3.xg3"  # 对应 Java 里的包名
+        # }
 
         # 返回给 TVBox 的标准格式
         return {
             "parse": 0,
             "url": id,
-            "header": headers  # 这一步最关键，Java 就是通过这个传递 Header 的
+            "header": self.headers
         }
 
     # 视频格式
