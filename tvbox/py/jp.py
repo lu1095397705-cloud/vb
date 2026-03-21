@@ -100,13 +100,29 @@ class Spider(Spider):
     def searchContent(self, key, quick): pass
 
     # 播放
-    def playerContent(self, flag, id, vipFlags):
-        result={
+    def playerContent(self, name, id, vip, flags):
+
+        play_url_from_api = id
+
+        # 2. 构造给播放器的 Header 字符串
+        # 注意：一定要包含那个特殊的 User-Agent 和 X-Requested-With
+        ua = "Mozilla/5.0 (Linux; Android 9; PBBM00 Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.110 Mobile Safari/537.36;webank/h5face;webank/1.0;netType:NETWORK_WIFI;appVersion:424;packageName:com.lgvnqo.zniebv"
+        xr = "com.lgvnqo.zniebv"
+
+        # 按照 TVBox 格式拼接
+        # 如果 m3u8 内部还有多级跳转，建议把所有的 Header 都挂上
+        header_params = f"#User-Agent={ua}&X-Requested-With={xr}"
+
+        final_url = play_url_from_api + header_params
+
+        return {
             "parse": 0,
-            "url": id,
-            "header": self.headers,
+            "url": final_url,
+            "header": {
+                "User-Agent": ua,
+                "X-Requested-With": xr
+            }
         }
-        return result
 
     # 视频格式
     def isVideoFormat(self, url): pass
