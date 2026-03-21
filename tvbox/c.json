@@ -1,17 +1,19 @@
-{ "spider":"./jb/hb.jar",
+{ "spider":"",
   "sites": [
     {
-      "key": "push_agent",
-      "name": "推送",
+      "key": "py_jp",
+      "name": "j[",
       "type": 3,
-      "api": "csp_Push",
-      "searchable": 0,
-      "filterable": 0,
-      "changeable": 0
+      "api": "./py/jp.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
+
     {
-      "key": "hd_py",
-      "name": "sy",
+      "key": "py_rrys",
+      "name": "rrys",
       "type": 3,
       "api": "./py/rrys.py",
       "searchable": 1,

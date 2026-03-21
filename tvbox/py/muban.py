@@ -1,0 +1,29 @@
+import requests
+from bs4 import BeautifulSoup
+import urllib.parse
+import json
+from base.spider import Spider
+class Spider(Spider):
+    def homeContent(self, filter): pass
+
+    # 推荐视频
+    def homeVideoContent(self): pass
+
+    # 分类
+    def categoryContent(self, tid, pg, filter, extend): pass
+
+    # 详情
+    def detailContent(self, ids): pass
+
+    # 搜索
+    def searchContent(self, key, quick): pass
+
+    # 播放
+    def playerContent(self, flag, id, vipFlags): pass
+
+    # 视频格式
+    def isVideoFormat(self, url): pass
+
+    # 视频检测
+    def manualVideoCheck(self): pass
+
