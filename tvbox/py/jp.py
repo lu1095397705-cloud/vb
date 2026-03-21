@@ -1,4 +1,6 @@
 from base.spider import Spider
+import json
+
 class Spider(Spider):
     def init(self, extend=""):
         self.host='https://japi.zxfmj.com'
@@ -14,7 +16,7 @@ class Spider(Spider):
         }
     def homeContent(self, filter):
         url=f'{self.host}/api/video/list?filter={filter}'
-        response =self.fetch.get(url, headers=self.headers, timeout=10)
+        response =self.fetch(url, headers=self.headers, timeout=10)
         res = response.json()
         wc = []
         for i in res.get("data", []):
