@@ -15,7 +15,7 @@ class Spider(Spider):
             "X-Requested-With": "com.lgvnqo.zniebv"
         }
     def homeContent(self, filter):
-        url=f'{self.host}/api/video/list?filter={filter}'
+        url=f'{self.host}/api/v2/settings/homeCategory'
         response =self.fetch(url, headers=self.headers, timeout=10)
         res = response.json()
         wc = []
