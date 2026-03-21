@@ -1,5 +1,3 @@
-from idlelib.rpc import response_queue
-
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
@@ -23,7 +21,7 @@ class Spider(Spider):
         }
     def homeContent(self, filter):
         url=f'{self.host}/api/video/list?filter={filter}'
-        response = requests.get(url, headers=self.headers, timeout=10)
+        response = fetch.get(url, headers=self.headers, timeout=10)
         res = response.json()
         wc = []
         for i in res.get("data", []):
