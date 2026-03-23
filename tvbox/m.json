@@ -3,12 +3,14 @@
   "wallpaper": "",
   "sites": [
     {
-      "key": "py_tx",
-      "name": "(cms)腾讯视频",
-      "type": 1,
-      "api": "https://www.caiji.cyou/api.php/provide/vod/from/qq?ac=list",
-      "ext": "https://www.caiji.cyou/api.php/provide/vod/from/qq?ac=list"
-
+      "key": "py_bd",
+      "name": "豆瓣",
+      "type": 3,
+      "api": "./py/db.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "设置",
@@ -16,36 +18,7 @@
       "type": 3,
       "api": "csp_Config"
     },
-    {
-      "key": "push_agent",
-      "name": "推送",
-      "type": 3,
-      "api": "csp_Push",
-      "searchable": 0,
-      "filterable": 0,
-      "changeable": 0
-    },
-    {
-      "key": "qiyi",
-      "name": "(js)爱奇艺",
-      "type": 3,
-      "api": "./jb/dy.js",
-      "ext": "./js/qy.js"
-    },
-    {
-      "key": "youku",
-      "name": "(js)优酷",
-      "type": 3,
-      "api": "./jb/dy.js",
-      "ext": "./js/yk.js"
-    },
-    {
-      "key": "mgtv",
-      "name": "(js)芒果视频",
-      "type": 3,
-      "api": "./jb/dy.js",
-      "ext": "./js/mg.js"
-    },
+
     {
       "key": "网盘虎斑",
       "name": "虎斑|4k",
@@ -63,16 +36,7 @@
         "site": "http://103.45.162.207:20720/"
       }
     },
-    {
-      "key": "py_bd",
-      "name": "豆瓣",
-      "type": 3,
-      "api": "./py/db.py",
-      "searchable": 1,
-      "changeable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
+
     {
       "key": "py_muou",
       "name": "4k木偶",
@@ -94,10 +58,10 @@
       "filterable": 1
     },
     {
-      "key": "py_sf",
-      "name": "傻福4k",
+      "key": "py_jp",
+      "name": "荐片app",
       "type": 3,
-      "api": "./py/sy.py",
+      "api": "./py/jp.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
@@ -132,6 +96,15 @@
       "changeable": 1,
       "quickSearch": 1,
       "filterable": 1
+    },
+     {
+      "key": "push_agent",
+      "name": "推送",
+      "type": 3,
+      "api": "csp_Push",
+      "searchable": 0,
+      "filterable": 0,
+      "changeable": 0
     }
   ],
   "parses": [
