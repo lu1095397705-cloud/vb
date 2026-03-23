@@ -94,16 +94,6 @@
       "filterable": 1
     },
     {
-      "key": "py_",
-      "name": "欧歌4k",
-      "type": 3,
-      "api": "./py/ouge.py",
-      "searchable": 1,
-      "changeable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_sf",
       "name": "傻福4k",
       "type": 3,
