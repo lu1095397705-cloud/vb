@@ -77,7 +77,7 @@ class Spider(Spider):
                 raw_pic = item.get('cover') or item.get('pic') or item.get('img') or ""
 
                 vod_list.append({
-                    "vod_id": str(item.get('id')),
+                    "vod_id": '',
                     "vod_name": item.get('title'),
                     "vod_pic": self.format_pic(raw_pic),  # 调用图片修复函数
                     "vod_remarks": f"评分: {item.get('rate')}"
