@@ -100,7 +100,7 @@ class Spider(Spider):
     def searchContent(self, key, quick): pass
 
     # 播放
-    def playerContent(self, name, id, vip, flags):
+    def playerContent(self, flag, id, vipFlags):
         uid=f'{id}'
         headers={
             'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
