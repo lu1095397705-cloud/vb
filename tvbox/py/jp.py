@@ -106,6 +106,9 @@ class Spider(Spider):
             'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
             'referer':uid
         }
+        if id:
+            if id.startswith('ftp://'):
+                id="http://127.0.0.1:8089/" + id
         return {
             "parse": 0,
             "url": id,
