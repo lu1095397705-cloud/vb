@@ -97,7 +97,27 @@ class Spider(Spider):
         return {"list": [vod]}
 
     # 搜索
-    def searchContent(self, key, quick): pass
+    def searchContent(self, key, quick, pg="1"):
+        url = f'{self.host}/api/v2/search/videoV2?key={key}&category_id=88&page=1&pageSize=20'
+        response=self.fetch(url, headers=self.headers, timeout=10)
+        all = response.json()
+        alls = all.get('data', [])
+        vod = []
+        for item in alls:
+            name = item.get('title')
+            id = item.get('id')
+            rem = item.get('mask')
+            pic = item.get('tvimg')
+            if pic:
+                if not pic.startswith('http'):
+                    pic = 'https://img.jgsfnl.com' + pic
+            vod.append({
+                'vod_id': id,
+                'vod_name': name,
+                'vod_pic': pic,
+                'vod_remarks': rem
+            })
+        return {'list': vod}
 
     # 播放
     def playerContent(self, flag, id, vipFlags):

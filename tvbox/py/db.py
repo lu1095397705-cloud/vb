@@ -75,10 +75,10 @@ class Spider(Spider):
             for item in data.get('subjects', []):
                 # 兼容提取 cover、pic、img 字段
                 raw_pic = item.get('cover') or item.get('pic') or item.get('img') or ""
-                jid= 'search://'+item.get('title')
+
 
                 vod_list.append({
-                    "vod_id":jid,
+                    "vod_id":'',
                     "vod_name": item.get('title'),
                     "vod_pic": self.format_pic(raw_pic),  # 调用图片修复函数
                     "vod_remarks": f"评分: {item.get('rate')}"

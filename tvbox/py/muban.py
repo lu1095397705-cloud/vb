@@ -16,7 +16,7 @@ class Spider(Spider):
     def detailContent(self, ids): pass
 
     # 搜索
-    def searchContent(self, key, quick): pass
+    def searchContent(self, key, quick, pg="1"):pass
 
     # 播放
     def playerContent(self, flag, id, vipFlags): pass

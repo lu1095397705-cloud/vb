@@ -10,32 +10,26 @@ headers = {
             "Accept-Language": "zh-CN,en-US;q=0.9",
             "X-Requested-With": "com.lgvnqo.zniebv"
 }
-url = f'https://japi.zxfmj.com/api/video/detailv2?id='
+url = f'https://japi.zxfmj.com/api/v2/search/videoV2?key=%E6%96%97%E7%A0%B4%E8%8B%8D%E7%A9%B9&category_id=88&page=1&pageSize=20'
 response =requests.get(url, headers=headers, timeout=10)
+# print(response.text)
 all = response.json()
-liall = all['data']['source_list_source']
-xlname = []
-for item in liall:
-    lxm = item.get('name')
-    xlname.append(lxm)
-box = []
-for ass in liall:
-    lia = ass.get('source_list', [])
-    urlbox = []
-    for ki in lia:
-        play_name = ki.get('source_name')
-        play_url = ki.get('url')
-        play_urls = play_url.replace('\\/', '/')
-        play_box = f'{play_name}${play_url}'
-        urlbox.append(play_box)
-    urlbox2 = '#'.join(urlbox)
-    box.append(urlbox2)
-vod = {
-    "vod_id":'',
-    "vod_name": '',
-    "vod_pic": '',
-    "vod_play_from": '$$$'.join(xlname),
-    "vod_play_url": '$$$'.join(box),
-    "vod_content": 'py爬虫(伊)'
-}
+alls = all.get('data', [])
+vod=[]
+for item in alls:
+    name=item.get('title')
+    id=item.get('id')
+    rem=item.get('mask')
+    pic=item.get('tvimg')
+    if pic:
+        if not pic.startswith('http'):
+            pic = 'https://img.jgsfnl.com' + pic
+    vod.append({
+        'vod_id': id,
+        'vod_name': name,
+        'vod_pic': pic,
+        'vod_remarks': rem
+    })
 print(vod)
+
+
