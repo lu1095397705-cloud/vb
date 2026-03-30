@@ -16,7 +16,7 @@
       "key": "设置",
       "name": "网弹",
       "type": 3,
-      "api": "csp_Init"
+      "api": "csp_Config"
     },
 
     {
