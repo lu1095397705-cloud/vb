@@ -1,21 +1,11 @@
 { "spider":"",
   "sites": [
-    {
-      "key": "py_jp",
-      "name": "jp",
-      "type": 3,
-      "api": "./py/jp.py",
-      "searchable": 1,
-      "changeable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
 
     {
       "key": "py_rrys",
       "name": "rrys",
       "type": 3,
-      "api": "./py/rrys.py",
+      "api": "./py/jcy.py",
       "searchable": 1,
       "changeable": 1,
       "quickSearch": 1,
