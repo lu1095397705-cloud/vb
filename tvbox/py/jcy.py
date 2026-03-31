@@ -48,8 +48,10 @@ class Spider(Spider):
 
 
     def homeContent(self, filter):
-        return {'class': [{"type_id": "21", "type_name": "ce"}
-
+        return {'class': [{"type_id": "21", "type_name": "国漫"},
+                          {"type_id": "20", "type_name": "小日本"},
+                          {"type_id": "22", "type_name": "欧美"},
+                          {"type_id": "26", "type_name": "剧场版"}
                           ]}
 
 
@@ -114,9 +116,25 @@ class Spider(Spider):
         }
         return {"list": [vod]}
 
-    def searchContent(self, key, quick, pg="1"):pass
+    def searchContent(self, key, quick, pg="1"):
+        url=f'{self.host}/acgsearch/{key}-------------.html'
+        res = self.fetch(url, headers=self.get_headers(url), timeout=10)
+        soup = BeautifulSoup(res.text, 'lxml')
+        kk = soup.find_all('div', class_="module-card-item module-item")
+        vod=[]
+        for each in kk:
+            name = each.find('img').get('alt')
+            pic = each.find('img').get('data-original')
+            rem = each.find('div', class_="module-item-note").text
+            href = each.find('a').get('href')
+            vod.append({
+                'vod_id': href,
+                'vod_name': name,
+                'vod_pic': pic,
+                'vod_remarks': rem
+            })
+        return {'list': vod}
 
-    # 播放
     def playerContent(self, flag, id, vipFlags):
         url=self.host+id
         headers = {
