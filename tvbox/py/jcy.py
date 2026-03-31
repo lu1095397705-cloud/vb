@@ -9,12 +9,42 @@ import re
 class Spider(Spider):
     def init(self, extend=""):
         self.host = 'https://jciyuan.com'
+        self.cookies = {}
+        self.ua_list = [
+            "Mozilla/5.0 (Linux; Android 13; PGEM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 13; V2242A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 13; PGT-AN00) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36"
+        ]
+        self.refresh_session()
+
+    def refresh_session(self):
+        try:
+            # 增加 timeout 防止连接超时卡死
+            res = self.fetch(self.host, headers=self.get_headers(self.host), timeout=10)
+            if res and res.cookies.get_dict():
+                self.cookies.update(res.cookies.get_dict())
+        except:
+            pass
+
     def get_headers(self, url):
         return {
-    'user-agent':'Mozilla/5.0 (Linux; Android 13; PGEM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36',
-    'referer':'https://jciyuan.com/',
-    'cookie':'HWTOKEN=cecf5e608cec99abe905e4715e5ea9c03ee4fa20e7954e14702fd83dce66ed2d; HWIDHASH=936f29746732961da43766a0f1c368fc; mx_style=black; showBtn=true; PHPSESSID=bhg28fus5hhm5t3ggshaqli518; user_id=34574; user_name=cn6666; group_id=2; group_name=%E9%BB%98%E8%AE%A4%E4%BC%9A%E5%91%98; user_check=bc7c259a922f2df0ec570b76060597c1; user_portrait=%2Fstatic%2Fimages%2Ftouxiang.png; mac_history_mxpro=%5B%7B%22vod_name%22%3A%22%E4%BB%99%E9%80%86%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F55-4-1.html%22%2C%22vod_part%22%3A%221%22%7D%2C%7B%22vod_name%22%3A%22%E5%90%9E%E5%99%AC%E6%98%9F%E7%A9%BA%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F32-4-97.html%22%2C%22vod_part%22%3A%2297%22%7D%2C%7B%22vod_name%22%3A%22%E6%AD%A6%E7%A5%9E%E4%B8%BB%E5%AE%B0%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F20-6-1.html%22%2C%22vod_part%22%3A%221%22%7D%2C%7B%22vod_name%22%3A%22%E9%80%86%E5%A4%A9%E8%87%B3%E5%B0%8A%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F42-3-1.html%22%2C%22vod_part%22%3A%22%E7%AC%AC01%E9%9B%86%22%7D%2C%7B%22vod_name%22%3A%22%E4%B9%9D%E9%98%B3%E6%AD%A6%E7%A5%9E%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F36775-4-1.html%22%2C%22vod_part%22%3A%221%22%7D%5D'
+            'user-Agent': random.choice(self.ua_list),
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'pragma': 'no-cache',
+            'cache-control': 'no-cache',
+            'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="134", "Google Chrome";v="134"',
+            'sec-ch-ua-mobile': '?0',
+            'dnt': '1',
+            'upgrade-insecure-requests': '1',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-user': '?1',
+            'sec-fetch-dest': 'document',
+            'referer': f'{self.host}/',
+            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+            'priority': 'u=0, i',
     }
+
 
 
     def homeContent(self, filter):
@@ -30,13 +60,14 @@ class Spider(Spider):
         url=f'{self.host}/acgshow/{tid}--------{pg}---.html'
         res = self.fetch(url, headers=self.get_headers(url), timeout=10)
         soup = BeautifulSoup(res.text, 'lxml')
-        all = soup.find('div', class_="module-main module-page")
+        kk = soup.find('div', class_="module-main module-page")
+        ew=kk.find_all('a')
         vod=[]
-        for each in all.find_all('a'):
+        for each in ew:
             try:
                 href = each.get('href')
                 name = each.get('title')
-                rem = each.find('div', class_="module-item-note")
+                rem = each.find('div', class_="module-item-note").text
                 pic = each.find('img').get('data-original')
             except:
                 href = ''
@@ -55,12 +86,12 @@ class Spider(Spider):
         url=self.host+ids[0]
         res = self.fetch(url, headers=self.get_headers(url), timeout=10)
         soup = BeautifulSoup(res.text, 'lxml')
-        all = soup.find(id="y-playList")
-        ww = all.find_all('div', class_="module-tab-item tab-item")
+        kk = soup.find(id="y-playList")
+        ww = kk.find_all('div', class_="module-tab-item tab-item")
         xl = []
         for i in ww:
             xlm = i.get('data-dropdown-value')
-            xl.append(xl)
+            xl.append(xlm)
         all2 = soup.find_all('div', class_="module-play-list")
         box2 = []
         for index, ii in enumerate(all2):
@@ -88,7 +119,13 @@ class Spider(Spider):
     # 播放
     def playerContent(self, flag, id, vipFlags):
         url=self.host+id
-        res = self.fetch(url, headers=self.get_headers(url), timeout=10)
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Linux; Android 13; PGEM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36',
+            'referer': 'https://jciyuan.com/',
+            'cookie': 'HWTOKEN=cecf5e608cec99abe905e4715e5ea9c03ee4fa20e7954e14702fd83dce66ed2d; HWIDHASH=936f29746732961da43766a0f1c368fc; mx_style=black; showBtn=true; PHPSESSID=bhg28fus5hhm5t3ggshaqli518; user_id=34574; user_name=cn6666; group_id=2; group_name=%E9%BB%98%E8%AE%A4%E4%BC%9A%E5%91%98; user_check=bc7c259a922f2df0ec570b76060597c1; user_portrait=%2Fstatic%2Fimages%2Ftouxiang.png; mac_history_mxpro=%5B%7B%22vod_name%22%3A%22%E4%BB%99%E9%80%86%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F55-4-1.html%22%2C%22vod_part%22%3A%221%22%7D%2C%7B%22vod_name%22%3A%22%E5%90%9E%E5%99%AC%E6%98%9F%E7%A9%BA%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F32-4-97.html%22%2C%22vod_part%22%3A%2297%22%7D%2C%7B%22vod_name%22%3A%22%E6%AD%A6%E7%A5%9E%E4%B8%BB%E5%AE%B0%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F20-6-1.html%22%2C%22vod_part%22%3A%221%22%7D%2C%7B%22vod_name%22%3A%22%E9%80%86%E5%A4%A9%E8%87%B3%E5%B0%8A%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F42-3-1.html%22%2C%22vod_part%22%3A%22%E7%AC%AC01%E9%9B%86%22%7D%2C%7B%22vod_name%22%3A%22%E4%B9%9D%E9%98%B3%E6%AD%A6%E7%A5%9E%22%2C%22vod_url%22%3A%22https%3A%2F%2Fjciyuan.com%2Facgplay%2F36775-4-1.html%22%2C%22vod_part%22%3A%221%22%7D%5D'
+
+        }
+        res = self.fetch(url, headers=headers, timeout=10)
         html_content = res.text
         # 1. 先定位 player_aaaa 赋值语句开始的位置
         # 2. 往后截取一段足够长的字符串（比如 5000 字符），确保包含完整的配置
