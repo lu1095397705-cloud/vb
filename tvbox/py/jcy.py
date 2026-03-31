@@ -173,7 +173,7 @@ class Spider(Spider):
         result = {
             "parse": 1,
             "url":play_url,
-            "timeout": 60
+            "timeout": 10
         }
         return result
 
