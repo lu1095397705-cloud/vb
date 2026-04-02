@@ -118,19 +118,22 @@ class Spider(Spider):
         href = []
         for i in resp.find_all('div', class_="module-row-shortcuts"):
             url = i.find('a').get('href')
-            href.append(url)
+            if url:
+                if url.startswith(('https://pan.quark.cn', 'https://pan.baidu.com')):
+                    href.append(url)
         play_url = '$$$'.join(href)
-        xll = []
-        div_list = resp.find_all('div', class_='module-tab-content')
-        if len(div_list) >= 2:
-            second_div = div_list[1]
-            spans = second_div.find_all('span')
-            names = []
-            for span in spans:
-                val = span.get('data-dropdown-value')
-                if val:
-                    names.append(val)
-            play_name = '$$$'.join(names)
+        fa = resp.find_all('div', class_="module-tab-content")
+        lvv = []
+        for t in fa:
+            try:
+                tt = t.find_all('span')
+                for i in tt:
+                    name = i.text
+                    if name.startswith(('KK', 'BD')):
+                        lvv.append(name)
+            except:
+                continue
+        play_name = '$$$'.join(lvv)
 
         vod = {
         "vod_id": ids[0],
