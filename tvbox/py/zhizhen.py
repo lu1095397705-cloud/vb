@@ -122,18 +122,20 @@ class Spider(Spider):
                 if url.startswith(('https://pan.quark.cn', 'https://pan.baidu.com')):
                     href.append(url)
         play_url = '$$$'.join(href)
-        fa = resp.find_all('div', class_="module-tab-content")
-        lvv = []
-        for t in fa:
+        nall = resp.find_all('div', class_="module-tab-content")
+        namebox = []
+        for i in nall:
             try:
-                tt = t.find_all('span')
-                for i in tt:
-                    name = i.text
-                    if name.startswith(('KK', 'BD')):
-                        lvv.append(name)
+                ii = i.find_all('span')
+                for j in ii:
+                    lxm = j.text
+                    if lxm:
+                        if lxm.startswith(('夸克', '百度')):
+                            namebox.append(lxm)
+
             except:
                 continue
-        play_name = '$$$'.join(lvv)
+        play_name = '$$$'.join(namebox)
 
         vod = {
         "vod_id": ids[0],
@@ -141,7 +143,7 @@ class Spider(Spider):
         "vod_pic":'',
         "vod_play_from":play_name,
         "vod_play_url":play_url,
-        "vod_content":'抓取自木偶网盘,(伊)点第1集跳转到推送才能播放(学习交流，请勿非法用途)'
+        "vod_content":'抓取自至臻网盘,(伊)点第1集跳转到推送才能播放(学习交流，请勿非法用途)'
         }
         return {"list": [vod]}
 
