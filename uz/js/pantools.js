@@ -18,7 +18,7 @@ import {
     RepVideoPlayUrl,
     UZArgs,
     UZSubclassVideoListArgs,
-} from 'https://gitee.com/lu228826/box/raw/master/uz/js/uzVideo.js'
+} from '../../js/uzVideo.js'
 
 import {
     UZUtils,
@@ -40,9 +40,9 @@ import {
     kLocale,
     kAppVersion,
     formatBackData,
-} from 'https://gitee.com/lu228826/box/raw/master/uz/js/uzUtils.js'
+} from '../../js/uzUtils.js'
 
-import { cheerio, Crypto, Encrypt, JSONbig } from 'https://gitee.com/lu228826/box/raw/master/uz/js/uz3lib.js'
+import { cheerio, Crypto, Encrypt, JSONbig } from '../../js/uz3lib.js'
 // ignore
 
 /**

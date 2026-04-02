@@ -1,0 +1,66 @@
+[
+  {
+    "name": "[荐] 豆瓣",
+    "version": 5,
+    "remark": "🍃豆儿出品，不属精品！",
+    "webSite": "https://movie.douban.com",
+    "codeID": "Y0Rizak2NjzBCHelYjYXBd02cy3ilRpp",
+    "order": "A00",
+    "api": "../../jj/Jian_douban2.txt",
+    "type": 101
+  },
+  {
+    "name": "豆瓣推荐",
+    "version": 6,
+    "remark": "iOS14 以上版本可用",
+    "codeID": "eaY5aQ1H4hWPS87qEmIUYnxmIz5bfkik",
+    "api": "../../jj/douban.txt",
+    "type": 200
+  },
+  {
+    "name": "[盘] 木偶",
+    "version": 5,
+    "webSite": "https://666.666291.xyz",
+    "order": "A02",
+    "api": "../../jj/Pan_mogg.js",
+    "type": 101
+  },
+  {
+    "name": "豆儿弹幕",
+    "version": 18,
+    "remark": "🍃豆儿出品，不属精品！",
+    "env": "豆儿弹幕API##使用兼容弹弹Play协议的API 格式 线路名称1@地址1|线路名称2@地址2",
+    "codeID": "H50ZiI2coZY2SEy2CEkiinjbRjTDvvvs",
+    "order": "A01",
+    "api": "../../danmu/danMu5.txt",
+    "type": 400
+  },
+  {
+    "name": "网盘工具",
+    "version": 41,
+    "remark": "小卢专用",
+    "env": "百度网盘Cookie##用于播放百度网盘视频&&UCCookie##用于播放UC网盘视频&&UC_Token##UC网盘 Open API Token（可选，优先使用）&&夸克Cookie##用于播放Quark网盘视频&&转存文件夹名称##在各网盘转存文件时使用的文件夹名称&&123网盘账号##用于播放123网盘视频&&123网盘密码##用于播放123网盘视频&&天翼网盘账号##用于播放天翼网盘视频&&天翼网盘密码##用于播放天翼网盘视频&&115Cookie##用于播放115网盘视频&&PikPakToken##用于存储登录信息,Bearer 开头&&采集解析地址##内置两个，失效不要反馈。格式：名称1@地址1;名称2@地址2",
+    "order": "A",
+    "api": "../../js/pantools.js",
+    "type": 300
+  },
+  {
+    "name": "[直] 瓜子¹",
+    "version": 3,
+    "remark": "瓜子APP",
+    "webSite": "https://api.gudvxty.com",
+    "codeID": "ra5Z3wtXKshzSMK2",
+    "instance": "gzapp20241001",
+    "order": "B",
+    "api": "../../jj/gzapp.txt",
+    "type": 100
+  },
+  {
+    "name": "[盘] 玩偶",
+    "version": 3,
+    "webSite": "http://wogg.xxooo.cf",
+    "order": "A01",
+    "api": "../../jj/wogg.js",
+    "type": 101
+  }
+]
