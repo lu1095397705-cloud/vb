@@ -52,7 +52,6 @@ class Spider(Spider):
                           {"type_id": "3", "type_name": "动漫"}
                           ]
                 }
-
     def categoryContent(self, tid, pg, filter, extend):
         url = f'{self.host}/index.php/vod/type/id/{tid}/page/{pg}.html'
         try:
@@ -87,9 +86,10 @@ class Spider(Spider):
         href = []
         for i in resp.find_all('div', class_="module-row-shortcuts"):
             url = i.find('a').get('href')
-            href.append(url)
+            if url:
+                if url.startswith(('https://pan.quark.cn', 'https://pan.baidu.com')):
+                    href.append(url)
         play_url = '$$$'.join(href)
-        xll = []
         div_list = resp.find_all('div', class_='module-tab-content')
         if len(div_list) >= 2:
             second_div = div_list[1]
@@ -98,7 +98,8 @@ class Spider(Spider):
             for span in spans:
                 val = span.get('data-dropdown-value')
                 if val:
-                    names.append(val)
+                    if val.startswith(('KK','BD')):
+                        names.append(val)
             play_name = '$$$'.join(names)
 
         vod = {
