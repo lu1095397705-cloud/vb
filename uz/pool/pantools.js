@@ -18,7 +18,7 @@ import {
     RepVideoPlayUrl,
     UZArgs,
     UZSubclassVideoListArgs,
-} from '../../js/uzVideo.js'
+} from 'https://raw.githubusercontent.com/lu1095397705-cloud/vb/refs/heads/master/uz/js/uzVideo.js'
 
 import {
     UZUtils,
@@ -40,9 +40,9 @@ import {
     kLocale,
     kAppVersion,
     formatBackData,
-} from '../../js/uzUtils.js'
+} from 'https://raw.githubusercontent.com/lu1095397705-cloud/vb/refs/heads/master/uz/js/uzUtils.js'
 
-import { cheerio, Crypto, Encrypt, JSONbig } from '../../js/uz3lib.js'
+import { cheerio, Crypto, Encrypt, JSONbig } from 'https://raw.githubusercontent.com/lu1095397705-cloud/vb/refs/heads/master/uz/js/uz3lib.js'
 // ignore
 
 /**
