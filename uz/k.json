@@ -14,7 +14,7 @@
     "version": 6,
     "remark": "iOS14 以上版本可用",
     "codeID": "eaY5aQ1H4hWPS87qEmIUYnxmIz5bfkik",
-    "api": "./jj/douban.txt",
+    "api": "../jj/douban.txt",
     "type": 200
   },
   {
@@ -32,7 +32,7 @@
     "env": "豆儿弹幕API##使用兼容弹弹Play协议的API 格式 线路名称1@地址1|线路名称2@地址2",
     "codeID": "H50ZiI2coZY2SEy2CEkiinjbRjTDvvvs",
     "order": "A01",
-    "api": "./danmu/danMu5.txt",
+    "api": "../danmu/danMu5.txt",
     "type": 400
   },
   {
